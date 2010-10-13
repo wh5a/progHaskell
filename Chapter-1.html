@@ -512,11 +512,28 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
+<div title="1.1 函数" creator="Tony Bai" modifier="Tony Bai" created="201010131250" modified="201010131351" changecount="8">
+<pre>In Haskell, a function is a mapping that takes one or more arguments and produces a single result, and is defined using an equation that gives a name for the function, a name for each of its arguments, and a body that specifies how the result can be calculated in terms of the arguments.
+
+在Haskell中，一个函数是一个映射，它有一个或多个参数，并产生唯一一个结果。我们可以通过一个等式来定义函数，等式中包含函数的名字、函数参数的名字以及详细描述如何依据参数计算出结果的函数体。
+
+For example, a function double that takes a number x as its argument, and produces the result x + x , can be defined by the following equation:
+double x = x + x
+
+例如，一个名为double的函数，参数是一个数字x，产生的结果为x+x，可通过如下等式定义：
+double x = x + x
+
+When a function is applied to actual arguments, the result is obtained by substituting these arguments into the body of the function in place of the argument names. This process may immediately produce a result that cannot be further simplified, such as a number. More commonly, however, the result will be an expression containing other function applications, which must then be processed in the same way to produce the final result.
+
+当一个函数被应用到实际参数时，其结果可通过将实际参数替换函数体中的参数名称的方式获得。这个过程可能会立即产生一个不能被进一步简化的结果，比如一个数字。而更为常见的情况是，这个结果是一个含有其他函数应用的表达式，它必须被以同样的方式处理才能产生最终的结果。
+</pre>
+</div>
 <div title="DefaultTiddlers" creator="Tony Bai" modifier="Tony Bai" created="201008300219" modified="201010111433" changecount="3">
 <pre></pre>
 </div>
-<div title="MainMenu" creator="Tony Bai" modifier="Tony Bai" created="201008300151" modified="201010111416" changecount="12">
-<pre>[[1.1 函数]]
+<div title="MainMenu" creator="Tony Bai" modifier="Tony Bai" created="201008300151" modified="201010131213" changecount="13">
+<pre>[[引子]]
+[[1.1 函数]]
 [[1.2 函数式编程]]</pre>
 </div>
 <div title="SiteSubtitle" creator="Tony Bai" modifier="Tony Bai" created="201008300140" modified="201010111413" changecount="4">
@@ -525,8 +542,10 @@ Also see [[AdvancedOptions]]</pre>
 <div title="SiteTitle" creator="Tony Bai" modifier="Tony Bai" created="201008300138" modified="201010111415" changecount="5">
 <pre>第一章 介绍</pre>
 </div>
-<div title="内容" creator="Tony Bai" modifier="Tony Bai" created="201010111413" changecount="1">
-<pre>x</pre>
+<div title="引子" creator="Tony Bai" modifier="Tony Bai" created="201010131214" modified="201010131334" changecount="4">
+<pre>In this chapter we set the stage for the rest of the book. We start by reviewing the notion of a function, then introduce the concept of functional programming, summarise the main features of Haskell and its history, and conclude with two small examples that give a taste of Haskell.
+
+在这一章节中，我们为本书的后续部分设定了阶段。我们从回顾函数的概念开始，然后介绍函数式编程的概念，总结Haskell的主要特点和它的历史，最后通过两个小例子“品尝”一下Haskell的味道。</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
