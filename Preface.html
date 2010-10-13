@@ -524,7 +524,7 @@ Also see [[AdvancedOptions]]</pre>
 <div title="SiteTitle" creator="Tony Bai" modifier="Tony Bai" created="201008300138" modified="201010111413" changecount="4">
 <pre>序言</pre>
 </div>
-<div title="序言" creator="Tony Bai" modifier="Tony Bai" created="201010111413" modified="201010120602" changecount="29">
+<div title="序言" creator="Tony Bai" modifier="Tony Bai" created="201010111413" modified="201010130814" changecount="46">
 <pre>//{{{...这个世界上有两种设计软件的方法：一种是使设计尽量的简化，以至于明显没有任何缺陷；而另一种是使设计尽量的复杂，以至于找不到明显的缺陷。第一种方法更加困难。
                                                                         -- Tony Hoare，1980 ACM图灵奖演讲}}}//
 
@@ -534,11 +534,38 @@ This book is about an approach to programming in which simplicity, clarity, and 
 
 The functional style is quite different to that promoted by most current languages, such as Java, C++, C, and Visual Basic. In particular, most current languages are closely linked to the underlying hardware, in the sense that programming is based upon the idea of changing stored values. In contrast, Haskell promotes a more abstract style of programming, based upon the idea of applying functions to arguments. As we shall see, moving to this higher-level leads to considerably simpler programs, and supports a number of powerful new ways to structure and reason about programs.
 
-函数式编程风格与当前大多数编程语言比如Java，C++，C和Visual Basic所提倡的风格相差很大。特别是当前大多数语言是与底层硬件紧密关联的，在这个意义上编程的基本思想就是修改已存储的值。与此相反，Haskell则提倡一种更为抽象的编程风格，这种风格的基本思想则是将函数作为参数。正如我们将要看到的，更高的层次将让我们拥有更为简单的程序，支持一系列强大的解构和论证程序的新方法。
+函数式编程与当前大多数编程语言比如Java，C++，C和Visual Basic所提倡的风格相差很大。特别是当前大多数语言是与底层硬件紧密关联的，在这个意义上编程的基本思想就是修改已存储的值。与此相反，Haskell则提倡一种更为抽象的编程风格，这种风格的基本思想则是将函数用作参数。正如我们将要看到的，更高的层次将让我们拥有更为简单的程序，并且支持一系列强大的解构和论证程序的新方法。
 
 The book is primarily aimed at students studying computing science at university level, but is also appropriate for a broader spectrum of readers who would like to learn about programming in Haskell. No previous programming experience is required or assumed, and all the concepts are explained from first principles, with the aid of carefully chosen examples.
 
-本书主要面对具备大专水平的学习计算机科学的学生，但也同样广泛适用于那些想了解和学习Haskell编程的读者。你不需要拥有任何编程经验，所有的概念都从基本原理讲起，并伴以精心挑选的例子。</pre>
+本书主要面对具备大专水平的学习计算机科学的学生，但也同样广泛适用于那些想了解和学习Haskell编程的读者。你不需要拥有任何编程经验，所有的概念都从基本原理讲起，并伴以精心挑选的例子。
+
+The version of Haskell used in the book is Haskell 98, the standard version of the language, for which the recently published definition is the culmination of fifteen years of work by its designers. As this is an introductory text, we do not attempt to cover all aspects of Haskell and its associated libraries. Around
+half of the book is dedicated to introducing the main features of the language, while the other half comprises examples and case studies of programming of Haskell. Each chapter includes a series of exercises, and suggestions for further reading on more advanced and specialist topics.
+
+本书使用的Haskell版本是Haskell 98，Haskell语言的标准版本，Haskell设计者花费了15年才最终发布了这个标准。由于这里仅仅是介绍性的文字，所以我们不会去涉及Haskell语言以及其相关库的所有方面。本书大约一半内容是专门介绍该语言的主要特点的，而另一半则包括了Haskell编程的例子和案例研究。每个章节还包括了一系列的练习以及关于进一步阅读更高级、更专业主题的建议。
+
+The book is based upon course material that has been refined and class-tested over many years at the University of Nottingham. Most of the material from the book can be covered in twenty hours of lectures, supported by approximately forty hours of private study, practical sessions in a supervised laboratory, and take-home programming courseworks. However, additional time would be required to cover some of the later chapters in more detail, along with some of the later programming examples.
+
+本书基于课程材料编写而成，这些课程材料在诺丁汉大学经过了多年的改进和课程测试。通过20学时的授课以及大约40小时的自学、实验室实践和编程作业，你就可以学完本书的大部分内容。然而，你还需要更多的时间详细学习一下后面的一些章节以及一些编程例子。
+
+The website for the book provides a range of supporting material, including Powerpoint slides for each chapter, and Haskell code for each of the extended examples. Instructors can also obtain model answers to the exercises for each chapter, together with a large collection of exam questions and their model answers, by emailing solutions@cambridge.org.
+
+本书的官方网站提供了一系列辅助资料，包括每个章节的幻灯片和一些扩展例子的Haskell代码。教师还可以通过发送电邮到solutions@cambridge.org得到每个章节练习题的标准答案以及大量带有标准答案的试题集。
+
+Acknowledgements
+The Foundations of Programming group at the University of Nottingham is an excellent environment in which to do research and teaching on functional programming. I am grateful to the University for providing a sabbatical to start work on this book; all the students and tutors on my Haskell courses for their feedback; and Thorsten Altenkirch, Neil Ghani, Mark Jones (now at Portland State), Conor McBride, and Henrik Nilsson in the FOP group for our many discussions about functional ideas and how to present them.
+
+感谢
+诺丁汉大学编程社团基础为函数式编程的研究与教学提供了一个极好的环境。感谢学校提供假期让我可以进行本书的写作。感谢所有学生和讲师们关于我的Haskell课程的反馈; 感谢Thorsten Altenkirch, Neil Ghani, Mark Jones (现在在波特兰州), Conor McBrideh和Henrik Nilsson在FOP社区与我进行的关于函数式编程的想法以及如何表达这些想法的交流和讨论。
+
+I would also like to thank David Tranah and Dawn Preston for their editorial work at Cambridge University Press; Mark Jones for the Hugs interpreter for Haskell; Ralf Hinze and Andres L ̈ h for the lhs2TeX system for typesetting Haskell; Rik van Geldrop and Jaap van der Woude for their feedback on using drafts of the book; Kees van den Broek, Frank Heitmann, and Bill Tonkin for pointing out errors; Ian Bayley and the anonymous reviewers for useful comments; and Joel Wright for timing the countdown programs.
+
+我还要感谢David Tranah和Dawn Preston在剑桥大学出版社出色的编辑工作; 感谢Mark Jones的Haskell解释器; 感谢Ralf Hinze和Andres L ̈ h提供的lhs2TeX排版系统;感谢Rik van Geldrop和Jaap van der Woude关于使用本书草稿的反馈; 感谢Kees van den Broek, Frank Heitmann和 Bill Tonkin指出的本书的错误;感谢Ian Bayley和所有匿名评审者极富价值的评论;感谢Joel Wright提供的倒计时程序。
+
+Graham Hutton
+诺丁汉, 2006
+</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
