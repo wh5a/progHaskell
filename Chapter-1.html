@@ -512,7 +512,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="1.1 函数" creator="Tony Bai" modifier="Tony Bai" created="201010131250" modified="201010140706" changecount="13">
+<div title="1.1 函数" creator="Tony Bai" modifier="Tony Bai" created="201010131250" modified="201010141316" changecount="22">
 <pre>In Haskell, a function is a mapping that takes one or more arguments and produces a single result, and is defined using an equation that gives a name for the function, a name for each of its arguments, and a body that specifies how the result can be calculated in terms of the arguments.
 
 在Haskell中，一个函数是一个映射，它有一个或多个参数，并产生唯一一个结果。我们可以通过一个等式来定义函数，等式中包含函数的名字、函数参数的名字以及详细描述如何依据参数计算出结果的函数体。
@@ -525,7 +525,7 @@ double x = x + x
 
 When a function is applied to actual arguments, the result is obtained by substituting these arguments into the body of the function in place of the argument names. This process may immediately produce a result that cannot be further simplified, such as a number. More commonly, however, the result will be an expression containing other function applications, which must then be processed in the same way to produce the final result.
 
-当一个函数被应用到实际参数时，其结果可通过将实际参数替换函数体中的参数名称的方式获得。这个过程可能会立即产生一个不能被进一步简化的结果，比如一个数字。而更为常见的情况是，这个结果是一个含有其他函数应用的表达式，它必须被以同样的方式处理才能产生最终的结果。
+当一个函数被应用到实际参数时，其结果可通过将实际参数替换函数体中的参数名称的方式获得。这个过程可能会立即产生一个不能被进一步简化的结果，比如一个数字。而更为常见的情况是，这个结果是一个含有其他函数程序的表达式，它必须被以同样的方式处理才能产生最终的结果。
 
 for example, the result of the application double 3 of the function double to the number 3 can be  determined by the following calculation, in which each step is explained by a short comment in curly parentheses:
 
@@ -535,7 +535,7 @@ double 3
 = { applying + }
 6
 
-例如，将函数double应用到数字3的结果可通过以下计算过程得出，每一步计算可通过放在花括号里简短注释解释：
+例如，程序double 3将函数double应用到数字3的结果可通过以下计算过程得出，每一步计算通过花括号里简短注释解释：
 
 double 3
 = { 应用double }
@@ -555,7 +555,7 @@ double 4
 = { applying + }
 8
 
-同样，两次应用double的内嵌应用double(double 2)的结果可以通过如下计算过程得出：
+同样，两次应用double的内嵌程序double (double 2)的结果可以通过如下计算过程得出：
 double (double 2)
 = { 应用内层double }
 double (2 + 2)
@@ -566,8 +566,41 @@ double 4
 = { 应用 + }
 8
 
+Alternatively, the same result could also be calculated by starting with the outer application of the function double rather than the inner:
 
-</pre>
+double (double 2)
+= { applying the outer double }
+double 2 + double 2
+= { applying the first double }
+(2 + 2) + double 2
+= { applying the first + }
+4 + double 2
+= { applying double }
+4 + (2 + 2)
+= { applying the second + }
+4+4
+= { applying + }
+8
+
+另外，同样的结果也可以通过先从外层的函数double开始计算获得：
+
+double (double 2)
+= { 应用外层的double }
+double 2 + double 2
+= { 应用第一个double }
+(2 + 2) + double 2
+= { 应用第一个 + }
+4 + double 2
+= { 应用 double }
+4 + (2 + 2)
+= { 应用第二个 + }
+4+4
+= { 应用 + }
+8
+
+However, thish calculation requires two more steps than our original version, because the expression double 2 is duplicated in the first step and hence simplified twice. In general, the order in which functions are applied in a calculation does not affect the value of the final result, but it may affect the number of steps required, and may affect whether the calculation process terminates. These issues are explored in more detail in chapter 12.
+
+但是，这个计算过程比我们原来的版本多出两步，因为表达式double 2在第一步中被复制了一份并因此被化简了两次。一般来说，函数在计算过程中应用的顺序不会影响最终的结果值，但它可能会影响到所需步骤的数量，并可能影响计算过程是否终止的判断。本书第12章针对这些问题作了更为详细的探究。</pre>
 </div>
 <div title="DefaultTiddlers" creator="Tony Bai" modifier="Tony Bai" created="201008300219" modified="201010111433" changecount="3">
 <pre></pre>
