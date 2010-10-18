@@ -771,6 +771,93 @@ It is worthy of note that three of the above researchers — McCarthy, Backus,an
 
 </pre>
 </div>
+<div title="1.5 品尝Haskell" creator="Tony Bai" modifier="Tony Bai" created="201010161150" modified="201010182157" changecount="26">
+<pre>We conclude this chapter with two small examples that give a taste of programming in Haskell. First of all, recall the function sum used earlier in this chapter, which produces the sum of a list of numbers. In Haskell, this function can be defined using the following two equations:
+
+我们在结束本章之前通过两个小例子来品尝一下Haskell编程。首先我们回顾一下本章前面使用的函数sum，sum用于计算列表中一组数字的和。在Haskell中，这个函数可通过如下两个等式定义：
+
+sum [ ] = 0
+sum (x : xs) = x + sum xs
+
+The first equation states that the sum of the empty list is zero, while the second states that the sum of any non-empty list comprising a first number x and a remaining list of numbers xs is given by adding x and the sum of xs . For example, the result of sum [1, 2, 3] can be calculated as follows:
+
+第一个等式定义一个空列表的总和是零，同时第二个等式定义一个非空列表的总和是由列表中的第一个数字和后续数字组成的列表xs的总和相加在一起获得的。例如，sum [1，2，3]的总和计算过程如下：
+
+sum [1, 2, 3]
+= { applying sum }
+1 + sum [2, 3]
+= { applying sum }
+1 + (2 + sum [3])
+= { applying sum }
+1 + (2 + (3 + sum [ ]))
+= { applying sum }
+1 + (2 + (3 + 0))
+= { applying + }
+6
+
+Note that even though the function sum is defined in terms of itself and is hence recursive, it does not loop forever. In particular, each application of sum reduces the length of the argument list by one, until the list eventually becomes empty, at which point the recursion stops. Returning zero as the sum of the empty list is appropriate because zero is the identity for addition. That is, 0 + x = x and x + 0 = x for any number x .
+
+注意，即使函数sum使用自身定义自己而形成了递归，它也不会永远循环下去。尤其是每个sum都将列表参数的长度减一，直到列表最终变为空表，递归过程也随之终止。将零作为空表的总和再合适不过，因为加法里零不改变加法结果，也就是说对于任何数字x，0 + x =x且x + 0 = x。
+
+In Haskell, every function has a type that specifies the nature of its arguments and results, which is automatically inferred from the definition of the function. For example, the function sum has the following type:
+
+在Haskell中，每个函数都有一个描述参数和返回值的类型，这个类型会自动从函数的定义中推断出来。例如，函数sum有以下类型：
+
+sum a ⇒ [a ] → a
+
+This type states that for any type a of numbers, sum is a function that maps a list of such numbers to a single such number. Haskell supports many different types of numbers, including integers such as 123, and “floating-point” numbers such as 3.14159. Hence, for example, sum could be applied to a list of integers, as in the calculation above, or to a list of floating-point numbers.
+
+这个类型指出对于任何数字类型a，sum是一个将一组这样的数字列表映射到一个单一数字的函数。Haskell支持许多不同类型的数字，其中包括整数，如123，“浮点数”，如3.14159。因此，sum可以应用于一个整数列表，正如在上面的计算过程那样，也可以应用于一个浮点数列表。
+
+Types provide useful information about the nature of functions, but, more importantly, their use allows many errors in programs to be automatically detected prior to executing the programs themselves. In particular, for every function application in a program, a check is made that the type of the actual arguments is compatible with the type of the function itself. For example, attempting to apply the function sum to a list of characters would be reported as an error, because characters are not a type of numbers.
+
+类型提供了有关函数本质的有用的信息，但更为重要的是，类型的使用使得许多错误可以在程序被执行之前被自动检查出来。尤其是，对于一个程序中的每个函数都会检查其实际参数类型与函数本身的类型是否兼容。例如，试图将函数sum应用于一个字符列表将被b报错，因为字符不是数字类型。
+
+Now let us consider a more interesting function concerning lists, which illustrates a number of other aspects of Haskell. Suppose that we define a function called qsort by the following two equations:
+
+现在让我们考虑一个关于列表的更为有趣的函数吧，这个函数说明了Haskell其他一些方面的特性。假设我们定义了一个名为qsort的函数，它由一下两个等式构成：
+
+qsort [ ] = []
+qsort (x : xs) = qsort smaller ++ [x ] ++ qsort larger
+where
+smaller = [a | a ← xs, a ≤ x ]
+larger = [b | b ← xs, b &gt; x ]
+
+In this definition, + is an operator that appends two lists; for example, [1, 2, 3] ++ [4, 5] = [1, 2, 3, 4, 5]. In turn, where is a keyword that introduces local definitions, in this case a list smaller that consists of all elements a from the list xs that are less than or equal to x , together with a list larger that consists of all elements b from xs that are greater than x . For example, if x = 3 and xs = [5, 1, 4, 2], then smaller = [1, 2] and larger = [5, 4].
+
+在这个定义里，+是一个连接两个列表的操作符。例如[1, 2, 3] ++ [4, 5] = [1, 2, 3, 4, 5].  相应的，where是一个关键字，用于引入局部定义。在这个例子中，smaller列表由xs列表中所有小于等于x的元素组成，同时larger列表由xs列表中所有大于等于x的元素组成。例如，如果x = 3且xs = [ 5, 1, 4, 2]，那么smaller = [1, 2]，larger = [5, 4]。
+
+What does qsort actually do? First of all, we show that it has no effect on lists with a single element, in the sense that qsort [ x ] = [ x ] for any x :
+
+qsort究竟做了什么？首先我们要明确它对仅有一个元素的列表不起作用，在这种意义上，对于任何x，qsort [x] =[x]:
+
+qsort [ x ]
+= { applying qsort }
+qsort [ ] + [ x ] + qsort [ ]
+= { applying qsort }
+[ ] + [x ] + [ ]
+= { applying + }
+[x ]
+
+In turn, we now work through the application of qsort to an example list, using the above property to simplify the calculation:
+
+相应的，现在我们将qsort应用到一个样例列表，使用上面的定义化简计算过程：
+qsort [3, 5, 1, 4, 2]
+= { applying qsort }
+qsort [1, 2] ++ [3] ++ qsort [5, 4]
+= { applying qsort }
+(qsort [ ] ++ [1] ++ qsort [2]) ++ [3]
+++ (qsort [4] ++ [5] ++ qsort [ ])
+= { applying qsort , above property }
+([ ] ++ [1] ++ [2]) ++ [3] ++ ([4] ++ [5] ++ [ ])
+= { applying ++ }
+[1, 2] ++ [3] ++ [4, 5]
+= { applying ++ }
+[1, 2, 3, 4, 5]
+
+
+</pre>
+</div>
 <div title="DefaultTiddlers" creator="Tony Bai" modifier="Tony Bai" created="201008300219" modified="201010111433" changecount="3">
 <pre></pre>
 </div>
