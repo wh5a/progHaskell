@@ -771,7 +771,7 @@ It is worthy of note that three of the above researchers — McCarthy, Backus,an
 
 </pre>
 </div>
-<div title="1.5 品尝Haskell" creator="Tony Bai" modifier="Tony Bai" created="201010161150" modified="201010182157" changecount="26">
+<div title="1.5 品尝Haskell" creator="Tony Bai" modifier="Tony Bai" created="201010161150" modified="201010190503" changecount="30">
 <pre>We conclude this chapter with two small examples that give a taste of programming in Haskell. First of all, recall the function sum used earlier in this chapter, which produces the sum of a list of numbers. In Haskell, this function can be defined using the following two equations:
 
 我们在结束本章之前通过两个小例子来品尝一下Haskell编程。首先我们回顾一下本章前面使用的函数sum，sum用于计算列表中一组数字的和。在Haskell中，这个函数可通过如下两个等式定义：
@@ -855,21 +855,51 @@ qsort [1, 2] ++ [3] ++ qsort [5, 4]
 = { applying ++ }
 [1, 2, 3, 4, 5]
 
+In summary, qsort has sorted the example list into numerical order. More generally, this function produces a sorted version of any list of numbers. The first equation for qsort states that the empty list is already sorted, while the second states that any non-empty list can be sorted by inserting the first number between the two lists that result from sorting the remaining numbers that are smaller and larger than this number. This method of sorting is called quicksort, and is one of the best such methods known.
+
+总之，qsort将示例列表按照数字顺序进行了排序。更一般地说，这个函数产生了一个任意数字列表的排序版本。qsort的第一个等式表明空列表是已经被排序了的，而第二个等式则表明任何非空列表都可以通过将第一个数字插入两个列表之间的方式排序，这两个列表是通过将剩余号码与该数字比较获得的，比这个数字小的号码集构成一个列表，比这个数字大的号码集构成另外一个列表。这种排序方法被称为快速排序，并且是已知的排序方法中最好的方法之一。
+
+The above implementation of quicksort is an excellent example of the power of Haskell, being both clear and concise. Moreover, the function qsort is also more general than might be expected, being applicable not just with numbers, but with any type of ordered values. More precisely, the type
+
+qsort ::Ord a ⇒ [a ] → [a ]
+
+states that, for any type a of ordered values, qsort is a function that maps between lists of such values. Haskell supports many different types of ordered values, including numbers, single characters such as ’a’, and strings of characters such as &quot;abcde&quot;. Hence, for example, the function qsort could also be used to sort a list of characters, or a list of strings.
+
+上面的quicksort的实现是一个很好的体现Haskell功能强大、清晰又简明的例子。此外，函数qsort也比预期更加通用，即不仅仅适合排序数字，同样适用于任何具备有序值的类型。更确切的说，类型
+
+qsort::Ord a ⇒ [a ] → [a ]
+
+表明对于任何具备有序值的类型，qsort是一个提供在这种值列表间映射的函数。Haskell支持多种有序值类型，包括数字、单个字符比如'a'以及字符串比如&quot;abcde&quot;。因此，qsort这个函数也可以用于对一个字符列表或一个字符串列表进行排序。
+
+</pre>
+</div>
+<div title="1.6 本章备注" creator="Tony Bai" modifier="Tony Bai" created="201010190511" changecount="1">
+<pre>The Haskell Report is freely available on the web from the Haskell home page, www .haskell .org , and has also been published as a book (25). A more detailed historical account of the development of functional programming languages is given in Hudak’s survey article (11).
+
+Haskell报告可以从Haskel主页www.haskell.org免费下载，同时这份报告也已经出版(25)。另外Hudak的调查报告(11)更详尽的记录了关于函数式编程语言发展的历史。</pre>
+</div>
+<div title="1.7 习题" creator="Tony Bai" modifier="Tony Bai" created="201010190513" changecount="1">
+<pre>1. Give another possible calculation for the result of double (double 2).
+2. Show that sum [ x ] = x for any number x .
+3. Define a function product that produces the product of a list of numbers, and show using your definition that product [2, 3, 4] = 24.
+4. How should the definition of the function qsort be modified so that it produces a reverse sorted version of a list?
+5. What would be the effect of replacing ≤ by &lt; in the definition of qsort ?
+Hint: consider the example qsort [2, 2, 3, 1, 1].
 
 </pre>
 </div>
 <div title="DefaultTiddlers" creator="Tony Bai" modifier="Tony Bai" created="201008300219" modified="201010111433" changecount="3">
 <pre></pre>
 </div>
-<div title="MainMenu" creator="Tony Bai" modifier="Tony Bai" created="201008300151" modified="201010150549" changecount="14">
+<div title="MainMenu" creator="Tony Bai" modifier="Tony Bai" created="201008300151" modified="201010190512" changecount="18">
 <pre>[[引子]]
 [[1.1 函数]]
 [[1.2 函数式编程]]
 [[1.3 Haskell的特点]]
 [[1.4 历史背景]]
 [[1.5 品尝Haskell]]
-[[1.6 章节后记 ]]
-[[1.7 练习]]</pre>
+[[1.6 本章备注]]
+[[1.7 习题]]</pre>
 </div>
 <div title="SiteSubtitle" creator="Tony Bai" modifier="Tony Bai" created="201008300140" modified="201010111413" changecount="4">
 <pre></pre>
