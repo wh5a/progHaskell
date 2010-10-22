@@ -521,16 +521,101 @@ The interactive nature of Hugs makes it well suited for teaching and prototyping
 
 Hugs的交互式的本质使得其非常适合教学和制作原型。并且它的性能能满足绝大多数应用的要求。然而，如果需要更高的性能或独立的可执行程序，一些Haskell的编译器也是可用的。这其中使用最广泛的是Glasgow Haskell的编译器，这个编译器也有一个交互式版本，和Hugs的运行方式类似，and can readily be used in its place for the purposes of this book。</pre>
 </div>
-<div title="2.2 标准Prelude库" creator="Tony Bai" modifier="Tony Bai" created="201010191350" modified="201010191412" changecount="2">
-<pre></pre>
+<div title="2.2 标准Prelude" creator="Tony Bai" modifier="Tony Bai" created="201010191350" modified="201010221315" changecount="19">
+<pre>When the Hugs system is started it first loads a library file called Prelude .hs , and then displays a &gt; prompt to indicate that the system is waiting for the user to enter an expression to be evaluated. For example, the library file defines many familiar functions that operate on integers, including the five main
+arithmetic operations of addition, subtraction, multiplication, division, and exponentiation, as illustrated below:
+
+当Hugs系统启动时，它首先加载一个名为Prelude.hs的库文件，然后显示一个&gt;提示符，表明系统正在等待用户输入要计算的表达式。例如，这个库文件定义了许多熟悉的操作整数的函数，包括五个主要的算术运算加，减，乘，除和指数运算，如下所示：
+{{{
+&gt;2 + 3 
+5
+&gt;2-3
+-1
+&gt; 2* 3
+6
+&gt; 7 'div' 2
+3
+&gt;2 ^3
+8
+}}}
+Note that the integer division operator is written as ‘div ‘, and rounds down to the nearest integer if the result is a proper fraction.
+
+注意，整数除法操作符记作'div'，如果结果是一个适当的分数，那么将向下圆整到最近的那个整数。
+
+Following normal mathematical convention, exponentiation has higher priority than multiplication and division, which in turn have higher priority than addition and subtraction. For example, 2 ∗ 3 ↑ 4 means 2 ∗ (3 ↑ 4), while 2 + 3 ∗ 4 means 2 + (3 ∗ 4). Moreover, exponentiation associates (brackets) to the right, while the other four arithmetic operators associate to the left. For example, 2 ↑ 3 ↑ 4 means 2 ↑ (3 ↑ 4), while 2 − 3 + 4 means (2 − 3) + 4. In practice, however, it is often clearer to use explicit parentheses in such arithmetic expressions, rather than relying on the above conventions.
+
+按正常数学惯例，指数运算比乘法和除法具有更高的优先级，进而也具有比加法和减法更高的优先级。例如，例如，2 * 3↑4表示2 *（3↑4），而2 + 3 * 4表示2 +（3 * 4）。此外，指数运算是右结合的，而其他四种算术操作符则是左结合的。例如，2↑3↑4意味着2↑（3↑4），而2 - 3 + 4则指的是（2 - 3）+ 4。但实际应用时，在算术表达式里显式使用括号而不是依靠上述惯例往往表达得更为清楚。
+
+In addition to functions on integers, the library file also provides a range of useful functions that operate on lists. In Haskell, the elements of a list are enclosed in square parentheses, and are separated by commas. Some of the most commonly used library functions on lists are illustrated below.
+
+除了操作整数的函数外，这个库文件还提供了一些有用的操作列表的函数。在Haskell中，列表中的元素用方括号括上，并以逗号分隔。最常用的一些操作列表的库函数说明如下。
+{{{
+*从一个非空列表中选出第一个元素:
+&gt; head [1, 2, 3, 4, 5]
+1
+
+*从一个非空列表中删除第一个元素:
+&gt; tail [1, 2, 3, 4, 5]
+[2, 3, 4, 5]
+
+*选出列表中的第n个元素（从0开始计数):
+&gt; [1, 2, 3, 4, 5] !! 2
+3
+
+*选出列表中的前n个元素:
+&gt; take 3 [1, 2, 3, 4, 5]
+[1, 2, 3]
+
+* 从列表中删除前n个元素:
+&gt; drop 3 [1, 2, 3, 4, 5]
+[4, 5]
+
+* 计算列表的长度:
+&gt; length [1, 2, 3, 4, 5]
+5
+
+* 计算数字列表中元素之和:
+&gt; sum [1, 2, 3, 4, 5]
+15
+
+* 计算数字列表中元素之积:
+&gt; product [1, 2, 3, 4, 5]
+120
+
+* 连接两个列表:
+&gt; [1, 2, 3] ++ [4, 5]
+[1, 2, 3, 4, 5]
+
+* 反转列表:
+&gt; reverse [1, 2, 3, 4, 5]
+[5, 4, 3, 2, 1]
+}}}
+
+Some of the functions in the standard prelude may produce an error for certain values of their arguments. For example, attempting to divide by zero or select the first element of an empty list will produce an error:
+
+针对某些参数值，标准prelude中的一些函数可能产生错误。比如试图除零或从一个空列表中选择第一个元素都会产生一个错误：
+
+{{{
+&gt; 1 ‘div ‘ 0
+Error
+&gt; head [ ]
+Error
+}}}
+
+In practice, when an error occurs the Hugs system also produces a message that provides some information about the likely cause. 
+For reference, appendix A presents some of the most commonly used definitions from the standard prelude, and appendix B shows how special Haskell symbols, such as ↑ and + are typed using a normal keyboard.
+
+实际上，当出现错误时，Hugs系统也会产生一个消息，提供一些可能原因的信息。
+
+作为参考，附录A介绍了标准Prelude最常用的一些定义，附录B显示了特殊的Haskell符号，如↑和+的类型和使用普通键盘。</pre>
 </div>
 <div title="DefaultTiddlers" creator="Tony Bai" modifier="Tony Bai" created="201008300219" modified="201008300754" changecount="2">
 <pre>[[简介]]</pre>
 </div>
-<div title="MainMenu" creator="Tony Bai" modifier="Tony Bai" created="201008300151" modified="201010191315" changecount="19">
+<div title="MainMenu" creator="Tony Bai" modifier="Tony Bai" created="201008300151" modified="201010201320" changecount="20">
 <pre>[[引子]]
 [[2.1 Hugs系统]]
-[[2.2 标准Prelude库]]
+[[2.2 标准Prelude]]
 [[2.3 函数应用]]
 [[2.4 Haskell脚本]]
 &gt;[[我的第一个脚本]]
