@@ -609,6 +609,42 @@ For reference, appendix A presents some of the most commonly used definitions fr
 
 作为参考，附录A介绍了标准Prelude最常用的一些定义，附录B显示了特殊的Haskell符号，如↑和+的类型和使用普通键盘。</pre>
 </div>
+<div title="2.3 函数应用" creator="Tony Bai" modifier="Tony Bai" created="201010221325" modified="201010271314" changecount="23">
+<pre>In mathematics, the application of a function to its arguments is usually denoted by enclosing the arguments in parentheses, while the multiplication of two values is often denoted silently, by writing the two values next to one another. For example, in mathematics the expression
+
+f (a, b) + c d
+means apply the function f to two arguments a and b , and add the result to the product of c and d . Reflecting its primary status in the language, function application in Haskell is denoted silently using spacing, while the multiplication of two values is denoted explicitly using the operator ∗. For example, the expression above would be written in Haskell as follows:
+f a b+c∗d
+
+在数学中，将函数应用到参数通常表示为用括号将参数括起来。而往往两值相乘的表示很简单，将两个值一个接着一个的挨着写即可。例如，在数学中，表达式
+
+f (a, b) + c d
+
+意为将函数f应用到两个参数a和b上，并将结果与c和d的乘积相加。在Haskell中，函数应用使用空格表示，然而两值相乘则显式使用*操作符表示。例如，上面的表达式使用Haskell编写如下：
+f a b+c∗d
+
+Moreover, function application has higher priority than all other operators. For example, f a + b means (f a ) + b . The following table gives a few further examples to illustrate the differences between the notation for function application in mathematics and in Haskell:
+
+此外，函数应用拥有比其它操作符更高的优先级。比如，f a + b 意为(f a) + b。下表给出了一些例子，来进一步说明函数符号在数学与Haskell之间的差异。
+
+| Mathematics | Haskell |
+|f(x)|f x|
+|f(x,y)|f x y|
+|f(g(x))|f (g x)|
+|f(x, g(y))|f x (g y)|
+|f(x)g(y)|f x * g y|
+
+Note that parentheses are still required in the Haskell expression f (g x ) above, because f g x on its own would be interpreted as the application of the function f to two arguments g and x , whereas the intention is that f is applied to one argument, namely the result of applying the function g to an argument x . A similar remark holds for the expression f x (g y ).
+
+注意上面的表达式f (g x)在Haskell中依然需要括号，因为 f g x本身会被解释为将函数f应用到两个参数g和x。然而其本意却是将f应用到一个参数上，该参数即是将函数g应用到参数x上的结果。A similar remark holds for the expression f x (g y ).
+</pre>
+</div>
+<div title="2.4 Haskell脚本" creator="Tony Bai" modifier="Tony Bai" created="201010271315" modified="201010271330" changecount="2">
+<pre>As well as the functions provided in the standard prelude, it is also possible to define new functions. New functions cannot be defined at the &gt; prompt within Hugs, but must be defined within a script, a text file comprising a sequence of definitions. By convention, Haskell scripts usually have a .hs suffix on their
+filename to differentiate them from other kinds of files.
+
+除了标准Prelude所提供的函数外，你也可以定义新的函数。你无法在Hugs的&gt;提示符下定义新函数，只能在脚本中定义。脚本是一个由一系列定义组成的文本文件。按照惯例，Haskell脚本通常有用.hs作为文件后缀名以区别于其他种类的文件他们。</pre>
+</div>
 <div title="DefaultTiddlers" creator="Tony Bai" modifier="Tony Bai" created="201008300219" modified="201008300754" changecount="2">
 <pre>[[简介]]</pre>
 </div>
@@ -635,6 +671,16 @@ For reference, appendix A presents some of the most commonly used definitions fr
 <pre>In this chapter we take our first proper steps with Haskell. We start by introducing the Hugs system and the standard prelude, then explain the notation for function application, develop our first Haskell script, and conclude by discussing a number of syntactic conventions concerning scripts.
 
 在本章中，我们迈出使用Haskell的第一步。我们首先介绍Hugs系统和Prelude标准库，然后解释函数应用的符号，开发我们的第一个Haskell脚本，最后讨论一些关于脚本的语法惯例。</pre>
+</div>
+<div title="我的第一个脚本" creator="Tony Bai" modifier="Tony Bai" created="201010271330" modified="201010271338" changecount="3">
+<pre>When developing a Haskell script, it is useful to keep two windows open, one running an editor for the script, and the other running Hugs. As an example, suppose that we start a text editor and type in the following two function definitions, and save the script to a file called test .hs :
+
+当开发一个Haskell脚本时，保持两个窗口一直打开着是很有用的：一个运行脚本的编辑器，另外一个运行Hugs。举个例子，假设我们启动文本编辑器输入两个函数的定义，并保存脚本到一个文件名为test.hs的文件中：
+
+double x = x +x
+quadruple x = double (double x )
+
+</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
