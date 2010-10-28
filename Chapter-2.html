@@ -645,6 +645,34 @@ filename to differentiate them from other kinds of files.
 
 除了标准Prelude所提供的函数外，你也可以定义新的函数。你无法在Hugs的&gt;提示符下定义新函数，只能在脚本中定义。脚本是一个由一系列定义组成的文本文件。按照惯例，Haskell脚本通常有用.hs作为文件后缀名以区别于其他种类的文件他们。</pre>
 </div>
+<div title="2.5 本章备注" creator="Tony Bai" modifier="Tony Bai" created="201010280606" modified="201010280607" changecount="2">
+<pre>The Hugs system is freely available on the web from the Haskell home page, www .haskell .org , which also contains a wealth of other useful resources.
+
+Hugs系统可从Haskell主页www.haskell.org上自由下载，另外Haskell主页上还提供了其他有用的资源。</pre>
+</div>
+<div title="2.6 习题" creator="Tony Bai" modifier="Tony Bai" created="201010280608" modified="201010280616" changecount="5">
+<pre>1. Parenthesise the following arithmetic expressions :
+1. 用括号显式标出下面算术表达式的结合情况：
+2↑3∗4
+2∗3+4∗5
+2+3∗4↑5
+
+2. Work through the examples from this chapter using Hugs.
+2. 使用Hugs执行一遍本章所提供的例子
+
+3. The script below contains three syntactic errors. Correct these errors and then check that your script works properly using Hugs.
+3. 下面的脚本中包含三处语法错误，纠正这些错误并使用Hugs确认你的脚本可以正常工作。
+{{{
+N = a ’div’ length xs
+       where
+          a = 10
+        xs = [1, 2, 3, 4, 5]
+}}}
+
+4. Show how the library function last that selects the last element of a non-empty list could be defined in terms of the library functions introduced in this chapter. Can you think of another possible definition?
+
+5. Show how the library function init that removes the last element from a non-empty list could similarly be defined in two different ways.</pre>
+</div>
 <div title="DefaultTiddlers" creator="Tony Bai" modifier="Tony Bai" created="201008300219" modified="201008300754" changecount="2">
 <pre>[[简介]]</pre>
 </div>
@@ -667,18 +695,134 @@ filename to differentiate them from other kinds of files.
 <div title="SiteTitle" creator="Tony Bai" modifier="Tony Bai" created="201008300138" modified="201010191215" changecount="4">
 <pre>第二章 第一步</pre>
 </div>
+<div title="命名需求" creator="Tony Bai" modifier="Tony Bai" created="201010280526" modified="201010280533" changecount="3">
+<pre>When defining a new function, the names of the function and its arguments must begin with a lower-case letter, but can then be followed by zero or more letters (both lower- and upper-case), digits, underscores, and forward single quotes. For example, the following are all valid names:
+
+定义一个新函数时，函数以及其参数的名字必须以小写字母开头，但后面可以跟随零个或多个字母（包括小写和大写），数字，下划线和正向单引号。例如，以下名字都是合法的：
+{{{
+myFun    fun1    arg 2    x’
+}}}
+The following list of keywords have a special meaning in the language, and cannot be used as the names of functions or their arguments:
+
+下面列表中的关键字在语言中都有着特殊的含义，并且不能作为函数或其参数名称使用：
+{{{
+case class data default deriving do else
+if import in infix infixl infixr instance
+let module newtype of then type where
+}}}
+By convention, list arguments in Haskell usually have the suffix s on their name to indicate that they may contain multiple values. For example, a list of numbers might be named ns , a list of arbitrary values might be named xs , and a list of list of characters might be named css .
+
+按照惯例，在Haskell中list参数名字中通常有一个后缀s，表明它们可能含有多个值。例如，一列数字可能被命名为ns，一个任意值的列表可能会被命名为xs，一个字符列表可能被命名的css。
+
+</pre>
+</div>
+<div title="布局规则" creator="Tony Bai" modifier="Tony Bai" created="201010280536" modified="201010280557" changecount="4">
+<pre>Within a script, each definition must begin in precisely the same column. This layout rule makes it possible to determine the grouping of definitions from their indentation. For example, in the script
+
+在一个脚本中，每个定义必须精确的从相同的列开始。这种布局规则使我们能够根据代码缩进确定定义分组。例如，脚本：
+
+{{{
+a = b+c
+      where
+          b=1
+          c=2
+d = a ∗ 2
+}}}
+
+it is clear from the indentation that b and c are local definitions for use within the body of a . If desired, such grouping can be made explicit by enclosing a sequence of definitions in curly parentheses and separating each definition by a semi-colon. For example, the above script could also be written as:
+
+通过缩进可以很清楚的看出b和c是在a定义体中使用的局部定义。如果需要，这个分组可以显式的通过花括号将一系列定义括起来，并且定义之间可以用分号隔开。例如，上面的脚本也可以写成：
+
+{{{
+a = b+c
+      where
+          {b=1;
+          c=2}
+d = a ∗ 2
+}}}
+
+In general, however, it is usually clearer to rely on the layout rule to determine the grouping of definitions, rather than use explicit syntax.
+
+但一般来说，依赖布局规则来确定定义分组比使用显式语法更加清晰。
+</pre>
+</div>
 <div title="引子" creator="Tony Bai" modifier="Tony Bai" created="201010191340" modified="201010191350" changecount="2">
 <pre>In this chapter we take our first proper steps with Haskell. We start by introducing the Hugs system and the standard prelude, then explain the notation for function application, develop our first Haskell script, and conclude by discussing a number of syntactic conventions concerning scripts.
 
 在本章中，我们迈出使用Haskell的第一步。我们首先介绍Hugs系统和Prelude标准库，然后解释函数应用的符号，开发我们的第一个Haskell脚本，最后讨论一些关于脚本的语法惯例。</pre>
 </div>
-<div title="我的第一个脚本" creator="Tony Bai" modifier="Tony Bai" created="201010271330" modified="201010271338" changecount="3">
+<div title="我的第一个脚本" creator="Tony Bai" modifier="Tony Bai" created="201010271330" modified="201010280522" changecount="18">
 <pre>When developing a Haskell script, it is useful to keep two windows open, one running an editor for the script, and the other running Hugs. As an example, suppose that we start a text editor and type in the following two function definitions, and save the script to a file called test .hs :
 
-当开发一个Haskell脚本时，保持两个窗口一直打开着是很有用的：一个运行脚本的编辑器，另外一个运行Hugs。举个例子，假设我们启动文本编辑器输入两个函数的定义，并保存脚本到一个文件名为test.hs的文件中：
+当开发一个Haskell脚本时，保持两个窗口一直打开着是很有用的：一个窗口运行脚本的编辑器，另外一个运行Hugs。举个例子，假设我们启动文本编辑器输入两个函数的定义，并保存脚本到一个名为test.hs的文件中：
 
 double x = x +x
 quadruple x = double (double x )
+
+In turn, suppose that we leave the editor open, and in another window start up the Hugs system and instruct it to load the new script:
+
+相应的，假设我们保持编辑器窗口处于打开状态，而在另外一个窗口中启动Hugs并输入指令使其加载这个新脚本：
+$&gt; :load test.hs
+
+Now both Prelude .hs and test .hs are loaded, and functions from both scripts can be freely used. For example:
+
+现在Prelude.hs和test.hs都被加载了，这两个脚本中的函数都可以自由使用了。比如：
+
+$&gt; quadruple 10
+40
+$&gt; take (double 2) [1, 2, 3, 4, 5, 6]
+[1, 2, 3, 4]
+
+Now suppose that we leave Hugs open, return to the editor, add the following two function definitions to those already typed in, and then resave the file:
+
+现在保持Hugs处于启动状态，我们返回到编辑器窗口。将下面两个函数的定义添加到脚本中，并重新保存文件。
+
+factorial n = product [1 . . n ]
+average ns = sum ns ‘div ‘ length ns
+
+We could equally well have defined average ns = div (sum ns ) (length ns ), but writing div between its two arguments is more natural. In general, any function with two arguments can be written between its arguments by enclosing the name of the function in single back quotes ‘ ‘.
+
+我们同样可以这样定义：average ns = div (sum ns ) (length ns ), 但是将div放在两个参数中间更加自然。一般情况下，任何两个参数的函数都可以写成将函数名用反单引号(`)括上后放在其参数之间的形式。
+
+Hugs does not automatically reload scripts when they are modified, so a reload command must be executed before the new definitions can be used:
+
+当脚本被修改后，Hugs不会自动加载它们，所以在使用新定义之前必须执行一个reload命令：
+$&gt; :reload
+$&gt; factorial 10
+3628800
+$&gt; average [1, 2, 3, 4, 5]
+3
+
+For reference, the table below summarises the meaning of some of the most commonly used Hugs commands. Note that any command can be abbreviated by its first character. For example, :load can be abbreviated by :l . The command :type is explained in more detail in the next chapter.
+
+作为参考，下表总结了一些Hugs中最常用的命令的含义。请注意，每条命令都可以通过它的第一个字符进行缩写。例如，:load可以缩写为:l。命令:type将在后面的篇章中详细解释。
+
+| 命令 | 含义 |
+|:load name|加载脚本name|
+|:reload|重新加载当前脚本|
+|:edit name|编辑脚本name|
+|:type expr|显式expr的类型信息|
+|:?|显式所有命令|
+|:quit|退出Hugs|
+</pre>
+</div>
+<div title="注释" creator="Tony Bai" modifier="Tony Bai" created="201010280604" changecount="1">
+<pre>In addition to new definitions, scripts can also contain comments that will be ignored by Hugs. Haskell provides two kinds of comments, called ordinary and nested. Ordinary comments begin with the symbol -- and extend to the end of the current line, as in the following examples:
+
+除了新的定义，脚本也会包含注释，但注释将被Hugs忽略。Haskell提供了两种类型的注释，分别称为普通注释和嵌套注释。普通注释以符号-开始，作用延伸到当前行的结尾，如下面的例子所示：
+-- Factorial of a positive integer:
+factorial n = product [1 . . n ]
+-- Average of a list of integers:
+average ns = sum ns ‘div ‘ length ns
+
+Nested comments begin and end with the symbols {- and -}, may span multiple lines, and may be nested in the sense that comments can contain other comments. Nested comments are particularly useful for temporarily removing sections of definitions from a script, as in the following example:
+
+嵌套注释的开始和结束符号为{-和-}，嵌套注释可以跨多行，因此嵌套注释还可能包含其他注释。嵌套注释在临时删除脚本中的某段定义时特别有用，如下面的例子：
+{-
+double x
+quadruple x
+-}
+
 
 </pre>
 </div>
