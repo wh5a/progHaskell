@@ -1,0 +1,128 @@
+%
+% TeX模板
+%
+% 中文支持方案: XeTeX + xeCJK
+% author: Tony Bai
+%
+
+%
+% preamble begin {
+%
+
+\documentclass[a4paper,12pt,titlepage]{book}                % 小四号字
+
+\XeTeXinputencoding "GBK"                                   % 本文件采用GBK编码
+
+\usepackage{fontspec}
+\usepackage{xunicode} 
+
+\usepackage{titletoc}                                       % 控制目录
+\usepackage{appendix}                                       % 控制附录
+
+% 页边距设置
+\usepackage[top=1.2in,bottom=1.2in,left=1.2in,right=1in]{geometry}
+
+% 封面设置
+\usepackage{xltxtra}                                        % xltxtra include the cmd \XeTeX
+\title{Haskell程序设计}
+\author{著：Graham Hutton\\
+        译：Tony Bai}
+\date{October, 2010}
+
+% 页眉页脚设置
+\usepackage{fancyhdr}                                       % 控制页眉页脚
+\pagestyle{plain}                                           % 页眉页脚风格
+
+% 章节设置
+\usepackage{titlesec} 
+\titleformat{\chapter}{\centering\huge}{第\thechapter{}章}{1em}{\textbf}
+
+% xeCJK设置
+\usepackage[slantfont, boldfont, CJKaddspaces]{xeCJK}
+\setmainfont{WenQuanYi Micro Hei}                           % view the font list through the cmd "fc-list :lang=zh"
+
+% 重定义设置
+\renewcommand{\contentsname}{目~录}
+\renewcommand{\indexname}{索引}
+\renewcommand{\listfigurename}{插图目录}
+\renewcommand{\listtablename}{表格目录}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\appendixname}{附录}
+\renewcommand{\appendixpagename}{附录}
+\renewcommand{\appendixtocname}{附录}
+%\renewcommand\refname{参考文献}
+
+%
+% } preamble end
+%
+
+
+%
+% body begin {
+%
+
+\begin{document}
+
+\maketitle                                                  % 生成title
+
+\chapter*{序}
+\addcontentsline{toc}{chapter}{序}
+...这个世界上有两种设计软件的方法：一种是使设计尽量的简化，以至于明显没有任何缺陷；而另一种是使设计尽量的复杂，以至于找不到明显的缺陷。第一种方法更加困难。
+\begin{flushright}
+-- Tony Hoare，1980 ACM图灵奖演讲
+\end{flushright}
+这本书讲述了一种以简单、清晰和优雅为关键目标的编程方法。更具体的说，本书使用Haskell语言来介绍函数式编程。\newline
+
+函数式编程与当前大多数编程语言比如Java，C++，C和Visual
+Basic所提倡的风格相差很大。特别是当前大多数语言是与底层硬件紧密关联的，在这个意义上编程的基本思想就是修改已存储的值。与此相反，Haskell则提倡一种更为抽象的编程风格，这种风格的基本思想则是将函数应用到实际参数。正如我们将要看到的，更高的层次将让我们拥有更为简单的程序，并且支持一系列强大的解构和论证程序的新方法。\\
+
+本书主要面对具备大专水平的学习计算机科学的学生，但也同样广泛适用于那些想了解和学习Haskell编程的读者。你不需要拥有任何编程经验，所有的概念都从基本原理讲起，并伴以精心挑选的例子。\\
+
+本书使用的Haskell版本是Haskell 98，Haskell语言的标准版本，Haskell设计者花费了15年才最终发布了这个标准。由于这里仅仅是介绍性的文字，所以我们不会去涉及
+Haskell语言以及其相关库的所有方面。本书大约一半内容是专门介绍该语言的主要特点的，而另一半则包括了Haskell编程的例子和案例研究。每个章节还包括了一系列的练习以及关于进一步阅读更高级、更专业主题的建议。\\
+
+
+本书基于课程材料编写而成，这些课程材料在诺丁汉大学经过了多年的改进和课程测试。通过20学时的授课以及大约40小时的自学、实验室实践和编程作业，你就可以学完本书的大部分内容。然而，你还需要更多的时间详细学习一下后面的一些章节以及一些编程例子。\\
+
+本书的官方网站提供了一系列辅助资料，包括每个章节的幻灯片和一些扩展例子的Haskell代码。教师还可以通过发送电邮到solutions@cambridge.org得到每个章节练习题的标准答案以及大量带有标准答案的试题集。\\
+
+\begin{flushleft}
+感谢\\
+\end{flushleft}
+
+诺丁汉大学编程社团基础为函数式编程的研究与教学提供了一个极好的环境。感谢学校提供假期让我可以进行本书的写作。感谢所有学生和讲师们关于我的Haskell课程的反馈;
+感谢Thorsten Altenkirch, Neil Ghani, Mark Jones (现在在波特兰州), Conor
+McBrideh和Henrik
+Nilsson在FOP社区与我进行的关于函数式编程的想法以及如何表达这些想法的交流和讨论。\\
+
+我还要感谢David Tranah和Dawn Preston在剑桥大学出版社出色的编辑工作; 感谢Mark
+Jones的Haskell解释器; 感谢Ralf Hinze和Andres L h提供的lhs2TeX排版系统;感谢Rik
+van Geldrop和Jaap van der Woude关于使用本书草稿的反馈; 感谢Kees van den Broek,
+Frank Heitmann和 Bill Tonkin指出的本书的错误;感谢Ian
+Bayley和所有匿名评审者极富价值的评论;感谢Joel Wright提供的倒计时程序。\\
+
+\begin{flushright}
+Graham Hutton\\
+诺丁汉, 2006
+\end{flushright}
+
+\tableofcontents                                            % 生成目录
+\setcounter{tocdepth}{3}                                    % 设置目录深度
+
+\chapter{简介}
+
+\section{函数}
+在Haskell中，一个函数是一个映射。
+
+\section{函数式编程}
+
+什么是函数式编程？
+
+\chapter{第一步}
+
+\end{document}
+
+%
+% } body end
+%
