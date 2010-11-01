@@ -38,7 +38,18 @@
 
 % Ò³Ã¼Ò³½ÅÉèÖÃ
 \usepackage{fancyhdr}
-%ToDo
+\pagestyle{fancy}
+\fancyhf{}                                                  % Çå¿ÕÒ³Ã¼Ò³½Å
+\fancyhead[LE,RO]{\thepage}                                 % Å¼ÊıÒ³×ó,ÆæÊıÒ³ÓÒ
+\fancyhead[RE]{\leftmark}                                   % Å¼ÊıÒ³ÓÒ
+\fancyhead[LO]{\rightmark}                                  % ÆæÊıÒ³×ó
+\fancypagestyle{plain}{
+\fancyhf{}                                                  % ÖØ¶¨ÒåplainÒ³ÃæÑùÊ½
+\renewcommand{\headrulewidth}{0pt}
+}
+
+\renewcommand\chaptermark[1]{\markboth{\chaptername~ #1}{}}
+\renewcommand\sectionmark[1]{\markright{\thesection~ #1}}
 
 % ĞĞ¾à
 \renewcommand{\baselinestretch}{1.25}
@@ -56,6 +67,7 @@
 
 
 % ÖØ¶¨ÒåÉèÖÃ
+\renewcommand{\chaptername}{µÚ{\thechapter}ÕÂ}
 \renewcommand{\contentsname}{Ä¿~Â¼}
 \renewcommand{\indexname}{Ë÷Òı}
 \renewcommand{\listfigurename}{²åÍ¼Ä¿Â¼}
@@ -67,6 +79,7 @@
 \renewcommand{\appendixtocname}{¸½Â¼}
 %\renewcommand\refname{²Î¿¼ÎÄÏ×}
 
+\usepackage{amsmath}
 
 %
 % } preamble end
@@ -104,14 +117,14 @@ HaskellÓïÑÔÒÔ¼°ÆäÏà¹Ø¿âµÄËùÓĞ·½Ãæ¡£±¾Êé´óÔ¼Ò»°ëÄÚÈİÊÇ×¨ÃÅ½éÉÜ¸ÃÓïÑÔµÄÖ÷ÒªÌØµãµÄ£
 ±¾ÊéµÄ¹Ù·½ÍøÕ¾Ìá¹©ÁËÒ»ÏµÁĞ¸¨Öú×ÊÁÏ£¬°üÀ¨Ã¿¸öÕÂ½ÚµÄ»ÃµÆÆ¬ºÍÒ»Ğ©À©Õ¹Àı×ÓµÄHaskell´úÂë¡£½ÌÊ¦»¹¿ÉÒÔÍ¨¹ı·¢ËÍµçÓÊµ½solutions@cambridge.orgµÃµ½Ã¿¸öÕÂ½ÚÁ·Ï°ÌâµÄ±ê×¼´ğ°¸ÒÔ¼°´óÁ¿´øÓĞ±ê×¼´ğ°¸µÄÊÔÌâ¼¯¡£
 
 \begin{flushleft}
-¸ĞĞ»\\
+ÖÂĞ»\\
 \end{flushleft}
 
-Åµ¶¡ºº´óÑ§±à³ÌÉçÍÅ»ù´¡Îªº¯ÊıÊ½±à³ÌµÄÑĞ¾¿Óë½ÌÑ§Ìá¹©ÁËÒ»¸ö¼«ºÃµÄ»·¾³¡£¸ĞĞ»Ñ§Ğ£Ìá¹©¼ÙÆÚÈÃÎÒ¿ÉÒÔ½øĞĞ±¾ÊéµÄĞ´×÷¡£¸ĞĞ»ËùÓĞÑ§ÉúºÍ½²Ê¦ÃÇ¹ØÓÚÎÒµÄHaskell¿Î³ÌµÄ·´À¡;
+Åµ¶¡ºº´óÑ§±à³ÌÉçÍÅÎªº¯ÊıÊ½±à³ÌµÄÑĞ¾¿Óë½ÌÑ§Ìá¹©ÁËÒ»¸ö¼«ºÃµÄ»·¾³¡£¸ĞĞ»Ñ§Ğ£Ìá¹©¼ÙÆÚÈÃÎÒ¿ÉÒÔ½øĞĞ±¾ÊéµÄĞ´×÷¡£¸ĞĞ»ËùÓĞÑ§ÉúºÍ½²Ê¦ÃÇ¹ØÓÚÎÒµÄHaskell¿Î³ÌµÄ·´À¡;
 ¸ĞĞ»Thorsten Altenkirch, Neil Ghani, Mark Jones (ÏÖÔÚÔÚ²¨ÌØÀ¼Öİ), Conor McBridehºÍHenrik NilssonÔÚFOPÉçÇøÓëÎÒ½øĞĞµÄ¹ØÓÚº¯ÊıÊ½±à³ÌµÄÏë·¨ÒÔ¼°ÈçºÎ±í´ïÕâĞ©Ïë·¨µÄ½»Á÷ºÍÌÖÂÛ¡£
 
 ÎÒ»¹Òª¸ĞĞ»David TranahºÍDawn PrestonÔÚ½£ÇÅ´óÑ§³ö°æÉç³öÉ«µÄ±à¼­¹¤×÷; ¸ĞĞ»Mark
-JonesµÄHaskell½âÊÍÆ÷; ¸ĞĞ»Ralf HinzeºÍAndres L hÌá¹©µÄlhs2TeXÅÅ°æÏµÍ³;¸ĞĞ»Rik
+JonesµÄHaskell½âÊÍÆ÷; ¸ĞĞ»Ralf HinzeºÍAndres LohÌá¹©µÄlhs2TeXÅÅ°æÏµÍ³;¸ĞĞ»Rik
 van GeldropºÍJaap van der Woude¹ØÓÚÊ¹ÓÃ±¾Êé²İ¸åµÄ·´À¡; ¸ĞĞ»Kees van den Broek,
 Frank HeitmannºÍ Bill TonkinÖ¸³öµÄ±¾ÊéµÄ´íÎó;¸ĞĞ»Ian
 BayleyºÍËùÓĞÄäÃûÆÀÉóÕß¼«¸»¼ÛÖµµÄÆÀÂÛ;¸ĞĞ»Joel WrightÌá¹©µÄµ¹¼ÆÊ±³ÌĞò¡£
@@ -124,10 +137,26 @@ Graham Hutton\\
 \tableofcontents                                            % Éú³ÉÄ¿Â¼
 \setcounter{tocdepth}{3}                                    % ÉèÖÃÄ¿Â¼Éî¶È
 
-\chapter{¼ò~½é}
+\chapter{µ¼~ÑÔ}
+ÔÚÕâÒ»ÕÂ½ÚÖĞ£¬ÎÒÃÇÎª±¾ÊéµÄºóĞø²¿·ÖÉè¶¨ÁË½×¶Î¡£ÎÒÃÇ´Ó»Ø¹Ëº¯ÊıµÄ¸ÅÄî¿ªÊ¼£¬È»ºó½éÉÜº¯ÊıÊ½±à³ÌµÄ¸ÅÄî£¬×Ü½áHaskellµÄÖ÷ÒªÌØµãºÍËüµÄÀúÊ·£¬×îºóÍ¨¹ıÁ½¸öĞ¡Àı×Ó¡°Æ·³¢¡±Ò»ÏÂHaskellµÄÎ¶µÀ¡£
 
 \section{º¯Êı}
-ÔÚHaskellÖĞ£¬Ò»¸öº¯ÊıÊÇÒ»¸öÓ³Éä¡£
+ÔÚHaskellÖĞ£¬Ò»¸öº¯ÊıÊÇÒ»¸öÓ³Éä£¬ËüÓĞÒ»¸ö»ò¶à¸ö²ÎÊı£¬²¢²úÉúÎ¨Ò»Ò»¸ö½á¹û¡£ÎÒÃÇ¿ÉÒÔÍ¨¹ıÒ»¸öµÈÊ½À´¶¨Òåº¯Êı£¬µÈÊ½ÖĞ°üº¬º¯ÊıµÄÃû×Ö¡¢º¯Êı²ÎÊıµÄÃû×ÖÒÔ¼°ÏêÏ¸ÃèÊöÈçºÎÒÀ¾İ²ÎÊı¼ÆËã³ö½á¹ûµÄº¯ÊıÌå¡£
+
+ÀıÈç£¬Ò»¸öÃûÎªdoubleµÄº¯Êı£¬²ÎÊıÊÇÒ»¸öÊı×Öx£¬²úÉúµÄ½á¹ûÎªx~+~x£¬¿ÉÍ¨¹ıÈçÏÂµÈÊ½¶¨Òå£º
+\[double~x = x + x \]
+
+µ±Ò»¸öº¯Êı±»Ó¦ÓÃµ½Êµ¼Ê²ÎÊıÊ±£¬Æä½á¹û¿ÉÍ¨¹ı½«Êµ¼Ê²ÎÊıÌæ»»º¯ÊıÌåÖĞµÄ²ÎÊıÃû³ÆµÄ·½Ê½»ñµÃ¡£Õâ¸ö¹ı³Ì¿ÉÄÜ»áÁ¢¼´²úÉúÒ»¸ö²»ÄÜ±»½øÒ»²½¼ò»¯µÄ½á¹û£¬±ÈÈçÒ»¸öÊı×Ö¡£¶ø¸üÎª³£¼ûµÄÇé¿öÊÇ£¬Õâ¸ö½á¹ûÊÇÒ»¸öº¬ÓĞÆäËûº¯Êı³ÌĞòµÄ±í´ïÊ½£¬Ëü±ØĞë±»ÒÔÍ¬ÑùµÄ·½Ê½´¦Àí²ÅÄÜ²úÉú×îÖÕµÄ½á¹û¡£
+
+ÀıÈç£¬³ÌĞòdouble 3½«º¯ÊıdoubleÓ¦ÓÃµ½Êı×Ö3µÄ½á¹û¿ÉÍ¨¹ıÒÔÏÂ¼ÆËã¹ı³ÌµÃ³ö£¬Ã¿Ò»²½¼ÆËãÍ¨¹ı»¨À¨ºÅÀï¼ò¶Ì×¢ÊÍ½âÊÍ£º
+
+\[ \begin{split}
+double~3\\ 
+= \{applying~double\} \\
+3 + 3\\
+= \{applying +\}\\
+6
+\end{split} \]
 
 \section{º¯ÊıÊ½±à³Ì}
 
