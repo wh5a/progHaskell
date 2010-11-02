@@ -127,3 +127,143 @@ similar remark holds for the expression f~x~(g~y).
 double x = x + x
 quadruple x = double (double x)
 \end{verbatim}
+
+相应的，假设我们保持编辑器窗口处于打开状态，而在另外一个窗口中启动Hugs并输入指令使其加载这个新脚本：
+\verb|> :load test.hs|
+
+现在Prelude.hs和test.hs都被加载了，这两个脚本中的函数都可以自由使用了。比如：
+
+\begin{verbatim}
+> quadruple 10
+40
+> take (double 2) [1, 2, 3, 4, 5, 6]
+[1, 2, 3, 4]
+\end{verbatim}
+
+现在保持Hugs处于启动状态，我们返回到编辑器窗口。将下面两个函数的定义添加到脚本中，并重新保存文件。
+
+\begin{verbatim}
+factorial n = product [1 . . n ]
+average ns = sum ns ‘div ‘ length ns
+\end{verbatim}
+
+我们同样可以这样定义：\verb|average ns = div (sum ns ) (length ns )|,
+但是将div放在两个参数中间更加自然。一般情况下，任何两个参数的函数都可以写成将函数名用反单引号(`)括上后放在其参数之间的形式。
+
+当脚本被修改后，Hugs不会自动加载它们，所以在使用新定义之前必须执行一个reload命令：
+\begin{verbatim}
+> :reload
+> factorial 10
+3628800
+> average [1, 2, 3, 4, 5]
+3
+\end{verbatim}
+
+作为参考，下表总结了一些Hugs中最常用的命令的含义。请注意，每条命令都可以通过它的第一个字符进行缩写。例如，:load可以缩写为:l。命令:type将在后面的篇章中详细解释。
+
+\begin{table}[htbp]
+\label{tab:threesome}
+\centering
+\begin{tabular}{ll}
+\hline
+命令 & 含义\\
+\hline
+\textit{:load name} & 加载脚本\textit{name} \\
+\textit{:reload} & 重新加载当前脚本 \\
+\textit{:edit name} & 编辑脚本\textit{name} \\
+\textit{:type expr} & 显示\textit{expr}的类型信息 \\
+\textit{:?} & 显示所有命令 \\
+\textit{:quit} & 退出Hugs \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{命名需求}
+定义一个新函数时，函数以及其参数的名字必须以小写字母开头，但后面可以跟随零个或多个字母（包括小写和大写），数字，下划线和正向单引号。例如，以下名字都是合法的：
+
+\textit{myFun~~~fun1~~~arg~2~~~x’}
+
+下面列表中的关键字在语言中都有着特殊的含义，并且不能作为函数或其参数名称使用：
+\begin{verbatim}
+case class data default deriving do else
+if import in infix infixl infixr instance
+let module newtype of then type where
+\end{verbatim}
+
+按照惯例，在Haskell中list参数名字中通常有一个后缀s，表明它们可能含有多个值。例如，一列数字可能被命名为ns，一个任意值的列表可能会被命名为xs，一个字符列表可能被命名的css。
+
+\subsection{布局规则}
+
+在一个脚本中，每个定义必须精确的从相同的列开始。这种布局规则使我们能够根据代码缩进确定定义分组。例如脚本：
+
+\begin{verbatim}
+a = b + c
+        where 
+            b = 1
+            c = 2
+d = a * 2
+\end{verbatim}
+
+通过缩进可以很清楚的看出b和c是在a定义体中使用的局部定义。如果需要，这个分组可以显式的通过花括号将一系列定义括起来，并且定义之间可以用分号隔开。例如，上面的脚本也可以写成：
+
+\begin{verbatim}
+a = b + c
+        where 
+            {b = 1
+            c = 2}
+d = a * 2
+\end{verbatim}
+
+但一般来说，依赖布局规则来确定定义分组比使用显式语法更加清晰。
+
+\subsection{注释}
+
+除了新的定义，脚本也会包含注释，但注释将被Hugs忽略。Haskell提供了两种类型的注释，分别称为普通注释和嵌套注释。普通注释以符号-开始，作用延伸到当前行的结尾，如下面的例子所示：
+
+\begin{verbatim}
+— Factorial of a positive integer:
+factorial n = product [1 . . n ]
+— Average of a list of integers:
+average ns = sum ns ‘div ‘ length ns
+\end{verbatim}
+
+嵌套注释的开始和结束符号为{-和-}，嵌套注释可以跨多行，因此嵌套注释还可能包含其他注释。嵌套注释在临时删除脚本中的某段定义时特别有用，如下面的例子：
+
+\begin{verbatim}
+{-
+double x
+quadruple x
+-}
+\end{verbatim}
+
+\section{本章备注}
+Hugs系统可从Haskell主页www.haskell.org上自由下载，另外Haskell主页上还提供了其他有用的资源。
+
+\section{习题}
+
+\begin{enumerate}
+\item 用括号显式标出下面算术表达式的结合情况：
+\begin{verbatim}
+2 ^ 3 * 4
+2 * 3 + 4 * 5 
+2 + 3 * 4 ^ 5
+\end{verbatim}
+
+\item 使用Hugs执行一遍本章所提供的例子
+
+\item
+下面的脚本中包含三处语法错误，纠正这些错误并使用Hugs确认你的脚本可以正常工作。
+\begin{verbatim}
+N = a ’div’ length xs
+       where
+          a = 10
+        xs = [1, 2, 3, 4, 5]
+\end{verbatim}
+
+\item Show how the library function last that selects the last element of a
+non-empty list could be defined in terms of the library functions introduced
+in this chapter. Can you think of another possible definition?
+
+\item Show how the library function init that removes the last element from a
+non-empty list could similarly be defined in two different ways.
+\end{enumerate}
