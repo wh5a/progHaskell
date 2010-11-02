@@ -165,3 +165,105 @@ Haskell的许多特色并非首创，都是由其他语言首次引入的。To help place Haskell in co
 \item 1987年，一个国际研究委员会发起开发Haskell语言（以逻辑学家Haskell Curry命名），一个标准的惰性函数式编程语言。
 \item 2003年，该委员会公布了Haskell的报告，报告中定义了一个期待已久的Haskell的稳定版本，该版本是该语言设计者们十五年工作的成果。
 \end{itemize}
+
+值得注意的是，上面提到的三个研究人员 - McCarthy, Backus和Milner各自获得了等同于计算机领域诺贝尔奖的的ACM图灵奖。
+
+\section{品尝Haskell}
+我们在结束本章之前通过两个小例子来品尝一下Haskell编程。首先我们回顾一下本章前面使用的函数sum，sum用于计算列表中一组数字的和。在Haskell中，这个函数可通过如下两个等式定义：
+
+\begin{verbatim}
+sum [] = 0
+sum (x : xs) = x + sum xs
+\end{verbatim}
+
+第一个等式定义一个空列表的总和是零，同时第二个等式定义一个非空列表的总和是由列表中的第一个数字和后续数字组成的列表xs的总和相加在一起获得的。例如，sum [1，2，3]的总和计算过程如下：
+
+\begin{verbatim}
+sum [1, 2, 3]
+= { applying sum }
+1 + sum [2, 3]
+= { applying sum }
+1 + (2 + sum [3])
+= { applying sum }
+1 + (2 + (3 + sum [ ]))
+= { applying sum }
+1 + (2 + (3 + 0))
+= { applying + }
+6
+\end{verbatim}
+
+注意，即使函数sum使用自身定义自己而形成了递归，它也不会永远循环下去。尤其是每个sum都将列表参数的长度减一，直到列表最终变为空表，递归过程也随之终止。将零作为空表的总和再合适不过，因为加法里零不改变加法结果，也就是说对于任何数字x，0 + x =x且x + 0 = x。
+
+在Haskell中，每个函数都有一个描述参数和返回值的类型，这个类型会自动从函数的定义中推断出来。例如，函数sum有以下类型：
+\begin{verbatim}
+sum a => [a] -> a
+\end{verbatim}
+
+这个类型指出对于任何数字类型a，sum是一个将一组这样的数字列表映射到一个单一数字的函数。Haskell支持许多不同类型的数字，其中包括整数，如123，“浮点数”，如3.14159。因此，sum可以应用于一个整数列表，正如在上面的计算过程那样，也可以应用于一个浮点数列表。
+
+类型提供了有关函数本质的有用的信息，但更为重要的是，类型的使用使得许多错误可以在程序被执行之前被自动检查出来。尤其是，对于一个程序中的每个函数都会检查其实际参数类型与函数本身的类型是否兼容。例如，试图将函数sum应用于一个字符列表将被b报错，因为字符不是数字类型。
+
+现在让我们考虑一个关于列表的更为有趣的函数吧，这个函数说明了Haskell其他一些方面的特性。假设我们定义了一个名为qsort的函数，它由以下两个等式构成：
+
+\begin{verbatim}
+qsort [ ] = []
+qsort (x : xs) = qsort smaller ++ [x ] ++ qsort larger
+                 where
+                    smaller = [a | a <- xs, a ≤ x ]
+                    larger = [b | b <- xs, b > x ]
+\end{verbatim}
+
+在这个定义里，+是一个连接两个列表的操作符。例如[1, 2, 3] ++ [4, 5] = [1, 2, 3, 4, 5].  相应的，where是一个关键字，用于引入局部定义。在这个例子中，smaller列表由xs列表中所有小于等于x的元素组成，同时larger列表由 xs列表中所有大于等于x的元素组成。例如，如果x = 3且xs = [ 5, 1, 4, 2]，那么smaller = [1, 2]，larger = [5, 4]。
+
+qsort究竟做了什么？首先我们要明确它对仅有一个元素的列表不起作用，在这种意义上，对于任何x，qsort [x] =[x]:
+
+\begin{verbatim}
+qsort [ x ]
+= { applying qsort }
+qsort [ ] + [ x ] + qsort [ ]
+= { applying qsort }
+[ ] + [x ] + [ ]
+= { applying + }
+[x ]
+\end{verbatim}
+
+相应的，现在我们将qsort应用到一个样例列表，使用上面的定义化简计算过程：
+
+\begin{verbatim}
+qsort [3, 5, 1, 4, 2]
+= { applying qsort }
+qsort [1, 2] ++ [3] ++ qsort [5, 4]
+= { applying qsort }
+(qsort [ ] ++ [1] ++ qsort [2]) ++ [3]
+++ (qsort [4] ++ [5] ++ qsort [ ])
+= { applying qsort , above property }
+([ ] ++ [1] ++ [2]) ++ [3] ++ ([4] ++ [5] ++ [ ])
+= { applying ++ }
+[1, 2] ++ [3] ++ [4, 5]
+= { applying ++ }
+[1, 2, 3, 4, 5]
+\end{verbatim}
+
+总之，qsort将示例列表按照数字顺序进行了排序。更一般地说，这个函数产生了一个任意数字列表的排序版本。qsort的第一个等式表明空列表是已经被排序了的，而第二个等式则表明任何非空列表都可以通过将第一个数字插入两个列表之间的方式排序，这两个列表是通过将剩余号码与该数字比较获得的，比这个数字小的号码集构成一个列表，比这个数字大的号码集构成另外一个列表。这种排序方法被称为快速排序，并且是已知的排序方法中最好的方法之一。
+
+上面的quicksort的实现是一个很好的体现Haskell功能强大、清晰又简明的例子。此外，函数qsort也比预期更加通用，即不仅仅适合排序数字，同样适用于任何具备有序值的类型。更确切的说，类型
+
+\begin{verbatim}
+qsort::Ord a => [a ] -> [a ]
+\end{verbatim}
+
+表明对于任何具备有序值的类型，qsort是一个提供在这种值列表间映射的函数。Haskell支持多种有序值类型，包括数字、单个字符比如'a'以及字符串比如"abcde"。因此，qsort这个函数也可以用于对一个字符列表或一个字符串列表进行排序。
+
+\section{本章备注}
+Haskell报告可以从Haskel主页www.haskell.org免费下载，同时这份报告也已经出版(25)。另外Hudak的调查报告(11)更详尽的记录了关于函数式编程语言发展的历史。 
+
+\section{习题}
+\begin{enumerate}
+\item Give another possible calculation for the result of double (double 2).
+\item Show that sum [ x ] = x for any number x .
+\item Define a function product that produces the product of a list of numbers, and show using your definition that product [2, 3, 4] = 24.
+\item How should the definition of the function qsort be modified so that it
+produces a reverse sorted version of a list?
+\item What would be the effect of replacing ≤ by < in the definition of qsort ?\\ Hint: consider the example qsort [2, 2, 3, 1, 1].
+\end{enumerate}
+
