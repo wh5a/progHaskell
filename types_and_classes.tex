@@ -1,17 +1,27 @@
 \XeTeXinputencoding "GBK"                                   % 本文件采用GBK编码
 
 \chapter{类型和类}
-在这一章节中，...
+在这一章节中，我们将介绍Haskell中两个最基础的概念：类型和类。我们首先解释什么是类型以及在Haskell中如何使用它，然后介绍一些基本类型以及使用这些基本类型构造更大的类型的方法，详细讨论函数类型，最后介绍一下多态类型和类型类。
 
-\section{XX}
-在xx
+\section{基本概念}
+\textit{类型}是一组相关值的集合。例如，类型Bool包含两个逻辑值\textit{False}和\textit{True}，而类型\textit{Bool
+->
+Bool}则包含了所有将Bool类型参数映射为Bool类型结果的函数，如逻辑非函数\textit{not}。我们使用符号\textit{v::T}来表示\textit{v}是类型\textit{T}的一个值，并可说成\textit{v}具有类型\textit{T}。例如：
 
-\subsection{XX-1}
-在xx-1
-\subsection{XX-2}
-在xx-2
+\begin{verbatim}
+False :: Bool
+True :: Bool
+not :: Bool -> Bool
+\end{verbatim}
 
-\section{YY}
-在yy
-\subsection{YY-1}
-在yy-1
+更一般的是，符号::也可以用于尚未被求值的表达式，这种情况下，e::\textit{T}意为对表达式\textit{e}求值将产生一个类型\textit{T}的值。例如：
+
+\begin{verbatim}
+not False :: Bool
+not True :: Bool
+not (not False):: Bool
+\end{verbatim}
+
+在Haskell中，每个表达式必须有一个类型，该类型通过一个先于表达式求值的过程计算得到，这个过程被称为\textit{类型推断}。这个过程的关键在于一个函数应用的类型规则。其中规定如果f是一个将类型A参数映射为类型B结果的函数，e是一个A类型的表达式，那么f~~e具有类型B。
+
+
