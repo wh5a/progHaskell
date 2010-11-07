@@ -83,3 +83,23 @@ Error
 这个类型包含带小数点的数字，诸如-12.34，1.0以及3.14159，计算机以固定大小内存存储这些值。浮点一词源于这样一个事实：即小数点后允许的数字位数取决于数的大小。例如使用Hugs对\textit{sqrt 2 :: Float}求值结果为1.41421（库函数sqrt用于计算一个数的平方根），其中小数点后有五位数字;而对\textit{sqrt 99999::Float}求值结果为316.226，小数点后则只有三位数字。采用浮点数编程是一个专家话题，需要认真对待舍入误差。在这段介绍性的文字中我们对这种类型讲解的很少。
 
 最后，我们注意到一个单个数字可能拥有不止一种数值类型。例如，3 :: \textit{Int}，3 :: \textit{Integer}和3 :: \textit{Float}对于数字3来说都是有效的类型。这就提出了一个有趣的问题：这些数字在类型推断过程中究竟应该被分配什么类型？这个问题将在本章后面考量类型类时回答。
+
+\section{List类型}
+\textit{list}是一组拥有相同类型的元素，这些元素括在方括号中，使用逗号分隔。我们将元素类型为T的所有list类型写作[\textit{T}]。比如：
+
+\begin{verbatim}
+[False, True, False ] :: [Bool]
+[’a’, ’b’, ’c’, ’d’] :: [Char]
+["One", "Two", "Three"] :: [String]
+\end{verbatim}
+
+在一个list中的元素的个数称为list的\textit{长度}。长度为零的list[]称为空list，而长度为1的lists，如[False]和['a']，称为singleton lists。注意[[]]和[]是不同的list，前者是singleton list，由唯一一个empty list元素组成，而后者则是一个empty list。
+
+关于list类型需进一步注意三点内容。首先，list类型没有传达其长度信息。例如，[\textit{False,
+True}]和[\textit{False, True,
+False}]两者都是[\textit{Bool}]类型，即使他们的长度不同。其次，没有关于list中元素类型的限制。目前我们局限在一个我们可以给出的有限范围的例子里，因为到目前为止我们介绍的唯一的非基本类型就是list类型，但是我们可以拥有元素为list的list，诸如：
+\begin{verbatim}
+[[’a’, ’b’], [’c’, ’d’, ’e’]] :: [[Char ]]
+\end{verbatim}
+最后，没有任何限制要求一个list必须是有限长度的。特别是，由于在Haskell中使用了惰性求值，具有无限长度的list将正如我们在第12章看到的那样，是自然且实用的。
+
