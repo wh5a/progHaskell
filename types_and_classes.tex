@@ -85,7 +85,7 @@ Error
 最后，我们注意到一个单个数字可能拥有不止一种数值类型。例如，3 :: \textit{Int}，3 :: \textit{Integer}和3 :: \textit{Float}对于数字3来说都是有效的类型。这就提出了一个有趣的问题：这些数字在类型推断过程中究竟应该被分配什么类型？这个问题将在本章后面考量类型类时回答。
 
 \section{List类型}
-\textit{list}是一组拥有相同类型的元素，这些元素括在方括号中，使用逗号分隔。我们将元素类型为T的所有list类型写作[\textit{T}]。比如：
+\textit{list}是一个拥有相同类型元素的序列，其元素括在方括号中，并使用逗号分隔。我们将元素类型为T的所有list类型写作[\textit{T}]。比如：
 
 \begin{verbatim}
 [False, True, False ] :: [Bool]
@@ -102,4 +102,29 @@ False}]两者都是[\textit{Bool}]类型，即使他们的长度不同。其次，没有关于list中元素
 [[’a’, ’b’], [’c’, ’d’, ’e’]] :: [[Char ]]
 \end{verbatim}
 最后，没有任何限制要求一个list必须是有限长度的。特别是，由于在Haskell中使用了惰性求值，具有无限长度的list将正如我们在第12章看到的那样，是自然且实用的。
+
+\section{Tuple类型}
+\textit{tuple}是一个可拥有不同类型components的有限长度序列，其components括在圆括号中，并使用逗号分隔。我们用(\textit{$T_1,T_2,...,T_n$})表示所有tuple类型。对于任意i，其取值范围从1到\textit{n}，第i个component拥有类型$T_i$。例如：
+\begin{verbatim}
+(False, True) :: (Bool, Bool)
+(False, ’a’, True) :: (Bool, Char , Bool)
+("Yes", True, ’a’) :: (String, Bool , Char)
+\end{verbatim}
+
+tuple中components的数量称为arity。arity为0的tuple
+()称为空tuple。arity为2的tuples称为pairs。arity为3的tuples称为triples，等等。arity为1的tuple，例如(\textit{False})，是不允许使用的，因为它们将与显式设置求值顺序的括号的使用相冲突，如在表达式(1
++ 2) * 3中。
+
+与list类型一样，关于tuple类型也有三点需要进一步注意的内容。首先tuple类型传达了arity信息。例如，类型(\textit{Bool,
+Char})包含了所有由第一个component为Bool并且第二个component为Char组成的pairs。其次，没有关于tuple中component的类型的限制。例如，我们有以tuple为components的tuple，以list为components的tuple和以tuple为元素的list：
+
+\begin{verbatim}
+(’a’, (False, ’b’)) :: (Char , (Bool , Char ))
+([’a’, ’b’], [False, True ]) :: ([Char ], [Bool ])
+[(’a’, False), (’b’, True)] :: [(Char , Bool )]
+\end{verbatim}
+
+最后，注意tuple必须具有有限长度，以保证tuple类型总是在求值之前被计算得到。
+
+\section{函数类型}
 
