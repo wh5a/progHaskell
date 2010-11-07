@@ -29,4 +29,27 @@ $\dfrac{f::A->B~~e::A}{f~e::B}$
 \\
 例如，\textit{not False::Bool}可通过这样的规则推断，该规则使用了这样的事实：\textit{not::Bool->Bool}和\textit{False::Bool}。另一方面，表达式\textit{not 3}通过上述规则无法推断类型，因为这需要\textit{3::Bool}，但3不是一个逻辑值，这是无效的。像\textit{not 3}这样的表达式无法确定类型，也可以说成是包含了一个类型错误，被视为非法表达式。
 
-由于类型推断在求值过程之前，所以Haskell程序是类型安全的，也就是说在求值过程中不会发生类型错误。
+由于类型推断在求值过程之前，所以Haskell程序是类型安全的，也就是说在求值过程中不会发生类型错误。实际上，类型推断能检查出程序中所占错误比例较高的一类错误，它也是Haskell最有用的特性之一。但是注意使用类型推断并不能消除发生在求值阶段的其他类错误的可能性，比如，表达式\textit{1
+'div' 0}可以通过类型推断检查，但在求值阶段报错，因为被0除的行为是未定义的。
+
+类型安全的不足之处在于一些求值阶段成功的表达式却因类型原因而被拒绝。例如，条件表达式\textbf{if} \textit{True} \textbf{then} \textit{1} \textbf{else}
+\textit{False}求值结果为1, 但是因包含一个类型错误而被视为无效表达式。
+特别是，条件表达式的类型推断规则要求所有可能的结果都具有相同的类型，而在这里例子中，第一种结果为1，是一个数字类型，而第二个结果是False，是一个逻辑值类型。在实践中，程序员很快就学会了如何在类型系统的限制下工作以及如何避免这些问题。
+
+In Hugs, the type of any expression can be displayed by preceding the expression by the command :type . For example:
+
+在Hugs系统中，任意表达式的类型都可以通过\textit{:type}显示出来，例如：
+
+\begin{verbatim}
+> :type not
+not :: Bool -> Bool
+
+> :type not False
+not False :: Bool
+
+> :type not 3
+Error
+\end{verbatim}
+
+\section{基本类型}
+
