@@ -127,4 +127,21 @@ Char})°üº¬ÁËËùÓÐÓÉµÚÒ»¸öcomponentÎªBool²¢ÇÒµÚ¶þ¸öcomponentÎªChar×é³ÉµÄpairs¡£Æä´
 ×îºó£¬×¢Òâtuple±ØÐë¾ßÓÐÓÐÏÞ³¤¶È£¬ÒÔ±£Ö¤tupleÀàÐÍ×ÜÊÇÔÚÇóÖµÖ®Ç°±»¼ÆËãµÃµ½¡£
 
 \section{º¯ÊýÀàÐÍ}
+º¯ÊýÊÇÓÉÒ»¸öÀàÐÍµÄ²ÎÊýµ½ÁíÒ»ÖÖÀàÐÍµÄ½á¹ûµÄÓ³Éä¡£ÎÒÃÇÓÃ\textit{$T_1->T_2$}±íÊ¾ËùÓÐ½«$T_1$ÀàÐÍ²ÎÊýÓ³ÉäÎª$T_2$ÀàÐÍ½á¹ûµÄº¯Êý¡£ÀýÈç£º
+\begin{verbatim}
+not :: Bool -> Bool
+isDigit :: Char -> Bool
+\end{verbatim}
 
+£¨¿âº¯Êý\textit{isDigit}ÅÐ¶ÏÒ»¸ö×Ö·ûÊÇ·ñÊÇÒ»¸öÊý×Ö£©ÒòÎª¶Ôº¯ÊýµÄ²ÎÊýºÍ½á¹ûÀàÐÍÃ»ÓÐÈÎºÎÏÞÖÆ£¬´øÓÐÒ»¸ö²ÎÊýºÍ½á¹ûµÄº¯ÊýµÄ¼òµ¥·ûºÅÒÑ¾­×ãÒÔÓ¦¸¶¶à²ÎÊýºÍ½á¹ûµÄÇé¿öÁË£¬Ö»Ðè½«¶à¸öÖµÊ¹ÓÃlist»òtuple´ò°ü¼´¿É¡£ÀýÈç£¬ÎÒÃÇÏÂÃæ¶¨Òåº¯Êý\textit{add}ÓÃÓÚ¼ÆËãÒ»ÕûÊý¶ÔµÄºÍ;¶¨Òåº¯Êý\textit{zeroto}·µ»ØÒ»¸ö´Ó0µ½Ò»¸ø¶¨ÉÏÏÞÖµµÄÕûÊýlist£º
+
+\begin{verbatim}
+add :: (Int, Int) -> Int
+add (x , y) = x + y
+zeroto :: Int -> [Int ]
+zeroto n = [0 . . n ]
+\end{verbatim}
+
+ÔÚÕâÐ©Àý×ÓÖÐÎÒÃÇ×ñÑ­ÁËHaskell½«º¯ÊýÀàÐÍ·ÅÔÚº¯Êý¶¨ÒåÖ®Ç°×÷ÎªÎÄµµ²Î¿¼µÄ¹ßÀý¡£ÏµÍ³½«¼ì²éÓÉÓÃ»§ÊÖ¹¤Ìá¹©µÄÀàÐÍÓëÀàÐÍÍÆ¶Ï×Ô¶¯¼ÆËã³öµÄÀàÐÍÁ½ÕßÖ®¼äµÄÒ»ÖÂÐÔ¡£
+
+×¢ÒâÃ»ÓÐÏÞÖÆÒªÇóº¯ÊýÒ»¶¨Òª¶ÔËüÃÇµÄ²ÎÊýÀàÐÍ×ÜÊÇÓÐÒâÒå¡£Ò²¾ÍÊÇËµ£¬¶ÔÓÚº¯ÊýµÄÄ³Ð©²ÎÊýÀ´Ëµ£¬Æä½á¹ûÊÇÎ´¶¨ÒåµÄ¡£±ÈÈçµ±listÎª¿ÕÊ±£¬¿âº¯Êý\textit{head}´ÓÒ»¸ölistÖÐÑ¡³öµÚÒ»¸öÔªËØµÄÐÐÎª¾ÍÊÇÎ´¶¨ÒåµÄ¡£
