@@ -145,3 +145,57 @@ zeroto n = [0 . . n ]
 在这些例子中我们遵循了Haskell将函数类型放在函数定义之前作为文档参考的惯例。系统将检查由用户手工提供的类型与类型推断自动计算出的类型两者之间的一致性。
 
 注意没有限制要求函数一定要对它们的参数类型总是有意义。也就是说，对于函数的某些参数来说，其结果是未定义的。比如当list为空时，库函数\textit{head}从一个list中选出第一个元素的行为就是未定义的。
+
+\section{curried函数}
+函数可以自由将函数作为结果返回，利用这个事实，拥有多个参数的函数也可以使用另外一种不太明显的方式处理。例如，考虑下面的定义：
+
+\begin{verbatim}
+add' :: Int -> (Int -> Int)
+add' x y = x + y
+\end{verbatim}
+
+类型指出\textit{add'}是一个函数，其参数类型为\textit{Int}，返回结果类型为一个类型为\textit{Int
+->
+Int}的函数。定义本身表明\textit{add'}以整数\textit{x}为参数，后面跟着一个整数\textit{y}，返回结果为\textit{x
++
+y}。更确切地说，\textit{add'}以整数\textit{x}为参数，返回一个以整数y为参数且返回\textit{x
++ y}的函数。
+
+注意函数\textit{add'}产生的最终结果与上一节中的函数\textit{add}相同。然而函数\textit{add}将其两个参数打包为一个pair一次处理完毕，而函数\textit{add'}则一次仅接受处理一个参数。正如这两个函数的类型所反映的：
+
+\begin{verbatim}
+add :: (Int, Int) -> Int
+add' :: Int -> (Int -> Int)
+\end{verbatim}
+
+对于有两个以上参数的函数，也可以使用同样的技术处理，通过返回以函数为返回值的函数，等等。例如，函数\textit{mult}接受三个参数，每次接受一个，并返回它们的乘积，可以定义如下：
+\begin{verbatim}
+mult :: Int -> (Int -> (Int -> Int))
+mult x y z = x * y * z
+\end{verbatim}
+
+这个定义表明\textit{mult}接受整数\textit{x}并返回一个函数，后者依次接受整数\textit{y}并返回另外一个函数，最后这个函数接受整数\textit{z}，并最终返回结果\textit{x * y * z}。
+
+诸如\textit{add'}和\textit{mult}这样的每次接受一个参数的函数被称为\textit{curried}。除了本身有吸引力之外，curried函数也比接受tuple作为参数的函数更加灵活，因为一些有用的函数通常可以通过\textit{部分应用}到参数不完整的curried函数来实现。例如，一个完成递增功能的函数可以通过只需一个参数的curried函数\textit{add'}的部分应用\text{add
+1 :: Int -> Int}实现。
+
+为避免在使用curried函数工作时过度使用括号，我们采纳了两个简单的惯例。首先，类型中使用的箭头->是右结合的，例如：
+
+\begin{verbatim}
+Int -> Int -> Int -> Int
+\end{verbatim}
+意为
+\begin{verbatim}
+Int -> (Int -> (Int -> Int))
+\end{verbatim}
+
+然而使用空格表示的函数应用则是左结合的，例如：
+\begin{verbatim}
+mult x y z
+\end{verbatim}
+意为
+\begin{verbatim}
+((mult x) y) z
+\end{verbatim}
+
+除非显式需要tuple，Haskell中的所有接受多个参数的函数一般都会被定义成curried函数，并且使用上面的两个惯例来减少需要使用的括号的数量。
