@@ -212,7 +212,7 @@ mult x y z
 The idea that length can be applied to lists whose elements have any type is
 made precise in its type by the inclusion of a \textit{type
 variable}。类型变量必须以小写字母开头，通常命名为\textit{a，b，c}等。例如，\textit{length}的类型如下：\\
-\hspace*{1cm} \textit{length} :: [a] -> \textit{Int}
+\hspace*{1cm} $length :: [a] \rightarrow Int$
 
 即对任意类型\textit{a}，函数\textit{length}具有类型[a]->\textit{[Int]}。包含一个或多个类型变量的类型被称作多态的（“多种形式"）。as
 is the expression with such a type。因此[a] -> \textit{Int}是一个多态类型，\textit{length}是一个多态函数。更普遍的是，标准Prelude中提供的很多函数都是多态的，例如：\\
