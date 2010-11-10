@@ -6,21 +6,17 @@
 \section{函数}
 在Haskell中，一个函数是一个映射，它有一个或多个参数，并产生唯一一个结果。我们可以通过一个等式来定义函数，等式中包含函数的名字、函数参数的名字以及详细描述如何依据参数计算出结果的函数体。
 
-例如，一个名为double的函数，参数是一个数字x，产生的结果为x~+~x，可通过如下等式定义：
-\[ \begin{split}
-double~x = x + x
-\end{split} \]
+例如，一个名为double的函数，参数是一个数字x，产生的结果为x~+~x，可通过如下等式定义：\\
+\hspace*{1cm} \textit{double x = x + x}
 
 当一个函数被应用到实际参数时，其结果可通过将实际参数替换函数体中的参数名称的方式获得。这个过程可能会立即产生一个不能被进一步简化的结果，比如一个数字。而更为常见的情况是，这个结果是一个含有其他函数程序的表达式，它必须被以同样的方式处理才能产生最终的结果。
 
-例如，程序double 3将函数double应用到数字3的结果可通过以下计算过程得出，每一步计算通过花括号里简短注释解释：
-\[ \begin{split}
-double~3\\ 
-= \{applying~double\} \\
-3 + 3\\
-= \{applying +\}\\
-6
-\end{split} \]
+例如，程序\textit{double} 3将函数\textit{double}应用到数字3的结果可通过以下计算过程得出，每一步计算通过花括号里简短注释解释：\\
+\hspace*{1cm} \textit{double} 3\\ 
+\hspace*{1cm} = \{applying \textit{double}\} \\
+\hspace*{1cm} 3 + 3\\
+\hspace*{1cm} = \{applying +\}\\
+\hspace*{1cm} 6 
 
 同样，两次应用double的内嵌程序double (double 2)的结果可以通过如下计算过程得出：
 
