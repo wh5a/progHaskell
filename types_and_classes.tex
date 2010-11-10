@@ -199,3 +199,15 @@ mult x y z
 \end{verbatim}
 
 除非显式需要tuple，Haskell中的所有接受多个参数的函数一般都会被定义成curried函数，并且使用上面的两个惯例来减少需要使用的括号的数量。
+
+\section{多态类型}
+库函数\textit{length}用于计算任意list的长度，无论list中元素是什么类型的。比如，它可以用于计算整型list、字符串型list甚至是函数类型list的长度：\\
+\\
+\hspace*{1cm} > \textit{length} [1, 3, 5, 7]\\
+\hspace*{1cm} 4\\
+\hspace*{1cm} > \textit{length} ["Yes", "No"]\\
+\hspace*{1cm} 2\\
+\hspace*{1cm} > \textit{length} [\textit{isDigit , isLower , isUpper}]\\
+\hspace*{1cm} 3\\
+
+
