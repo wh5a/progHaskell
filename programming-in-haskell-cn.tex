@@ -1,14 +1,14 @@
 %
-% TeXÄ£°å
+% TeXæ¨¡æ¿
 %
-% ÖĞÎÄÖ§³Ö·½°¸: XeTeX + xeCJK
+% ä¸­æ–‡æ”¯æŒæ–¹æ¡ˆ: XeTeX + xeCJK
 % author: Tony Bai
 % 
 % compile: 
 %     xelatex programming-in-haskell-cn.tex
 %
 
-\documentclass[a4paper,11pt,titlepage]{book}                % ÎåºÅ×Ö
+\documentclass[a4paper,11pt,titlepage]{book}                % äº”å·å­—
 
 %
 % preamble begin {
@@ -18,66 +18,66 @@
 \usepackage{xunicode} 
 \usepackage{xltxtra}                                        % xltxtra include the cmd \XeTeX
 
-\XeTeXinputencoding "GBK"                                   % ±¾ÎÄ¼ş²ÉÓÃGBK±àÂë
+%\XeTeXinputencoding "GBK"                                   % æœ¬æ–‡ä»¶é‡‡ç”¨GBKç¼–ç 
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
 
-\usepackage{titletoc}                                       % ¿ØÖÆÄ¿Â¼
-\usepackage{appendix}                                       % ¿ØÖÆ¸½Â¼
+\usepackage{titletoc}                                       % æ§åˆ¶ç›®å½•
+\usepackage{appendix}                                       % æ§åˆ¶é™„å½•
 
 \usepackage[colorlinks,
             linkcolor=black,
             citecolor=black]{hyperref}                      % \url
 
-% Ò³±ß¾àÉèÖÃ
+% é¡µè¾¹è·è®¾ç½®
 \usepackage[top=1.2in,bottom=1.2in,left=1.2in,right=1in]{geometry}
 
-% ·âÃæÉèÖÃ
-\title{Haskell³ÌĞòÉè¼Æ}
-\author{Öø£ºGraham Hutton\\
-        Òë£ºTony Bai\footnote{\url{http://bigwhite.blogbus.com}}}
+% å°é¢è®¾ç½®
+\title{Haskellç¨‹åºè®¾è®¡}
+\author{è‘—ï¼šGraham Hutton\\
+        è¯‘ï¼šTony Bai\footnote{\url{http://bigwhite.blogbus.com}}}
 \date{October, 2010}
 
-% Ò³Ã¼Ò³½ÅÉèÖÃ
+% é¡µçœ‰é¡µè„šè®¾ç½®
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\fancyhf{}                                                  % Çå¿ÕÒ³Ã¼Ò³½Å
-\fancyhead[LE,RO]{\thepage}                                 % Å¼ÊıÒ³×ó,ÆæÊıÒ³ÓÒ
-\fancyhead[RE]{\leftmark}                                   % Å¼ÊıÒ³ÓÒ
-\fancyhead[LO]{\rightmark}                                  % ÆæÊıÒ³×ó
+\fancyhf{}                                                  % æ¸…ç©ºé¡µçœ‰é¡µè„š
+\fancyhead[LE,RO]{\thepage}                                 % å¶æ•°é¡µå·¦,å¥‡æ•°é¡µå³
+\fancyhead[RE]{\leftmark}                                   % å¶æ•°é¡µå³
+\fancyhead[LO]{\rightmark}                                  % å¥‡æ•°é¡µå·¦
 \fancypagestyle{plain}{
-\fancyhf{}                                                  % ÖØ¶¨ÒåplainÒ³ÃæÑùÊ½
+\fancyhf{}                                                  % é‡å®šä¹‰plainé¡µé¢æ ·å¼
 \renewcommand{\headrulewidth}{0pt}
 }
 \renewcommand\chaptermark[1]{\markboth{\chaptername~ #1}{}}
 \renewcommand\sectionmark[1]{\markright{\thesection~ #1}}
 
-% ĞĞ¾à
+% è¡Œè·
 \renewcommand{\baselinestretch}{1.25}
 
-% ÕÂ½ÚÉèÖÃ
+% ç« èŠ‚è®¾ç½®
 \usepackage{titlesec} 
-\titleformat{\chapter}{\centering\huge}{µÚ\thechapter{}ÕÂ}{1em}{\textbf}
+\titleformat{\chapter}{\centering\huge}{ç¬¬\thechapter{}ç« }{1em}{\textbf}
 
-% xeCJKÉèÖÃ
+% xeCJKè®¾ç½®
 \usepackage[slantfont, boldfont, CJKaddspaces]{xeCJK}
 \setmainfont{Times New Roman}                                % view the font list through the cmd "fc-list :lang=en"
 \setCJKmainfont{SimSun}                                      % view the font list through the cmd "fc-list :lang=zh"
 \setCJKfamilyfont{song}{SimSun}
 \setsansfont{AR PL UKai CN}
 
-% ÖØ¶¨ÒåÉèÖÃ
-\renewcommand{\chaptername}{µÚ{\thechapter}ÕÂ}
-\renewcommand{\contentsname}{Ä¿~Â¼}
-\renewcommand{\indexname}{Ë÷Òı}
-\renewcommand{\listfigurename}{²åÍ¼Ä¿Â¼}
-\renewcommand{\listtablename}{±í¸ñÄ¿Â¼}
-\renewcommand{\figurename}{Í¼}
-\renewcommand{\tablename}{±í}
-\renewcommand{\appendixname}{¸½Â¼}
-\renewcommand{\appendixpagename}{¸½Â¼}
-\renewcommand{\appendixtocname}{¸½Â¼}
-%\renewcommand\refname{²Î¿¼ÎÄÏ×}
+% é‡å®šä¹‰è®¾ç½®
+\renewcommand{\chaptername}{ç¬¬{\thechapter}ç« }
+\renewcommand{\contentsname}{ç›®~å½•}
+\renewcommand{\indexname}{ç´¢å¼•}
+\renewcommand{\listfigurename}{æ’å›¾ç›®å½•}
+\renewcommand{\listtablename}{è¡¨æ ¼ç›®å½•}
+\renewcommand{\figurename}{å›¾}
+\renewcommand{\tablename}{è¡¨}
+\renewcommand{\appendixname}{é™„å½•}
+\renewcommand{\appendixpagename}{é™„å½•}
+\renewcommand{\appendixtocname}{é™„å½•}
+%\renewcommand\refname{å‚è€ƒæ–‡çŒ®}
 
 \usepackage[fleqn]{amsmath}                                 % 
 
@@ -92,20 +92,20 @@
 
 \begin{document}
 
-\maketitle                                                  % Éú³Étitle
+\maketitle                                                  % ç”Ÿæˆtitle
 
 \include{half_title}                                        % half_title
-\include{copyright}                                         % °æÈ¨ÉùÃ÷
-\include{preface}                                           % ĞòÑÔ
-\include{tranlator_preface}                                 % ÒëÕßĞò
-\include{english_chinese}                                   % ÖĞÓ¢ÎÄ¶ÔÕÕ±í
+\include{copyright}                                         % ç‰ˆæƒå£°æ˜
+\include{preface}                                           % åºè¨€
+\include{tranlator_preface}                                 % è¯‘è€…åº
+\include{english_chinese}                                   % ä¸­è‹±æ–‡å¯¹ç…§è¡¨
 
-\tableofcontents                                            % Éú³ÉÄ¿Â¼
-\setcounter{tocdepth}{3}                                    % ÉèÖÃÄ¿Â¼Éî¶È
+\tableofcontents                                            % ç”Ÿæˆç›®å½•
+\setcounter{tocdepth}{3}                                    % è®¾ç½®ç›®å½•æ·±åº¦
 
-\include{introduction}                                      % µÚÒ»ÕÂ µ¼ ÑÔ
-\include{first_steps}                                       % µÚ¶şÕÂ µÚÒ»²½
-\include{types_and_classes}                                 % µÚÈıÕÂ ÀàĞÍÓëÀà
+\include{introduction}                                      % ç¬¬ä¸€ç«  å¯¼ è¨€
+\include{first_steps}                                       % ç¬¬äºŒç«  ç¬¬ä¸€æ­¥
+\include{types_and_classes}                                 % ç¬¬ä¸‰ç«  ç±»å‹ä¸ç±»
 
 \end{document}
 

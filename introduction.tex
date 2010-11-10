@@ -1,24 +1,24 @@
-\XeTeXinputencoding "GBK"                                   % ���ļ�����GBK����
+%\XeTeXinputencoding "GBK"                                   % 本文件采用GBK编码
 
-\chapter{��~��}
-����һ�½��У�����Ϊ����ĺ��������趨�˽׶Ρ����Ǵӻع˺����ĸ��ʼ��Ȼ����ܺ���ʽ��̵ĸ���ܽ�Haskell����Ҫ�ص��������ʷ�����ͨ������С���ӡ�Ʒ����һ��Haskell��ζ����
+\chapter{导~言}
+在这一章节中，我们为本书的后续部分设定了阶段。我们从回顾函数的概念开始，然后介绍函数式编程的概念，总结Haskell的主要特点和它的历史，最后通过两个小例子“品尝”一下Haskell的味道。
 
-\section{����}
-��Haskell�У�һ��������һ��ӳ�䣬����һ������������������Ψһһ����������ǿ���ͨ��һ����ʽ�����庯������ʽ�а������������֡����������������Լ���ϸ����������ݲ������������ĺ����塣
+\section{函数}
+在Haskell中，一个函数是一个映射，它有一个或多个参数，并产生唯一一个结果。我们可以通过一个等式来定义函数，等式中包含函数的名字、函数参数的名字以及详细描述如何依据参数计算出结果的函数体。
 
-���磬һ����Ϊdouble�ĺ�����������һ������x�������Ľ��Ϊx~+~x����ͨ�����µ�ʽ���壺\\
+例如，一个名为double的函数，参数是一个数字x，产生的结果为x~+~x，可通过如下等式定义：\\
 \hspace*{1cm} \textit{double x = x + x}
 
-��һ��������Ӧ�õ�ʵ�ʲ���ʱ��������ͨ����ʵ�ʲ����滻�������еĲ������Ƶķ�ʽ��á�������̿��ܻ���������һ�����ܱ���һ���򻯵Ľ��������һ�����֡�����Ϊ����������ǣ���������һ������������������ı���ʽ�������뱻��ͬ���ķ�ʽ�������ܲ������յĽ����
+当一个函数被应用到实际参数时，其结果可通过将实际参数替换函数体中的参数名称的方式获得。这个过程可能会立即产生一个不能被进一步简化的结果，比如一个数字。而更为常见的情况是，这个结果是一个含有其他函数程序的表达式，它必须被以同样的方式处理才能产生最终的结果。
 
-���磬����\textit{double} 3������\textit{double}Ӧ�õ�����3�Ľ����ͨ�����¼�����̵ó���ÿһ������ͨ������������ע�ͽ��ͣ�\\
+例如，程序\textit{double} 3将函数\textit{double}应用到数字3的结果可通过以下计算过程得出，每一步计算通过花括号里简短注释解释：\\
 \hspace*{1cm} \textit{double} 3\\ 
 \hspace*{1cm} = \{applying \textit{double}\} \\
 \hspace*{1cm} 3 + 3\\
 \hspace*{1cm} = \{applying +\}\\
 \hspace*{1cm} 6 
 
-ͬ��������Ӧ��double����Ƕ����double (double 2)�Ľ������ͨ�����¼�����̵ó���
+同样，两次应用double的内嵌程序double (double 2)的结果可以通过如下计算过程得出：
 
 \[ \begin{split}
 double~(double~2)\\
@@ -32,7 +32,7 @@ double~4\\
 8
 \end{split} \]
 
-���⣬ͬ���Ľ��Ҳ����ͨ���ȴ����ĺ���double��ʼ�����ã�
+另外，同样的结果也可以通过先从外层的函数double开始计算获得：
 \[ \begin{split}
 double~(double~2)\\
 =\{applying~the~outer~double\}\\
@@ -49,15 +49,15 @@ double~2~+~double~2\\
 8
 \end{split} \]
 
-���ǣ����������̱�����ԭ���İ汾�����������Ϊ����ʽdouble 2�ڵ�һ���б�������һ�ݲ���˱����������Ρ�һ����˵�������ڼ��������Ӧ�õ�˳�򲻻�Ӱ�����յĽ��ֵ���������ܻ�Ӱ�쵽���貽���������������Ӱ���������Ƿ���ֹ���жϡ������12�������Щ�������˸�Ϊ��ϸ��̽����
+但是，这个计算过程比我们原来的版本多出两步，因为表达式double 2在第一步中被复制了一份并因此被化简了两次。一般来说，函数在计算过程中应用的顺序不会影响最终的结果值，但它可能会影响到所需步骤的数量，并可能影响计算过程是否终止的判断。本书第12章针对这些问题作了更为详细的探究。
 
-\section{����ʽ���}
+\section{函数式编程}
 
-ʲô�Ǻ���ʽ��̣����ʼ��ǣ����Ѹ���һ��ȷ�еĶ��塣���ܵ���˵������ʽ��̿��Ա�����һ�ֱ�̷�����ַ��Ļ������㷽ʽ�ǽ�����Ӧ����ʵ�ʲ�������Ӧ�ģ�һ�ź���ʽ������Ծ���֧�ֺ͹���ʹ�ú���ʽ���ļ����������ԡ�
+什么是函数式编程？见仁见智，很难给出一个确切的定义。但总的来说，函数式编程可以被看作一种编程风格，这种风格的基本计算方式是将函数应用于实际参数。相应的，一门函数式编程语言就是支持和鼓励使用函数式风格的计算机编程语言。
 
-Ϊ��˵����Щ��������ǿ���һ�������1��n�������͵�����ɡ��ڵ�ǰ�������������У��������ͨ������ͨ��ʹ����������ʱ�ı�Ĵ洢ֵ����ʵ�֣�һ��������1�䵽n������һ�����������ۼ�������
+为了说明这些概念，让我们考虑一个计算从1到n的整数和的任务吧。在当前大多数编程语言中，这个任务通常可以通过使用两个可随时改变的存储值变量实现，一个变量从1变到n，另外一个变量用来累加总数。
 
-���磬�������ʹ�ø�ֵ����:=���ı�һ��������ֵ��ʹ�ùؼ���repeat��until������ִ��һ��ָ�����У�ֱ��ĳ�����������㣬��ô�����ָ�����м����������ܺͣ�
+例如，如果我们使用赋值符号:=来改变一个变量的值，使用关键字repeat和until来反复执行一个指令序列，直到某个条件被满足，那么下面的指令序列计算出所需的总和：
 
 \begin{verbatim}
 count := 0
@@ -69,10 +69,10 @@ until
     count = n
 \end{verbatim}
 
-Ҳ����˵���������Ƚ����������ܺ�������������ʼ��Ϊ�㣬Ȼ�󷴸��������������������ֵ���ܺͱ�����ӣ�ֱ���������ﵽn����ʱ�������ֹͣ��
+也就是说，我们首先将计数器和总和这两个变量初始化为零，然后反复递增计数器，并把这个值与总和变量相加，直到计数器达到n，此时计算过程停止。
 
-�����������У�����Ļ��������Ǹı�洢��ֵ����ĳ��������˵������ִ�о���һϵ�еĸ�ֵ���������磬n
-= 5ʱ���ǵõ��������У�������󸳸�����total��ֵ����������ܺͣ�
+在上述程序中，计算的基本方法是改变存储的值，在某种意义上说，程序执行就是一系列的赋值操作。例如，n
+= 5时我们得到如下序列，其中最后赋给变量total的值就是所需的总和：
 
 \begin{verbatim}
 count := 0
@@ -89,15 +89,15 @@ count := 5
 total := 15
 \end{verbatim}
 
-ͨ���������Ըı�洢ֵΪ�������㷽ʽ�ı�����Ա���Ϊ����ʽ���ԣ���Ϊ���������Ա�д�ĳ�����һϵ������ʽָ��ɣ���Щָ�ȷ�����˼������Ӧ����ν��С�
+通常，这种以改变存储值为基本计算方式的编程语言被称为命令式语言，因为用这类语言编写的程序由一系列命令式指令构成，这些指令精确描述了计算过程应该如何进行。
 
-���������ǿ���ʹ��Haskell�������1��n�������͡���ͨ��ʹ�������⺯����һ����[..]�����ڲ�����1��n֮��������б�������һ����sum�������������б���͡� 
+现在让我们考虑使用Haskell来计算从1到n的整数和。这通常使用两个库函数，一个是[..]，用于产生从1到n之间的数字列表，另外一个是sum，用于针对这个列表求和。 
 
 \begin{verbatim}
 sum [1..n]
 \end{verbatim}
 
-����������У�����Ļ��������ǽ�����Ӧ���ڲ���������������ϣ������ִ�й���ʵ������һϵ�еĺ���Ӧ�á����統n = 5ʱ�����ǵõ��������У����ս��������������Ҫ���ܺͣ�
+在这个程序中，计算的基本方法是将函数应用于参数。在这个意义上，程序的执行过程实际上是一系列的函数应用。比如当n = 5时，我们得到如下序列，最终结果就是我们所需要的总和：
 
 \begin{verbatim}
 sum [1..5]
@@ -109,70 +109,70 @@ sum [1, 2, 3, 4, 5]
 15
 \end{verbatim}
 
-���������ʽ���Զ�֧��һЩʹ�ú�����̵���ʽ������Haskell����sum [1..n]���Ա�ת������Щ���ԡ����ǣ����������ʽ���Բ�����ʹ�ú���ʽ����̡����磬��������Բ��������ֹ�������洢�������б������ݽṹ�У��򹹽��������������������б��������м�ṹ; ����պ�����Ϊ�����򽫺�����Ϊ����ֵ; ���Լ����塣�෴��Haskell�����ʹ�ú�����û����Щ���ƣ������ṩ��һϵ�й�����ɫ��ʹ��ʹ�ú������б�̼ȼ���ǿ��
+大多数命令式语言都支持一些使用函数编程的形式，所以Haskell程序sum [1..n]可以被转化成这些语言。但是，大多数命令式语言不鼓励使用函数式风格编程。比如，大多数语言不鼓励或禁止函数被存储在类似列表的数据结构中，或构建类似上面例子中数字列表那样的中间结构; 或接收函数作为参数或将函数作为返回值; 或被自己定义。相反，Haskell在如何使用函数上没有这些限制，并且提供了一系列功能特色，使得使用函数进行编程既简单又强大。
 
-\section{Haskell���ص�}
+\section{Haskell的特点}
 \begin{itemize}
-\item �����ĳ��� (�ڶ��º͵�����)
+\item 简明的程序 (第二章和第四章)
 
-���ں���ʽ�������θߵı��ʣ�ʹ��Haskell��д�ĳ������������������Ը��Ӽ�����������һ��������˵�������������⣬Haskell���﷨��Ƴ�ֿ����˼������ص㣬������ӵ�н��ٵĹؼ��֣�������ʹ����������ʾ����ṹ����Ȼ���������͹۵ıȽϣ���Haskell��д�ĳ���������������ǰ���Ա�д�ĳ����С2-10����\newline
+由于函数式风格抽象层次高的本质，使用Haskell编写的程序往往比用其他语言更加简明，正如上一节例子中说明的那样。此外，Haskell的语法设计充分考虑了简明的特点，尤其是拥有较少的关键字，并允许使用缩进来表示程序结构。虽然很难作出客观的比较，但Haskell编写的程序往往比其他当前语言编写的程序短小2-10倍。\newline
 
-\item ǿ�������ϵͳ�������º͵�ʮ�£�
+\item 强大的类型系统（第三章和第十章）
 
-������ִ�������Զ�����ĳ����ʽ������ϵͳ����ⲻ���ݴ�������ͼ��һ�����ֺ�һ���ַ���ӡ�Haskell��һ������ϵͳ�������ӳ���Ա�����ȡ��������������Ϣ����ȴ�����ڳ���ִ��֮ǰʹ��һ�ֱ���Ϊ�����ƶϵĹ����Զ��������������ݵĴ���Haskell������ϵͳҲ�ȴ�����ִ�������Ը�Ϊǿ�������������ǡ���̬�ġ��͡����صġ���\newline
+大多数现代编程语言都包含某种形式的类型系统来检测不兼容错误，如试图将一个数字和一个字符相加。Haskell有一个类型系统，它仅从程序员那里获取很少量的类型信息，但却可以在程序执行之前使用一种被称为类型推断的过程自动检查出大量不兼容的错误。Haskell的类型系统也比大多数现代编程语言更为强大，它允许函数是“多态的”和“重载的”。\newline
 
-\item �б����⣨�����£�
+\item 列表理解（第五章）
 
-�ڼ�����һ������Ľṹ���Ͳ������ݵķ�������ʹ���б���Ϊ�ˣ�Haskell�ṩ�б���Ϊ���Ե�һ�ֻ����������ͬһ���򵥵�����ǿ���������ţ�ʹ����Щ�������ǿ���ͨ���������б���ѡ������Ԫ�����������б���������ŵ�ʹ��ʹ���б������๫��������һ�������������ķ�ʽ���������������Ҫ��ʽ�ĵݹ顣
+在计算中一种最常见的结构化和操作数据的方法就是使用列表。为此，Haskell提供列表作为语言的一种基本概念，并连同一个简单但功能强大的理解符号，使用这些符号我们可以通过从已有列表中选择或过滤元素来构建新列表。理解符号的使用使得列表上许多公共函数以一种清晰、简明的方式定义出来，而不需要显式的递归。
 
-\item �ݹ麯���������£�
+\item 递归函数（第六章）
 
-�����ʵ�ó��򶼰���һЩ��ʽ���ظ���ѭ������Haskell�У�ʵ��ѭ���Ļ���������ʹ��Ƕ�����Լ�����ĵݹ麯����������㶼���õݹ麯������һ���򵥺���Ȼ�Ķ��壬particularly when ��pattern matching�� and ��guards�� are used to separate different cases into
-different equations��
+大多数实用程序都包含一些形式的重复或循环。在Haskell中，实现循环的基本机制是使用嵌套了自己定义的递归函数。许多计算都能用递归函数给出一个简单和自然的定义，particularly when “pattern matching” and “guards” are used to separate different cases into
+different equations。
 
-\item �߽ף������£�
+\item 高阶（第七章）
 
-Haskell��һ�Ÿ߽׺���ʽ������ԣ�����ζ���ں�����������������ɽ�������Ϊ�����ͽ������ֵ��ʹ�ø߽׺������ܳ����ı��ģʽ��such as composing two functions, to be defined as functions within the language itself.
-������������Haskell�и߽׺����������ڶ��塰�����ض����ԡ��������б������������Լ�����ʽ��̡�
+Haskell是一门高阶函数式编程语言，这意味着在函数定义中你可以自由将函数作为参数和结果返回值。使用高阶函数接受常见的编程模式，such as composing two functions, to be defined as functions within the language itself.
+更常见的是在Haskell中高阶函数可以用于定义“领域特定语言”，比如列表处理、解析以及交互式编程。
 
-\item Monadic���ã��ڰ��º͵ھ��£�
+\item Monadic作用（第八章和第九章）
 
-Haskell�еĺ������Ǵ����������ǽ�����������Ϊ�����������������Ϊ������ء����ǣ����������Ҫĳ����ʽ�ĸ����ã����ƺ��봿�����г�ͻ�����統��������ʱ�Ӽ��̶�ȡ���������������Ļ��Haskell�ṩ��һ�����𺦺��������ԵĻ���monad��ѧ����Ĵ��������õ�ͳһ��ܡ�
+Haskell中的函数都是纯函数，它们将所有输入作为参数，将所有输出作为结果返回。但是，许多程序需要某种形式的副作用，这似乎与纯洁性有冲突。比如当程序运行时从键盘读取输入或输出结果到屏幕。Haskell提供了一个不损害函数纯洁性的基于monad数学概念的处理副作用的统一框架。
 
-\item ������ֵ����ʮ���£�
+\item 惰性求值（第十二章）
 
-Haskell�����ִ��ʹ����һ�ֽж�����ֵ�ļ��������ּ����Ļ���˼����ֱ��������ʵ����Ҫ��ʱ�򣬼����Ӧ�ñ�ִ�С����˱��ⲻ��Ҫ�ļ��㣬������ֵ��֤������ʱ������������ʹ���м����ݽṹ��ģ��ʽ�����б�̣���������ʹ��ӵ������Ԫ�ظ��������ݽṹ������һ������������б���
+Haskell程序的执行使用了一种叫惰性求值的技术，这种技术的基本思想是直到其结果是实际需要的时候，计算才应该被执行。除了避免不必要的计算，惰性求值保证程序适时结束，鼓励以使用中间数据结构的模块式风格进行编程，甚至允许使用拥有无穷元素个数的数据结构，比如一个无穷的数字列表。
 
-\item ��������
+\item 程序推理
 
-��Ϊ��Haskell�г����Ǵ����������Լ򵥵ĵ�ʽ����������ִ�г��򣬱任����֤���������ԣ������ܹ������ǵ���Ϊ�淶��ֱ����ȡ�������ڽ��ʹ�ù��ɷ����Եݹ麯����������ʱ����ʽ�����ر�ǿ��
+因为在Haskell中程序是纯函数，所以简单的等式推理可用于执行程序，变换程序，证明程序属性，甚至能够从他们的行为规范中直接提取出程序。在结合使用归纳方法对递归函数进行推理时，等式推理特别强大。
 \end{itemize}
 
-\section{��ʷ����}
-Haskell��������ɫ�����״������������������״�����ġ�To help place Haskell in context�������Ҫ�ܽ�һ���й�Haskell���Ե�һЩ��Ҫ����ʷ�Եķ�չ�� 
+\section{历史背景}
+Haskell的许多特色并非首创，都是由其他语言首次引入的。To help place Haskell in context，下面简要总结一下有关Haskell语言的一些主要的历史性的发展： 
 
 \begin{itemize}
-\item 20����30�����Alonzo Church������lambda���㣬һ�ּ򵥵�����ǿ�����ѧ�������ۡ�
-\item 20����50�����John McCarthy������Lisp(�б�������)��Lisp������Ϊ�����ϵ�һ�ֺ���ʽ������ԡ�Lisp���෽���ܵ���lambda�����Ӱ�죬��ͬʱ��Ȼ���ܱ�����ֵ��Ϊ���Ե�һ������������
-\item 20����60�����Peter Landin������ISWIN(��If you See What I Mean��)����һ�ִ�����ʽ������ԣ�����Ҫ����lambda���㣬����û�б�����ֵ��
-\item 20����70�����John Backus������FP("Fuctional Programming")��һ���ر�ǿ���߽׺����ͳ�������˼������ԡ�
-\item ͬ��Ҳ����20����70�����Robin Milner��������һ�𿪷���ML(Ԫ���ԣ�����һ���ִ�����ʽ������ԣ������˶�̬���ͺ������ƶ�˼�롣
-\item 20����70�����80�����David Turner ������������Եĺ���ʽ������ԣ���������˿ɻ����ҵ֧�ֵ�Miranda����Ϊ"���˾����"�����Եĳ��֡�
-\item 1987�꣬һ�������о�ίԱ�ᷢ�𿪷�Haskell���ԣ����߼�ѧ��Haskell Curry��������һ����׼�Ķ��Ժ���ʽ������ԡ�
-\item 2003�꣬��ίԱ�ṫ����Haskell�ı��棬�����ж�����һ���ڴ��Ѿõ�Haskell���ȶ��汾���ð汾�Ǹ������������ʮ���깤���ĳɹ���
+\item 20世纪30年代，Alonzo Church发明了lambda演算，一种简单但功能强大的数学函数理论。
+\item 20世纪50年代，John McCarthy发明了Lisp(列表处理器)，Lisp被公认为是世上第一种函数式编程语言。Lisp许多方面受到了lambda演算的影响，但同时仍然接受变量赋值作为语言的一个核心特征。
+\item 20世纪60年代，Peter Landin发明了ISWIN(“If you See What I Mean”)，第一种纯函数式编程语言，它主要基于lambda演算，并且没有变量赋值。
+\item 20世纪70年代，John Backus发明了FP("Fuctional Programming")，一种特别强调高阶函数和程序推理思想的语言。
+\item 同样也是在20世纪70年代，Robin Milner和其他人一起开发了ML(元语言），第一种现代函数式编程语言，引入了多态类型和类型推断思想。
+\item 20世纪70年代和80年代，David Turner 开发出许多惰性的函数式编程语言，最终造就了可获得商业支持的Miranda（意为"令人敬佩的"）语言的出现。
+\item 1987年，一个国际研究委员会发起开发Haskell语言（以逻辑学家Haskell Curry命名），一个标准的惰性函数式编程语言。
+\item 2003年，该委员会公布了Haskell的报告，报告中定义了一个期待已久的Haskell的稳定版本，该版本是该语言设计者们十五年工作的成果。
 \end{itemize}
 
-ֵ��ע����ǣ������ᵽ�������о���Ա - McCarthy, Backus��Milner���Ի���˵�ͬ�ڼ��������ŵ�������ĵ�ACMͼ�齱��
+值得注意的是，上面提到的三个研究人员 - McCarthy, Backus和Milner各自获得了等同于计算机领域诺贝尔奖的的ACM图灵奖。
 
-\section{Ʒ��Haskell}
-�����ڽ�������֮ǰͨ������С������Ʒ��һ��Haskell��̡��������ǻع�һ�±���ǰ��ʹ�õĺ���sum��sum���ڼ����б���һ�����ֵĺ͡���Haskell�У����������ͨ������������ʽ���壺
+\section{品尝Haskell}
+我们在结束本章之前通过两个小例子来品尝一下Haskell编程。首先我们回顾一下本章前面使用的函数sum，sum用于计算列表中一组数字的和。在Haskell中，这个函数可通过如下两个等式定义：
 
 \begin{verbatim}
 sum [] = 0
 sum (x : xs) = x + sum xs
 \end{verbatim}
 
-��һ����ʽ����һ�����б����ܺ����㣬ͬʱ�ڶ�����ʽ����һ���ǿ��б����ܺ������б��еĵ�һ�����ֺͺ���������ɵ��б�xs���ܺ������һ���õġ����磬sum [1��2��3]���ܺͼ���������£�
+第一个等式定义一个空列表的总和是零，同时第二个等式定义一个非空列表的总和是由列表中的第一个数字和后续数字组成的列表xs的总和相加在一起获得的。例如，sum [1，2，3]的总和计算过程如下：
 
 \begin{verbatim}
 sum [1, 2, 3]
@@ -188,30 +188,30 @@ sum [1, 2, 3]
 6
 \end{verbatim}
 
-ע�⣬��ʹ����sumʹ�����������Լ����γ��˵ݹ飬��Ҳ������Զѭ����ȥ��������ÿ��sum�����б������ĳ��ȼ�һ��ֱ���б����ձ�Ϊ�ձ����ݹ����Ҳ��֮��ֹ��������Ϊ�ձ����ܺ��ٺ��ʲ�������Ϊ�ӷ����㲻�ı�ӷ������Ҳ����˵�����κ�����x��0 + x =x��x + 0 = x��
+注意，即使函数sum使用自身定义自己而形成了递归，它也不会永远循环下去。尤其是每个sum都将列表参数的长度减一，直到列表最终变为空表，递归过程也随之终止。将零作为空表的总和再合适不过，因为加法里零不改变加法结果，也就是说对于任何数字x，0 + x =x且x + 0 = x。
 
-��Haskell�У�ÿ����������һ�����������ͷ���ֵ�����ͣ�������ͻ��Զ��Ӻ����Ķ������ƶϳ��������磬����sum���������ͣ�
+在Haskell中，每个函数都有一个描述参数和返回值的类型，这个类型会自动从函数的定义中推断出来。例如，函数sum有以下类型：
 \begin{verbatim}
 sum a => [a] -> a
 \end{verbatim}
 
-�������ָ�������κ���������a��sum��һ����һ�������������б�ӳ�䵽һ����һ���ֵĺ�����Haskell֧�����಻ͬ���͵����֣����а�����������123����������������3.14159����ˣ�sum����Ӧ����һ�������б�������������ļ������������Ҳ����Ӧ����һ���������б���
+这个类型指出对于任何数字类型a，sum是一个将一组这样的数字列表映射到一个单一数字的函数。Haskell支持许多不同类型的数字，其中包括整数，如123，“浮点数”，如3.14159。因此，sum可以应用于一个整数列表，正如在上面的计算过程那样，也可以应用于一个浮点数列表。
 
-�����ṩ���йغ������ʵ����õ���Ϣ������Ϊ��Ҫ���ǣ����͵�ʹ��ʹ�������������ڳ���ִ��֮ǰ���Զ��������������ǣ�����һ�������е�ÿ��������������ʵ�ʲ��������뺯�������������Ƿ���ݡ����磬��ͼ������sumӦ����һ���ַ��б�����b��������Ϊ�ַ������������͡�
+类型提供了有关函数本质的有用的信息，但更为重要的是，类型的使用使得许多错误可以在程序被执行之前被自动检查出来。尤其是，对于一个程序中的每个函数都会检查其实际参数类型与函数本身的类型是否兼容。例如，试图将函数sum应用于一个字符列表将被b报错，因为字符不是数字类型。
 
-���������ǿ���һ�������б��ĸ�Ϊ��Ȥ�ĺ����ɣ��������˵����Haskell����һЩ��������ԡ��������Ƕ�����һ����Ϊqsort�ĺ�������������������ʽ���ɣ�
+现在让我们考虑一个关于列表的更为有趣的函数吧，这个函数说明了Haskell其他一些方面的特性。假设我们定义了一个名为qsort的函数，它由以下两个等式构成：
 
 \begin{verbatim}
 qsort [ ] = []
 qsort (x : xs) = qsort smaller ++ [x ] ++ qsort larger
                  where
-                    smaller = [a | a <- xs, a �� x ]
+                    smaller = [a | a <- xs, a ≤ x ]
                     larger = [b | b <- xs, b > x ]
 \end{verbatim}
 
-����������+��һ�����������б��Ĳ�����������[1, 2, 3] ++ [4, 5] = [1, 2, 3, 4, 5].  ��Ӧ�ģ�where��һ���ؼ��֣���������ֲ����塣����������У�smaller�б���xs�б�������С�ڵ���x��Ԫ����ɣ�ͬʱlarger�б��� xs�б������д��ڵ���x��Ԫ����ɡ����磬���x = 3��xs = [ 5, 1, 4, 2]����ôsmaller = [1, 2]��larger = [5, 4]��
+在这个定义里，+是一个连接两个列表的操作符。例如[1, 2, 3] ++ [4, 5] = [1, 2, 3, 4, 5].  相应的，where是一个关键字，用于引入局部定义。在这个例子中，smaller列表由xs列表中所有小于等于x的元素组成，同时larger列表由 xs列表中所有大于等于x的元素组成。例如，如果x = 3且xs = [ 5, 1, 4, 2]，那么smaller = [1, 2]，larger = [5, 4]。
 
-qsort��������ʲô����������Ҫ��ȷ���Խ���һ��Ԫ�ص��б��������ã������������ϣ������κ�x��qsort [x] =[x]:
+qsort究竟做了什么？首先我们要明确它对仅有一个元素的列表不起作用，在这种意义上，对于任何x，qsort [x] =[x]:
 
 \begin{verbatim}
 qsort [ x ]
@@ -223,7 +223,7 @@ qsort [ ] + [ x ] + qsort [ ]
 [x ]
 \end{verbatim}
 
-��Ӧ�ģ��������ǽ�qsortӦ�õ�һ�������б���ʹ������Ķ��廯�������̣�
+相应的，现在我们将qsort应用到一个样例列表，使用上面的定义化简计算过程：
 
 \begin{verbatim}
 qsort [3, 5, 1, 4, 2]
@@ -240,26 +240,26 @@ qsort [1, 2] ++ [3] ++ qsort [5, 4]
 [1, 2, 3, 4, 5]
 \end{verbatim}
 
-��֮��qsort��ʾ���б���������˳����������򡣸�һ���˵���������������һ�����������б�������汾��qsort�ĵ�һ����ʽ�������б����Ѿ��������˵ģ����ڶ�����ʽ������κηǿ��б�������ͨ������һ�����ֲ��������б�֮��ķ�ʽ�����������б���ͨ����ʣ�����������ֱȽϻ�õģ����������С�ĺ��뼯����һ���б�����������ִ�ĺ��뼯��������һ���б����������򷽷�����Ϊ�������򣬲�������֪�����򷽷�����õķ���֮һ��
+总之，qsort将示例列表按照数字顺序进行了排序。更一般地说，这个函数产生了一个任意数字列表的排序版本。qsort的第一个等式表明空列表是已经被排序了的，而第二个等式则表明任何非空列表都可以通过将第一个数字插入两个列表之间的方式排序，这两个列表是通过将剩余号码与该数字比较获得的，比这个数字小的号码集构成一个列表，比这个数字大的号码集构成另外一个列表。这种排序方法被称为快速排序，并且是已知的排序方法中最好的方法之一。
 
-�����quicksort��ʵ����һ���ܺõ�����Haskell����ǿ�������ּ��������ӡ����⣬����qsortҲ��Ԥ�ڸ���ͨ�ã����������ʺ��������֣�ͬ���������κξ߱�����ֵ�����͡���ȷ�е�˵������
+上面的quicksort的实现是一个很好的体现Haskell功能强大、清晰又简明的例子。此外，函数qsort也比预期更加通用，即不仅仅适合排序数字，同样适用于任何具备有序值的类型。更确切的说，类型
 
 \begin{verbatim}
 qsort::Ord a => [a ] -> [a ]
 \end{verbatim}
 
-���������κξ߱�����ֵ�����ͣ�qsort��һ���ṩ������ֵ�б���ӳ��ĺ�����Haskell֧�ֶ�������ֵ���ͣ��������֡������ַ�����'a'�Լ��ַ�������"abcde"����ˣ�qsort�������Ҳ�������ڶ�һ���ַ��б���һ���ַ����б���������
+表明对于任何具备有序值的类型，qsort是一个提供在这种值列表间映射的函数。Haskell支持多种有序值类型，包括数字、单个字符比如'a'以及字符串比如"abcde"。因此，qsort这个函数也可以用于对一个字符列表或一个字符串列表进行排序。
 
-\section{���±�ע}
-Haskell������Դ�Haskel��ҳwww.haskell.org������أ�ͬʱ��ݱ���Ҳ�Ѿ�����(25)������Hudak�ĵ��鱨��(11)���꾡�ļ�¼�˹��ں���ʽ������Է�չ����ʷ�� 
+\section{本章备注}
+Haskell报告可以从Haskel主页www.haskell.org免费下载，同时这份报告也已经出版(25)。另外Hudak的调查报告(11)更详尽的记录了关于函数式编程语言发展的历史。 
 
-\section{ϰ��}
+\section{习题}
 \begin{enumerate}
 \item Give another possible calculation for the result of double (double 2).
 \item Show that sum [ x ] = x for any number x .
 \item Define a function product that produces the product of a list of numbers, and show using your definition that product [2, 3, 4] = 24.
 \item How should the definition of the function qsort be modified so that it
 produces a reverse sorted version of a list?
-\item What would be the effect of replacing �� by < in the definition of qsort ?\\ Hint: consider the example qsort [2, 2, 3, 1, 1].
+\item What would be the effect of replacing ≤ by < in the definition of qsort ?\\ Hint: consider the example qsort [2, 2, 3, 1, 1].
 \end{enumerate}
 
