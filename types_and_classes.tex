@@ -202,12 +202,24 @@ mult x y z
 
 \section{多态类型}
 库函数\textit{length}用于计算任意list的长度，无论list中元素是什么类型的。比如，它可以用于计算整型list、字符串型list甚至是函数类型list的长度：\\
-\\
-\hspace*{1cm} > \textit{length} [1, 3, 5, 7]\\
-\hspace*{1cm} 4\\
-\hspace*{1cm} > \textit{length} ["Yes", "No"]\\
-\hspace*{1cm} 2\\
-\hspace*{1cm} > \textit{length} [\textit{isDigit , isLower , isUpper}]\\
-\hspace*{1cm} 3\\
+\hspace*{1cm} > $length~[1, 3, 5, 7]$\\
+\hspace*{1cm} $4$\\
+\hspace*{1cm} > $length~["Yes", "No"]$\\
+\hspace*{1cm} $2$\\
+\hspace*{1cm} > $length~[isDigit , isLower , isUpper]$\\
+\hspace*{1cm} $3$
+
+The idea that length can be applied to lists whose elements have any type is
+made precise in its type by the inclusion of a \textit{type
+variable}。类型变量必须以小写字母开头，通常命名为\textit{a，b，c}等。例如，\textit{length}的类型如下：\\
+\hspace*{1cm} \textit{length} :: [a] -> \textit{Int}
+
+即对任意类型\textit{a}，函数\textit{length}具有类型[a]->\textit{[Int]}。包含一个或多个类型变量的类型被称作多态的（“多种形式"）。as
+is the expression with such a type。因此[a] -> \textit{Int}是一个多态类型，\textit{length}是一个多态函数。更普遍的是，标准Prelude中提供的很多函数都是多态的，例如：\\
+\hspace*{1cm} $fst :: (a, b) \rightarrow a$\\
+\hspace*{1cm} $head :: [a] \rightarrow a$\\
+\hspace*{1cm} $take :: Int \rightarrow [a] \rightarrow [a]$\\
+\hspace*{1cm} $zip :: [a] \rightarrow [b] \rightarrow [a, b]$\\
+\hspace*{1cm} $id :: a \rightarrow a$
 
 
