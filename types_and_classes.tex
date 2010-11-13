@@ -231,8 +231,179 @@ a$是一个重载类型，$(+)$是一个重载函数。更普遍的是，标准P
 
 此外，数值本身也是重载的。例如，$3::Num~a \Rightarrow a$意为对于任意数值类型$a$，数字3具有类型$a$。
 
+\section{基本类}
+回顾一下，一个类型是一组相关值的集合。基于这个概念，一个\textit{类}是一组支持重载操作的类型的集合，这些重载操作被称为\textit{方法}。Haskell提供一定数量的内置的基本类，下面描述了其中最常用的类：
+\\
+\\
+$Eq$~-~ \textbf{相等类型}\\
+包含在这个类中的类型的值可以使用下面两个方法进行相等和不等比较：
+
+\noindent\hspace*{1cm} $(==) :: a \rightarrow a \rightarrow Bool$\\
+\hspace*{1cm} $(\neq) :: a \rightarrow a \rightarrow Bool$
+
+所有的基本类型$Bool, Char, String, Int,
+Integer$和$Float$都是Eq类的实例。list和tuple类型也是一样，他们的元素和components是Eq类的实例，例如：
+
+\noindent\hspace*{1cm} $> False == False$\\
+\hspace*{1cm} $True$\\
+
+\noindent\hspace*{1cm} $>'a' == 'b'$\\
+\hspace*{1cm} $False$\\
+
+\noindent\hspace*{1cm} $> "abc" == "abc"$\\
+\hspace*{1cm} $True$\\
+
+\noindent\hspace*{1cm} $> [1, 2] == [1, 2, 3]$\\
+\hspace*{1cm} $False$\\
+
+\noindent\hspace*{1cm} $> ('a', False) == ('a', False)$\\
+\hspace*{1cm} $True$\\
+
+\noindent$Ord$~-~ \textbf{有序类型}\\
+包含在这个类中的类型都是Eq类的实例，除此之外这些类型的值都是（线性）有序的，可以通过以下六个方法进行比较和处理：
+
+\noindent\hspace*{1cm} $(<) :: a \rightarrow a \rightarrow Bool$\\
+\hspace*{1cm} $(\leq) :: a \rightarrow a \rightarrow Bool$\\
+\hspace*{1cm} $(>) :: a \rightarrow a \rightarrow Bool$\\
+\hspace*{1cm} $(\geq) :: a \rightarrow a \rightarrow Bool$\\
+\hspace*{1cm} $(min) :: a \rightarrow a \rightarrow a$\\
+\hspace*{1cm} $(max) :: a \rightarrow a \rightarrow a$\\
+
+所有的基本类型$Bool, Char, String, Int,
+Integer$和$Float$都是\textit{Ord}类的实例。list和tuple类型也是一样，他们的元素和components是Ord类的实例，例如：
+
+\noindent\hspace*{1cm} $> False < True$\\
+\hspace*{1cm} $True$\\
+
+\noindent\hspace*{1cm} $> min~'a'~'b'$\\
+\hspace*{1cm} $'a'$\\
+
+\noindent\hspace*{1cm} $> "elegant" < "elephant"$\\
+\hspace*{1cm} $True$\\
+
+\noindent\hspace*{1cm} $> [1, 2, 3] < [1, 2]$\\
+\hspace*{1cm} $False$\\
+
+\noindent\hspace*{1cm} $> ('a', 2) < ('b', 1)$\\
+\hspace*{1cm} $True$\\
+
+\noindent\hspace*{1cm} $> ('a', 2) < ('a', 1)$\\
+\hspace*{1cm} $False$\\
+
+请注意，字符串，list和tuple都是按字典序排序;
+也就是说与单词在字典中的顺序一样。例如，两对相同类型的pair是有序的，如果它们的第一个component是有序的，则无须考虑它们的第二个component。或者如果它们的第一个component相等，那么它们的第二个component则必须是有序的。
+
+\noindent$Show$~-~ \textbf{可显示的类型}\\
+包含在这个类中的类型的值都可以通过下面方法转换为字符串：
+
+\noindent\hspace*{1cm} $show :: a \rightarrow String$
+
+所有的基本类型$Bool, Char, String, Int,
+Integer$和$Float$都是\textit{Show}类的实例。list和tuple类型也是一样，他们的元素和components是Show类的实例，例如：
+
+\noindent\hspace*{1cm} $> show~False$\\
+\hspace*{1cm} "False"\\
+
+\noindent\hspace*{1cm} > $show~'a'$\\
+\hspace*{1cm} "~'$a$'~"\\
+
+\noindent\hspace*{1cm} > $show~123$\\
+\hspace*{1cm} "$123$"\\
+
+\noindent\hspace*{1cm} > $show$ [1, 2, 3]\\
+\hspace*{1cm} "$[1, 2, 3]$"\\
+
+\noindent\hspace*{1cm} > show ($'a', False$)\\
+\hspace*{1cm} "$('a', False)$"\\
+
+\noindent$Read$~-~ \textbf{可读的类型}\\
+这个类与类Show是一对，包含在这个类中的类型的值可以通过下面方法从字符串转换得到：
+
+\noindent\hspace*{1cm} $read:: String \rightarrow a$
+
+所有的基本类型$Bool, Char, String, Int,
+Integer$和$Float$都是\textit{Show}类的实例。list和tuple类型也是一样，他们的元素和components是Show类的实例，例如：
+
+\noindent\hspace*{1cm} $> read~"False"~::~Bool$\\
+\hspace*{1cm} $False$\\
+
+\noindent\hspace*{1cm} > $read~'a'~::~Char$\\
+\hspace*{1cm} '$a$'\\
+
+\noindent\hspace*{1cm} > $read~123~::~Int$\\
+\hspace*{1cm} $123$\\
+
+\noindent\hspace*{1cm} > $read$ "[1, 2, 3]"~::~[Int]\\
+\hspace*{1cm} $[1, 2, 3]$\\
+
+\noindent\hspace*{1cm} > $read$ "($'a', False$)"\\
+\hspace*{1cm} $('a', False)$\\
+
+例子中使用$::$决定结果的类型。然而在实际中，通常可通过上下文自动推断出必要的类型信息。例如，表达式$not~(read~
+"False")$不需要显式的类型信息，因为使用逻辑非的$not$的程序暗示了$read~
+"False"$必须具有$Bool$类型。
+
+注意，如果参数不符合语法要求，那么$read$的结果将是为定义的。例如，表达式$not~(read~
+"hello")$在求值时会产生一个错误，因为$"hello$被$read$的结果不是一个逻辑值。
+
+\noindent$Num$~-~ \textbf{数字类型}\\
+包含在这个类中的类型都是$Eq$类和$Show$类的实例，除此之外这些类型的值都是数字，可以通过以下六个方法进行处理：
 
 
+\noindent\hspace*{1cm} $(+)~::~a \rightarrow a \rightarrow a$\\
+\hspace*{1cm} $(-)~::~a \rightarrow a \rightarrow a$\\
+\hspace*{1cm} $(*)~::~a \rightarrow a \rightarrow a$\\
+\hspace*{1cm} $(negate)~::~a \rightarrow  a$\\
+\hspace*{1cm} $(abs)~::~a \rightarrow  a$\\
+\hspace*{1cm} $(signum)~::~a \rightarrow a$
 
+（$negate$方法返回一个数的负数，$abs$返回绝对值，而signum则返回数的符号性。）
+基本类型$Int, Integer和Float$都是Num类的实例，例如：
 
+\noindent\hspace*{1cm} $> 1~+~2$\\
+\hspace*{1cm} $3$\\
+
+\noindent\hspace*{1cm} > $1.1~+~2.2$\\
+\hspace*{1cm} $3.3$\\
+
+\noindent\hspace*{1cm} > $negate~3.3$\\
+\hspace*{1cm} $-3.3$\\
+
+\noindent\hspace*{1cm} > $abs~(-3)$\\
+\hspace*{1cm} $3$\\
+
+\noindent\hspace*{1cm} > $signum~(-3)$\\
+\hspace*{1cm} $3$\\
+
+注意Num类没有提供除法，但是正如我们即将要看到的，Haskell提供两个特殊的类单独处理除法，一个类用于整数数字，而另外一个用于小数。
+
+\noindent$Integral$~-~ \textbf{整数类型}\\
+包含在这个类中的类型都是$Num$类的实例，除此之外这些类型的值都是整数，支持整数除法和整数取余：
+
+\noindent\hspace*{1cm} $div~::~a \rightarrow a \rightarrow a$\\
+\hspace*{1cm} $mod~::~a \rightarrow a \rightarrow a$\\
+
+实际中，这两个方法经常写在其两个参数之间，并用单引号括上。基本类型$Int$和$Integer$是Integral类的实例。例如：
+
+\noindent\hspace*{1cm} $> 7~'div'~2$\\
+\hspace*{1cm} $3$\\
+
+\noindent\hspace*{1cm} > $7~'mod'~2$\\
+\hspace*{1cm} $1$\\
+
+考虑到效率，一些标准Prelude库中既涉及list又涉及整型的函数（如$length$，$take$和$drop$）被严格应用在$Int$这样的有限精度整数上，而不是应用到任意$Integral$类的实例上。如果需要，这些函数的通用版本在另外一个叫作$List.h$的库中提供。
+
+\noindent$fractional$~-~ \textbf{分数类型}\\
+包含在这个类中的类型都是$Num$类的实例，但除此之外这些类型的值都是非整数，支持小数除法和ractional reciprocation：
+
+\noindent\hspace*{1cm} $(/)~::~a \rightarrow a \rightarrow a$\\
+\hspace*{1cm} $(recip)~::~a \rightarrow a$\\
+
+基本类型$Float$是分数类的一个实例，例如：
+
+\noindent\hspace*{1cm} $> 7.0 / 2.0$\\
+\hspace*{1cm} $3.5$\\
+\\
+\noindent\hspace*{1cm} $> recip~2.0$\\
+\hspace*{1cm} $0.5$\\
 
