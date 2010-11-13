@@ -16,10 +16,11 @@
 \hspace*{1cm} $not~(not~False):: Bool$
 
 在Haskell中，每个表达式必须有一个类型，该类型通过一个先于表达式求值的过程计算得到，这个过程被称为\textit{类型推断}。这个过程的关键在于一个函数应用的类型规则。其中规定如果f是一个将类型$A$参数映射为类型$B$结果的函数，$e$是一个$A$类型的表达式，那么$f~~e$具有类型$B$：\\
-\\
+
+\begin{center}
 $\dfrac{f::A \rightarrow B~~e::A}{f~e::B}$
-\\
-\\
+\end{center}
+
 例如，$not~False::Bool$可通过这样的规则推断，该规则使用了这样的事实：$not::Bool
 \rightarrow
 Bool$和$False::Bool$。另一方面，表达式$not~3$通过上述规则无法推断类型，因为这需要$3::Bool$，但$3$不是一个逻辑值，这是无效的。像$not 3$这样的表达式无法确定类型，也可以说成是包含了一个类型错误，被视为非法表达式。
@@ -201,5 +202,3 @@ Int$是一个多态类型，\textit{length}是一个多态函数。更普遍的�
 \hspace*{1cm} $take :: Int \rightarrow [a] \rightarrow [a]$\\
 \hspace*{1cm} $zip :: [a] \rightarrow [b] \rightarrow [a, b]$\\
 \hspace*{1cm} $id :: a \rightarrow a$
-
-
