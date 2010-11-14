@@ -292,7 +292,8 @@ Integer$和$Float$都是\textit{Ord}类的实例。list和tuple类型也是一�
 
 请注意，字符串，list和tuple都是按字典序排序;
 也就是说与单词在字典中的顺序一样。例如，两对相同类型的pair是有序的，如果它们的第一个component是有序的，则无须考虑它们的第二个component。或者如果它们的第一个component相等，那么它们的第二个component则必须是有序的。
-
+\\
+\\
 \noindent$Show$~-~ \textbf{可显示的类型}\\
 包含在这个类中的类型的值都可以通过下面方法转换为字符串：
 
@@ -345,7 +346,8 @@ Integer$和$Float$都是\textit{Show}类的实例。list和tuple类型也是一�
 
 注意，如果参数不符合语法要求，那么$read$的结果将是为定义的。例如，表达式$not~(read~
 "hello")$在求值时会产生一个错误，因为$"hello$被$read$的结果不是一个逻辑值。
-
+\\
+\\
 \noindent$Num$~-~ \textbf{数字类型}\\
 包含在这个类中的类型都是$Eq$类和$Show$类的实例，除此之外这些类型的值都是数字，可以通过以下六个方法进行处理：
 
@@ -376,7 +378,8 @@ Integer$和$Float$都是\textit{Show}类的实例。list和tuple类型也是一�
 \hspace*{1cm} $3$\\
 
 注意Num类没有提供除法，但是正如我们即将要看到的，Haskell提供两个特殊的类单独处理除法，一个类用于整数数字，而另外一个用于小数。
-
+\\
+\\
 \noindent$Integral$~-~ \textbf{整数类型}\\
 包含在这个类中的类型都是$Num$类的实例，除此之外这些类型的值都是整数，支持整数除法和整数取余：
 
@@ -392,7 +395,8 @@ Integer$和$Float$都是\textit{Show}类的实例。list和tuple类型也是一�
 \hspace*{1cm} $1$\\
 
 考虑到效率，一些标准Prelude库中既涉及list又涉及整型的函数（如$length$，$take$和$drop$）被严格应用在$Int$这样的有限精度整数上，而不是应用到任意$Integral$类的实例上。如果需要，这些函数的通用版本在另外一个叫作$List.h$的库中提供。
-
+\\
+\\
 \noindent$fractional$~-~ \textbf{分数类型}\\
 包含在这个类中的类型都是$Num$类的实例，但除此之外这些类型的值都是非整数，支持小数除法和小数倒数：
 
