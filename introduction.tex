@@ -183,7 +183,7 @@ Programming")，一种特别强调高阶函数和程序推导思想的语言。
 
 在Haskell中，每个函数都有一个描述参数和返回值的\textit{类型}，这个类型会自动从函数的定义中推断出来。例如，函数$sum$有以下类型：
 
-\noindent\hspace*{1cm} $sum ~a \Rightarrow [~a~] \rightarrow a$
+\noindent\hspace*{1cm} $Num ~a \Rightarrow [~a~] \rightarrow a$
 
 这个类型指出对于任何数字类型$a$，$sum$是一个将一组这样的数字列表映射到一个单一数字的函数。Haskell支持许多不同类型的数字，其中包括整数，如123，“浮点数”，如3.14159。因此，$sum$可以应用于一个整数列表，正如在上面的计算过程那样，也可以应用于一个浮点数列表。
 
@@ -191,40 +191,41 @@ Programming")，一种特别强调高阶函数和程序推导思想的语言。
 
 现在让我们考虑一个关于列表的更为有趣的函数吧，这个函数说明了Haskell其他一些方面的特性。假设我们定义了一个名为$qsort$的函数，它由以下两个等式构成：
 
-\hspace*{1cm} $qsort [] = []$\\
-\hspace*{1cm} $qsort (x : xs) = qsort smaller ++ [x] ++ qsort larger$\\
+\hspace*{1cm} $qsort [~] = [~]$\\
+\hspace*{1cm} $qsort (x : xs) = qsort~smaller~++~[x]~++~qsort~larger$\\
 \hspace*{3cm}                  where\\
-\hspace*{4cm}                     smaller = $[a | a \leftarrow xs, a ≤ x ]$\\
-\hspace*{4cm}                     larger = $[b | b \leftarrow xs, b > x ]$
+\hspace*{4cm}                     smaller = $[a~|~a \leftarrow xs,~a ≤ x ]$\\
+\hspace*{4cm}                     larger = $[b~|~b \leftarrow xs,~b > x ]$
 
-在这个定义里，+是一个连接两个列表的操作符。例如$[1, 2, 3] ++ [4, 5] = [1, 2, 3, 4, 5]$.
-相应的，\textbf{where}是一个关键字，用于引入局部定义。在这个例子中，\textit{smaller}列表由$xs$列表中所有小于等于$x$的元素组成，同时larger列表由$xs$列表中所有大于等于$x$的元素组成。例如，如果$x
-= 3$且$xs = [ 5, 1, 4, 2]$，那么$smaller = [1, 2]$，$larger = [5, 4]$。
+在这个定义里，+是一个连接两个列表的操作符。例如$[1,~2,~3]~++~[4,~5] =
+[1,~2,~3,~4,~5]$。
+相应的，\textbf{where}是一个关键字，用于引入局部定义。在这个例子中，\textit{smaller}列表由$xs$列表中所有小于等于$x$的元素组成，同时larger列表由$xs$列表中所有大于$x$的元素组成。例如，如果$x
+= 3$且$xs = [ 5,~1,~4,~2]$，那么$smaller = [1,~2]$，$larger = [5,~4]$。
 
-$qsort$究竟做了什么？首先我们要明确它对仅有一个元素的列表不起作用，在这种意义上，对于任何$x$，$qsort [x] = [x]$:
+$qsort$究竟做了什么？首先我们要明确它对仅有一个元素的列表不起作用，在这种意义上，对于任何$x$，$qsort~[x] = [x]$:
 
 \noindent\hspace*{1cm} $qsort~[~x~]$\\
 \hspace*{1cm} = \{applying $qsort$\}\\
 \hspace*{1cm} $qsort~[~] ++ [x] ++ qsort~[~]$\\
 \hspace*{1cm} = \{applying $qsort$\}\\
-\hspace*{1cm} $[~] ++ [x] ++ [~]$\\
+\hspace*{1cm} $[~]~++~[x]~++~[~]$\\
 \hspace*{1cm} = \{applying ++ \}\\
 \hspace*{1cm} $[x]$
 
 相应的，现在我们将\textit{qsort}应用到一个样例列表，使用上面的定义化简计算过程：
 
-\noindent\hspace*{1cm} $qsort~[3, 5, 1, 4, 2]$\\
+\noindent\hspace*{1cm} $qsort~[3,~5,~1,~4,~2]$\\
 \hspace*{1cm} = \{applying $qsort$\}\\
-\hspace*{1cm} $qsort~[1, 2] ++ [3] ++ qsort~[5, 4]$\\
+\hspace*{1cm} $qsort~[1,~2] ++ [3] ++ qsort~[5,~4]$\\
 \hspace*{1cm} = \{applying $qsort$\}\\
-\hspace*{1cm} $(qsort~[ ] ++ [1] ++ qsort~[2]) ++ [3]$\\
-\hspace*{1cm} $++ (qsort~[4] ++ [5] ++ qsort~[ ])$\\
+\hspace*{1cm} $(qsort~[~]~++~[1]~++~qsort~[2])~++~[3]$\\
+\hspace*{1cm} $++~(qsort~[4]~++~[5]~++~qsort~[~])$\\
 \hspace*{1cm} = \{applying $qsort$ , above property\}\\
-\hspace*{1cm} $([ ] ++ [1] ++ [2]) ++ [3] ++ ([4] ++ [5] ++ [ ])$\\
+\hspace*{1cm} $([~]~++~[1]~++~[2])~++~[3]~++~([4]~++~[5]~++~[~])$\\
 \hspace*{1cm} = \{applying ++\}\\
-\hspace*{1cm} $[1, 2] ++ [3] ++ [4, 5]$\\
+\hspace*{1cm} $[1,~2]~++~[3]~++~[4,~5]$\\
 \hspace*{1cm} = \{applying ++\}\\
-\hspace*{1cm} $[1, 2, 3, 4, 5]$
+\hspace*{1cm} $[1,~2,~3,~4,~5]$
 
 总之，$qsort$将示例列表按照数字顺序进行了排序。更一般地说，这个函数产生了一个任意数字列表的排序版本。$qsort$的第一个等式表明空列表是已经被排序了的，而第二个等式则表明任何非空列表都可以通过将第一个数字插入两个列表之间的方式排序，这两个列表是通过将剩余号码与该数字比较获得的，比这个数字小的号码集构成一个列表，比这个数字大的号码集构成另外一个列表。这种排序方法被称为快速排序，并且是已知的排序方法中最好的方法之一。
 
