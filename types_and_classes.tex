@@ -96,25 +96,24 @@ False]$两者都是$[Bool]$类型，即使他们的长度不同。其次，列�
 
 最后，对一个列表的长度没有任何限制。特别是，正如我们将在第12章看到的那样，由于在Haskell中使用了惰性求值，具有无限长度的列表是自然且实用的。
 
-\section{Tuple类型}
-\textit{tuple}是一个可拥有不同类型components的有限长度序列，其components括在圆括号中，并使用逗号分隔。我们用($T_1,T_2,...,T_n$)表示所有tuple类型。对于任意$i$，其取值范围从$1$到$n$，第i个component拥有类型$T_i$。例如：
+\section{元组类型}
+\textit{元组}是一个由类型可能不同的元素组成的有限长度序列，其元素放在圆括号中，并使用逗号分隔。我们用($T_1,~T_2,~...,~T_n$)表示所有元组的类型。对于从$i$到$n$范围内的任意值$i$，第$i$个元素具有类型$T_i$。例如：
 
-\noindent\hspace*{1cm} $(False, True) :: (Bool, Bool)$\\
-\hspace*{1cm} $(False, ’a’, True) :: (Bool, Char , Bool)$\\
-\hspace*{1cm} $("Yes", True, ’a’) :: (String, Bool , Char)$
+\noindent\hspace*{1cm} $(False,~True)~::~(Bool,~Bool)$\\
+\hspace*{1cm} $(False,~’a’,~True)~::~(Bool,~Char,~Bool)$\\
+\hspace*{1cm} $("Yes",~True,~’a’)~::~(String,~Bool,~Char)$
 
-tuple中components的数量称为$arity$。arity为0的tuple
-()称为空tuple。arity为2的tuples称为pairs。arity为3的tuples称为triples，等等。arity为1的tuple，例如($False$)，是不允许使用的，因为它们将与显式设置求值顺序的括号的使用相冲突，如在表达式$(1
-+ 2) * 3$中。
+一个元组中元素的个数称为\textit{元数}（arity）。元数为0的元组
+$(~)$称为空元组，元数为2的元组称为二元组，元数为3的元组称为三元组，等等。元数为1的元组，例如($False$)，是不允许使用的，因为它们将与显式设置求值顺序的括号的使用相冲突，如表达式$(1~+~2)~*~3$。
 
-与list类型一样，关于tuple类型也有三点需要进一步注意的内容。首先tuple类型传达了arity信息。例如，类型($Bool,
-Char$)包含了所有由第一个component为$Bool$并且第二个component为$Char$组成的pairs。其次，没有关于tuple中component的类型的限制。例如，我们有以tuple为components的tuple，以list为components的tuple和以tuple为元素的list：
+与列表类型一样，关于元组类型也有三点需进一步注意。首先，元组的类型传达了元数信息。例如，类型($Bool,
+~Char$)包含了所有第一个元素为$Bool$类型且第二个元素为$Char$类型的二元组。其次，元组中的元素没有类型限制。例如，我们可以定义由元组类型元素组成的元组，由列表类型元素组成的元组以及由元组类型元素组成的列表：
 
-\noindent\hspace*{1cm} $(’a’, (False, ’b’)) :: (Char , (Bool , Char ))$\\
-\hspace*{1cm} $([’a’, ’b’], [False, True ]) :: ([Char ], [Bool ])$\\
-\hspace*{1cm} $[(’a’, False), (’b’, True)] :: [(Char , Bool )]$
+\noindent\hspace*{1cm} $(’a’,~(False,~’b’))~::~(Char,~(Bool,~Char))$\\
+\hspace*{1cm} $([’a’,~’b’],~[False,~True])~::~([Char],~[Bool])$\\
+\hspace*{1cm} $[(’a’,~False),~(’b’,~True)]~::~[(Char,~Bool)]$
 
-最后，注意tuple必须具有有限长度，以保证tuple类型总是在求值之前被计算得到。
+最后，注意元组必须具有有限元数，以保证元组类型总是能在求值过程之前被计算出来。
 
 \section{函数类型}
 \textit{函数}是由一个类型的参数到另一种类型的结果的映射。我们用$T_1
