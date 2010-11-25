@@ -3,4 +3,30 @@
 介绍lambda表达式和段的概念。
 
 \section{以旧造新}
+也许定义新函数最直接的方法就是简单地将已有的一个或多个函数结合起来。例如，下面展示的一些库函数就是用这种方法定义的：
+
+\begin{itemize}
+\item 判断一个字符是否是数字
+
+\hspace*{1cm} $isDigit~::~Char \rightarrow Bool$\\
+\hspace*{1cm} $isDigit~c~=~c \geq '0'~~\&\&~~c \leq '9'$
+
+\item 判断一个整数是否是偶数
+
+\hspace*{1cm} $even~::~Integral~a \Rightarrow a \rightarrow Bool$\\
+\hspace*{1cm} $even~c~=~n~'mod'~2 == 0$
+
+\item 将一个列表在第$n$th个元素处拆分
+
+\hspace*{1cm} $splitAt~::~Int \rightarrow [a] \rightarrow ([a],~[a])$\\
+\hspace*{1cm} $splitAt~n~xs~=~(take~n~xs,~drop~n~xs)$
+
+\item 倒数
+
+\hspace*{1cm} $recip~::~Fractional~a \Rightarrow a \rightarrow a$\\
+\hspace*{1cm} $recip~n~=~1~/~n$
+
+\end{itemize}
+
+注意上面$even$和$recip$类型中类约束的使用，使得这两个函数可以分别精确的应用于任何整数类型和分数类型。
 
