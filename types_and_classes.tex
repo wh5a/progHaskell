@@ -296,16 +296,16 @@ Integer$和$Float$都是\textit{Show}类的实例。列表和元组类型也是�
 \noindent\hspace*{1cm} $> show~False$\\
 \hspace*{1cm} "False"\\
 
-\noindent\hspace*{1cm} > $show~'a'$\\
+\noindent\hspace*{1cm} > $show~~'a'$\\
 \hspace*{1cm} "~'$a$'~"\\
 
 \noindent\hspace*{1cm} > $show~123$\\
 \hspace*{1cm} "$123$"\\
 
-\noindent\hspace*{1cm} > $show$ [1,~2,~3]\\
+\noindent\hspace*{1cm} > $show$~[1,~2,~3]\\
 \hspace*{1cm} "$[1,~2,~3]$"\\
 
-\noindent\hspace*{1cm} > show ($'a',~False$)\\
+\noindent\hspace*{1cm} > show~($'a',~False$)\\
 \hspace*{1cm} "$('a',~False)$"\\
 
 \noindent$Read$~-~ \textbf{可读的类型}\\
@@ -319,13 +319,13 @@ Integer$和$Float$都是\textit{Read}类的实例。列表和元组类型也是�
 \noindent\hspace*{1cm} $> read~"False"~::~Bool$\\
 \hspace*{1cm} $False$\\
 
-\noindent\hspace*{1cm} > $read~'a'~::~Char$\\
+\noindent\hspace*{1cm} > $read~~'a'~::~Char$\\
 \hspace*{1cm} '$a$'\\
 
 \noindent\hspace*{1cm} > $read~123~::~Int$\\
 \hspace*{1cm} $123$\\
 
-\noindent\hspace*{1cm} > $read$ "[1,~2,~3]"~::~[Int]\\
+\noindent\hspace*{1cm} > $read$~~"[1,~2,~3]"~::~[Int]\\
 \hspace*{1cm} $[1,~2,~3]$\\
 
 \noindent\hspace*{1cm} > $read$ "($'a',~False$)"\\
