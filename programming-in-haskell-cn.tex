@@ -60,10 +60,17 @@
 
 % xeCJK设置
 \usepackage[slantfont, boldfont, CJKaddspaces]{xeCJK}
-\setmainfont{Times New Roman}                                % view the font list through the cmd "fc-list :lang=en"
-\setCJKmainfont{WenQuanYi Micro Hei}                         % view the font list through the cmd "fc-list :lang=zh"
-\setCJKfamilyfont{song}{WenQuanYi Micro Hei}
-\setsansfont{WenQuanYi Micro Hei}
+
+% view the font list through the cmd "fc-list :lang=en"
+\setmainfont{Times New Roman}                               % for normal and italic en
+\setsansfont{Arial}                                         
+\setmonofont{Courier New}
+
+% view the font list through the cmd "fc-list :lang=zh"
+\setCJKmainfont{WenQuanYi Micro Hei}                         
+\setCJKsansfont{WenQuanYi Micro Hei}
+\setCJKmonofont{WenQuanYi Micro Hei}
+%\setCJKfamilyfont{song}{WenQuanYi Micro Hei}
 
 % 重定义设置
 \renewcommand{\chaptername}{第{\thechapter}章}
