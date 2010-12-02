@@ -31,22 +31,21 @@
 注意上面$even$和$recip$类型中类约束的使用，精确的指明了这两个函数可以分别应用于任何整数类型和分数类型。
 
 \section{条件表达式}
-假设某个函数，该函数从许多可能的结果中做出选择。Haskell提供了很多不同的方式来定义这类函数。 最简单的方式就是使用\textit{条件表达式}，顾名思义， 它使用我们称为\textit{条件}的逻辑表达式，在两个相同类型的结果中选出一个。如果条件为{\it{真}}，选中第一个结果，否则选中第二个。例如：库函数$abs$的定义如下，该函数返回一个整数的绝对值
+有一类函数，它们从许多种可能的结果中选择出一个最终结果，Haskell提供了很多不同的方式来定义这类函数。
+最简单的方式就是使用\textit{条件表达式}，
+条件表达式使用被称为\textit{条件}的逻辑表达式在两个相同类型的结果中选出一个。如果条件为\textit{真}，就选中第一个结果，否则选中第二个。例如：库函数$abs$的定义如下，该函数返回一个整数的绝对值：
 
 \noindent\hspace*{1cm}$abs~::~Int \rightarrow Int$\\
 \hspace*{1cm}$abs~n~=~\textbf{if}~n~ \geq ~0~ \textbf{then}~n~ \textbf{else} -n $
 
-条件表达式可以嵌套，它的其中一个结果可以是另外一个条件表达式，举例来说，符号函数$signum$定义如下：
+条件表达式可以嵌套，它们可以包含其他条件表达式。例如，库函数$signum$定义如下，它用来返回一个整型数的符号：
 
 \noindent\hspace*{1cm}$signum~::~Int \rightarrow Int$\\
 \hspace*{1cm}$signum~n~=~\textbf{if}~n~<~0~\textbf{then}~-1~\textbf{else} $\\
 \hspace*{4cm}$\textbf{if}~n~==~\textbf{then}~0~\textbf{else}~1$
 
-注意，不同于某些编程语言，Haskell中的条件表达式必须总是存在{\bf{else}}分支，这样就避免了众所周知的“else悬挂”问题。如果\textbf{else}分支是可选的，下面的表达式：
+注意，与某些编程语言中的条件表达式不同，Haskell中的条件表达式必须包含\textbf{else}分支，这样就避免了众所周知的“else悬挂”问题。例如，如果\textbf{else}分支是可选的，那么表达式$\textbf{if}~True~\textbf{then~if}~False~\textbf{then}~1~\textbf{else}~2$既可以返回结果2，也可能产生一个错误，这取决于表达式中的\textbf{else}分支是被看作是内部条件表达式的一部分还是被看作是外部条件表达式的一部分。
 
-$\textbf{if}~True~\textbf{then~if}~False~\textbf{then}~1~\textbf{else}~2$
-
-\textbf{else}分支既可以看做内部条件表达式的一部分，这样会返回结果2，也可以看做外部条件表达式的一部分，这样会产生一个错误。
 \section{守卫等式}
 作为条件表达式式的备选方案，函数还可以通过\textit{守卫等式}的方式来定义。在这种方式中，我们定义一系列相同类型的、有序的逻辑表达式，并称之为\textit{守卫}，然后在这些守卫中选择我们的结果。我们首先计算第一个守卫，如果为\textit{真}，第一个结果被选中，否则计算第二个守卫，如果为真，第二个结果被选中，依次类推。比如：库函数$abs$还可以以下面的方式定义。
 
