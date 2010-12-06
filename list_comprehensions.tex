@@ -1,3 +1,212 @@
 \chapter{List comprehensions}
 
-在本章节中，我们将...
+在本章节中，我们将介绍列表推导式(List comprehensions)\footnote{参考python中的翻译，暂定，待议}，它允许我们以一种简明的方式定义许多基于列表（lists）的函数。我们首先介绍生成器（generators）和守卫（guards），接着介绍库函数$zip$和字符串推导的有关概念，本章结尾部分给出一个破解凯撒密码的程序。
+\section{生成器}
+在数学中，记号\textit{comprehension}可基于已有的集合构建新的集合。例如，从推导式$\{x^2 | x \in \{1..5\}\}$可得集合$\{1,4,9,16,25\}$，它是集合$\{1..5\}$中元素$x$的平方的集合。在Haskell中，也可以使用类似的推导式基于已有的列表创建新的列表。例如：\\
+
+\noindent\hspace*{1cm}$>[x \uparrow 2~|~x \leftarrow [1..5]]$\\
+\hspace*{1cm}$[1,4,9,16,25]$\\
+
+\noindent 符号$|$和$\leftarrow$分别读作“满足”和“取自”，称表达式$x\leftarrow[1..5]$为一个生成器。一个列表推导式可以有多个生成器，连续的生成器间用逗号（，）隔开。例如，从列表[1,2,3]和[4,5]构造所有元素对的列表可以如下表示：\\
+
+\noindent\hspace*{1cm}$> [(x,y)~|~x\leftarrow [1,2,3],~y\leftarrow [4,5]]$\\
+\hspace*{1cm}$[(1,4),(1,5),(2,4),(2,5),(3,4),(3,5)]$\\
+
+改变推导式中生成器的顺序得到的是相同的元素对集合，但是元素对的顺序不同，例如：
+
+\noindent\hspace*{1cm}$> [(x,y)~|~y\leftarrow [4,5],~x\leftarrow [1,2,3]]$\\
+\hspace*{1cm}$[(1,4),(2,4),(3,4),(1,5),(2,5),(3,5)]$\\
+
+需特别指出的是，在本例中，元素对中的$x$比$y$变化更频繁（1,2,3,1,2,3 vs 4,4,4,5,5,5），而在前一例中，$y$比$x$变化更频繁（4,5,4,5,4,5 vs 1,1,2,2,3,3）。这种行为可以按如下方式理解：更靠后的生成器可以看作更深层的嵌套，因此比它前面的生成器产生的值变化更频繁。
+
+后面的生成器还可以依赖它前面生成器产生的值。例如，根据列表[1..3]生成的所有有序对可以用下面推导式生成：\\
+
+\noindent\hspace*{1cm}>$[(x,y)~|~x\leftarrow [1..3],~y\leftarrow [x..3]]$\\
+\hspace*{1cm}$[(1,1),(1,2),(1,3),(2,2),(2,3),(3,3)]$\\
+
+与此类似另一个例子是，库函数$concat$，它将列表中的列表连接在一起， 它使用一个生成器依次选择列表中的每个列表$xs$，并使用另一个列表选择$xs$中的每一个元素。\\
+
+\begin{tabular}[t]{lll}
+  $concat$&$~::~$&$[[x]]\rightarrow [a]$\\
+  $concat~~xss$&$~=~$&$[x~|~xs \leftarrow xss,~x\leftarrow xs]$
+\end{tabular}
+
+
+%生成器在从列表中取元素时可以使用模式，此时只有与模式匹配的元素被保留，不匹配的则被丢弃。例如：如果$ps$为元素为值对的列表$[(1,True),(2,False),(3,True)]$，则其中满足$(x,True)$的$x$组成的列表可表示如下：\\
+
+%\noindent\hspace*{1cm}$>[x~|~(x,True)\leftarrow ps]$\\
+%\hspace*{1cm}$[1,3]$\\
+
+生成器中的通配符$\_$在丢弃列表中某些特定元素是非常有用。 例如，返回列表中元素对中第一个组成的函数可以定义如下：
+
+\begin{tabular}[t]{lll}
+  $firsts$&$~::~$&$[(a,b)] \rightarrow [a]$\\
+  $firsts~~ps$&$~=~$&$[x~|~(x,\_ ) \leftarrow xs]$\\
+\end{tabular}
+
+\noindent 与此类似，计算列表长度的库函数$length$可以如下定义，首先将列表中的每个元素替换为数字1，接着计算结果列表的和：
+
+\begin{tabular}[t]{lll}
+$length$&$~::~$&$[a]\rightarrow Int$\\
+$length~xs$&$~=~$&$sum[1~|~\_ \leftarrow xs]$\\  
+\end{tabular}\\
+
+\noindent 该定义中，生成器$\_\leftarrow xs$仅仅作为计数器来计算对应数目的1的和。
+\section{守卫}
+列表推导式还可以使用被称为\textit{守卫(guards)}的逻辑表达式来过滤前面生成器生成的值。如果守卫值为\textit{真}，则当前值被保留，否则被丢弃。举例来说，推导式$[x~|~x\leftarrow [1..10], even~x]]$的计算结果为列表[1..10]中所有偶数组成的列表$[2,4,6,8,10]$。与此类似，生成某个正整数的全部因数的列表的库函数$factors$：
+\\
+  \begin{tabular}[t]{lll}
+    $factors$&$~::~$&$Int \rightarrow [Int]$\\
+    $factors~~n$&$~=~$&$[x~|~x\leftarrow [1..n], n~'mod'~x~==~0]$\\
+  \end{tabular}
+\\
+\noindent 例如：
+
+\noindent\hspace*{1cm}$>factors~15$\\
+\hspace*{1cm}$[1,3,5,15]$
+\\
+\noindent\hspace*{1cm}$>factors~7$\\
+\hspace*{1cm}$[1,7]$
+
+\noindent 回想下素数的定义：大于1且其正因数仅为1和它本身的数。因此，使用$factors$可很简单的定义一个函数来判断一个整数是否为素数：\\
+\begin{tabular}[t]{lll}
+  $prime$&$~::~$&$Int \rightarrow Bool$\\
+  $prime~~n$&$~=~$&$factors~~n~==~[1,n]$
+\end{tabular}
+\\
+\noindent 例如：
+
+\noindent\hspace*{1cm}$>prime~15$\\
+\hspace*{1cm}$False$\\
+
+\noindent\hspace*{1cm}$>prime~7$\\
+\hspace*{1cm}$True$\\
+
+注意，使用函数$prime$来判断一个诸如15这样的数是否为素数并不需要它计算出它所有的因数。由于惰性求值，当计算结果中出现不同于数字1和它本身之外的任意因数时，立即就能得到结果$False$，在本例中为因数3。
+
+返回列表推导式，使用函数$factors$，我们可以定义一个函数得到给定上限下的所有素数的列表：
+
+
+\begin{tabular}[t]{lll}
+  $primes$&$~::~$&$Int\rightarrow [Int]$\\
+  $primes~~n$&$~=~$&$[x~|~x \leftarrow[2..n],prime~x]$\\
+\end{tabular}\\
+
+\noindent 例如：
+
+\noindent\hspace*{1cm}$>primes~40$\\
+\hspace*{1cm}$[2,3,5,7,11,13,17,19,23,29,31,37]$\\
+
+在第12章中，我们会使用著名的“埃拉托色尼过滤（sieve of Eratosthenes）算法”来构造更有效的程序来生成素数，Haskell提供了该算法清晰而简单的实现。
+
+作为守卫的最后的一个例子，我们给出由键值对构成的列表的查找表。函数$find$查找并返回给对应键的值的列表，函数定义如下：
+
+\begin{tabular}[t]{lll}
+  $find$&$::$&$Eq~a\Rightarrow ~a\rightarrow[(a,~b)]\rightarrow [b]$\\
+  $find~~k~t$&$=$&$[v~|~(k', v) \leftarrow t, k~==~k']$
+\end{tabular}
+
+\noindent 例如：\\
+\noindent\hspace*{1cm}$>find~~'b'~[('a', 1),('b', 2),('c', 3),('d',4)]$\\
+\hspace*{1cm}$[2,4]$\\
+
+\section{$zip$函数}
+库函数$zip$通过将两个已有的列表对应元素配对生成新的列表，直到其中一个列表或全部结束。例如：
+
+\noindent\hspace{1cm}$>zip~~['a','b','c']~[1,2,3,4]$\\
+\hspace*{1cm}$[('a',1),('b',2),('c',3)]$\\
+
+库函数$zip$有时候在列表推导式中很有用。比如，假如我们定义函数$pairs$，它返回一个列表，该列表由已有列表的相邻元素组成的数对组成，定义如下：\\
+
+\begin{tabular}[t]{lll}
+  $pairs$&$~::~$&$[a] \rightarrow [(a,a)]$\\
+  $pairs~~xs$&$~=~$&$zip~xs~(tail~xs)$
+\end{tabular}
+
+\noindent 例如：\\
+\noindent\hspace*{1cm}$>paris~[1,2,3,4]$\\
+\hspace*{1cm}$[(1,2),(2,3),(3,4)]$
+
+现在我们可以使用函数$pairs$来定义新的函数，判断一个由任意有序类型元素组成的列表是否有序，只需要简单相邻元素组成的元素对保持正确的大小顺序：\\
+
+\begin{tabular}[t]{lll}
+  $sorted$&$~::~$&$Ord~a \Rightarrow [a]\rightarrow Bool$\\
+  $sorted~~xs$&$~=~$&$and~[x\leq y~|~(x,y) \leftarrow paris~xs] $\\
+\end{tabular}
+
+\noindent 例如：
+
+\noindent\hspace*{1cm}$>sorted~[1,2,3,4]$\\
+\hspace*{1cm}$True$\\
+
+\noindent\hspace*{1cm}$>sorted~[1,3,2,4]$\\
+\hspace*{1cm}$False$\\
+
+与函数$prime$类似，判断列表[1,3,2,4]为非有序，并不需要生成全部的相邻元素对。因为只要生成任意一个非有序元素对时，函数即可返回为\textit{假}，在本例中为元素对(3,2).
+
+使用函数$zip$还可以定义函数$positions$，它实现下面的功能：返回列表中某个给定值的位置的列表，先将列表中每个元素与其位置配对，然后选出所需值的那些位置：
+
+\begin{tabular}[t]{lll}
+  $positions$&$~::~$&$Eq~a\Rightarrow a \rightarrow [a] \rightarrow [Int]$\\
+  $positions~~x~xs$&$~=~$&$[i~|~(x', i) \leftarrow zip~xs~[0..n], x~==~x']$\\
+  &&$\textbf{where}~n~=~length~xs~-1$
+\end{tabular}
+
+\noindent 例如：
+
+\noindent\hspace*{1cm}$>positions~False~[True,False,True,False]$\\
+\hspace*{1cm}$[1,3]$
+
+\section{字符串推导式(String comprehensions)}
+到现在为止，我们一直把Haskell中的字符串看作基本概念。但并非如此，实际上，字符串是由字符构成的列表。举例来说，$''abc''::String$仅仅是$['a','b','c']::[Char]$的缩写形式。正因为字符串是特殊类型的列表，任何适用于列表的多态函数都可以应用于字符串。例如：
+
+\noindent\hspace*{1cm}$>''abcde''~!!~2$\\
+\hspace*{1cm}$'c'$\\
+
+\noindent\hspace*{1cm}$>take~3~''abcde''$\\
+\hspace*{1cm}$''abc''$\\
+
+\noindent\hspace*{1cm}$>length~''abcde''$\\
+\hspace*{1cm}$5$\\
+
+\noindent\hspace*{1cm}$>zip~''abc''~[1,2,3]$\\
+\hspace*{1cm}$[('a',1),('b',2),('c',3)]$\\
+
+基于同样的理由，列表推导式也可以用于定义基于字符串的函数，比如返回字符串中小写字母或特定某个字符出现次数的函数分别定义如下：
+
+\begin{tabular}[t]{lll}
+  $lowers$&$~::~$&$String \rightarrow Int$\\
+  $lowers~~xs$&$~=~$&$length~[x~|~x \leftarrow xs, isLower~x]$\\
+\end{tabular}
+
+
+\begin{tabular}[t]{lll}
+  $count$&$~::~$&$Char\rightarrow String \rightarrow Int$\\
+  $count~~x~xs$&$~=~$&$length~[x'~|~x' \leftarrow xs, x~==~x']$\\
+\end{tabular}
+
+例如：
+
+\noindent\hspace*{1cm}$>lowers~''Haskell''$\\
+\hspace*{1cm}$6$\\
+
+\noindent\hspace*{1cm}$>count~'s'~''Mississippi''$\\
+\hspace*{1cm}$4$\\
+
+\section{凯撒密码(The Caesar cipher)}
+
+
+\section{本章备注}
+名词\textit{推导（comprehension）}来自于集合论的“公理推导（axiom of comprehension）”。集合论中明确定义了如何构建集合，且集合中所有元素满足给定的性质。comprehensions的更形式化的解释参见Haskell Report[11]--？？？
+
+\section{习题}
+
+\begin{enumerate}
+  \item 使用列表推导式，给出一个表达式来计算1-100的平方和$1^2 + 2^2 +\cdots 100^2$。
+\end{enumerate}
+
+
+
+
+
+
