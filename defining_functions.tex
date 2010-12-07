@@ -180,7 +180,7 @@ $tail~(\_:~xs)$&=&$xs$\\
 注意cons操作符必须用括号括上，因为函数优先级高于所有其他操作符。例如，不带括号的定义$tail~\_:~xs~=~xs$意为$(tail~\_)~:~xs~=~xs$，它不仅含义不正确，而且还是一个无效的定义。
 
 \subsection*{整数模式}
-作为一种有时很有用的特殊情况，Haskell也允许$n + k$形式的整数模式\footnote{译注：$n+k$模式在Haskell 2010标准中默认被禁用。若使用$n+k$模式，在GHC 7及后续版本中必须开启NPlusKPatterns扩展。}，其中$n$是一个整数变量，$k > 0$是一个整数常量。例如，函数$pred$定义如下，它将0映射到本身且将任何严格的整数映射为该整数的前驱：
+作为一种有时很有用的特殊情况，Haskell也允许$n + k$形式的整数模式\footnote{译注：$n+k$模式在Haskell 2010标准中默认被禁用。若使用$n+k$模式，在GHC 7及后续版本中必须开启NPlusKPatterns扩展。}，其中$n$是一个整数变量，$k > 0$是一个整数常量。例如，函数$pred$定义如下，它将0映射到本身且将任何正整数映射为该整数的前驱：
 
 \begin{tabular}[t]{lll}
 $pred$&::&$Int \rightarrow Int$\\
@@ -239,6 +239,79 @@ $odds~n$&=&$map~f~[0..n-1]$\\
 \noindent\hspace*{1cm} $odds~n~=~map~(\lambda x \rightarrow x~*~2~+~1)~[0..n-1]$
 
 \section{段}
+像$+$这样的写在两个参数之间的函数我们称之为\textit{操作符}。正如我们已经看到的，通过将函数名用反单引号括起来， 任何接受两个参数的函数都可以被转换成一个操作符，就像在$7~`div`~2$中的那样。然而，反过来也是可能的。特别是通过将操作符用括号括起来并放在其参数的前面，任何一个操作符都可以被转换成一个curried函数，就像在$(+)~1~2$中的那样。此外，如果需要，这种转换也允许其中的一个参数被包含在括号中，就像在$(1+)~2$和$(+2)~1$中的那样。
 
-(⊕)
+通常，如果(⊕)是一个操作符，那么对于参数$x$和$y$，(⊕)、($x$ ⊕)和(⊕
+$y$)形式的表达式被称为\textit{段}(sections)，作为函数其含义可以用lambda表达式形式化如下：
+
+\begin{tabular}[t]{lll}
+(⊕)&=&$\lambda x \rightarrow (\lambda y \rightarrow x$ ⊕ $y)$\\
+($x$ ⊕)&=&$\lambda y \rightarrow x $ ⊕ $y$\\
+(⊕ $y$)&=&$\lambda x \rightarrow x $ ⊕ $y$\\
+\end{tabular}
+
+段有三种主要应用。首先，它们可以用一种紧凑的方式来构造一些简单实用的函数，如下面的例子所示：
+
+\begin{tabular}[t]{lll}
+$(+)$&是加法函数 $\lambda x \rightarrow (\lambda y \rightarrow x~+~y)$\\
+$(1+)$&是后继函数 $\lambda y \rightarrow 1~+~y$\\
+$(1/)$&是倒数函数 $\lambda y \rightarrow 1~/~y$\\
+$(*2)$&是倍数函数 $\lambda x \rightarrow x~*~2$\\
+$(/2)$&是二等分函数 $\lambda x \rightarrow x~/~2$\\
+\end{tabular}
+
+
+其次，当描述操作符类型时段也是必要的，因为在Haskell中一个操作符本身并不是一个有效表达式。例如，逻辑与操作符$\&\&$的类型可以描述如下：
+
+\noindent\hspace*{1cm} ($\&\&$)~::~$Bool \rightarrow Bool \rightarrow Bool$
+
+最后，当操作符作为其他函数参数时，段也是必要的。例如用于判断一个列表中的所有逻辑值是否都为$True$的库函数$and$就是用操作符$\&\&$作为库函数$foldr$的参数而定义的，函数$foldr$将在第7章中讨论。
+
+\begin{tabular}[t]{lll}
+$and$&::&$[Bool] \rightarrow Bool$\\
+$and$&=&$foldr~(\&\&)~True$\\
+\end{tabular}
+
+\section{本章备注}
+使用更多语言原生特点翻译的模式匹配的正式含义在\textbf{Haskell
+Report}(25)中给出。定义匿名函数时所使用的希腊字母$\lambda$来自$\lambda$\textit{算子}，Haskell就是以这套函数的数学理论为基础构建的。
+
+\section{习题} 
+
+\begin{enumerate}
+
+\item 使用库函数，定义一个函数$halve~::~[a] \rightarrow([a], ~[a])$用于将一个长度为偶数的列表一分为二，例如：
+
+\noindent\hspace*{1cm} $>~ halve~[1,~2,~3,~4,~5,~6]$\\
+\hspace*{1cm} $([1,~2,~3],~[4,~5,~6])$
+
+\item 考虑一个函数$safetail~::~[a] \rightarrow
+[a]$，它的行为与库函数$tail$相似，除了$safetail$将空列表映射为其自己，而$tail$在这种情况下会产生一个错误，使用如下方式定义$safetail$： 
+\begin{enumerate}
+\item 使用一个条件表达式； 
+\item 使用守卫等式； 
+\item 使用模式匹配； 
+\end{enumerate}
+
+提示：使用库函数$null$。
+
+\item 以相同的方式展示逻辑或$||$操作符使用模式匹配的四种定义方式。
+
+\item 使用条件表达式而不是模式匹配重新定义下面版本的逻辑与操作符：
+
+\begin{tabular}[t]{lll}
+$True~\&\&~True$&=&$True$\\
+$\_~\&\&~\_$&=&$False$\\
+\end{tabular}
+
+\item 对下面的版本做同样的事情，注意需要的条件表达式的数量的差别。
+
+\begin{tabular}[t]{lll}
+$True~\&\&~b$&=&$b$\\
+$False~\&\&~\_$&=&$False$\\
+\end{tabular}
+
+\item 展示一下curried函数$mult~x~y~z~=~x~*~y~*~z$如何使用lambda表达式理解。
+
+\end{enumerate}
 
