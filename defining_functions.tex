@@ -191,5 +191,54 @@ $pred~(n~+~1)$&=&$n$\\
 关于$n~+~k$模式有两点需要注意。首先，它们只是匹配$\geq ~k$的整数。例如，对$pred~(-1)$求值将产生一个错误，因为$pred$定义中的两个模式都不匹配负数。其次，和cons模式一样，整数模式必须用括号括起来。例如，不带括号的定义$pred~n~+~1~=~n$意为$(pred~n)~+~1~=~n$，这是一个无效的定义。
 
 \section{Lambda表达式}
+作为使用等式定义函数的一种替代方案，函数还可以使用\textit{lambda表达式}来构造。lambda表达式包含一个用于参数匹配的模式以及一个详细说明了如何根据参数计算出结果的主体。lambda表达式定义的函数没有函数名，换句话说，lambda表达式是匿名函数。
 
+例如，一个只接受一个数字为参数且返回结果$x~+~x$的匿名函数可以按下面方式构造：
+
+\noindent\hspace*{1cm} $\lambda x \rightarrow x~+~x$
+
+符号$\lambda$是小写希腊字母“lambda”。尽管lambda表达式构造的函数没有名字，但它们仍然可以像其他函数那样使用。例如：
+
+\noindent\hspace*{1cm} $>~(\lambda x \rightarrow x~+~x)~~2$\\
+\hspace*{1cm} $4$
+
+除了自身有趣之外，lambda表达式还有很多实际应用。首先，它们可以用来形式化curried函数定义的含义。例如，定义
+
+\noindent\hspace*{1cm} $add~x~y~=~x~+~y$
+
+可以被理解为
+
+\noindent\hspace*{1cm} $add~=~\lambda x \rightarrow (\lambda y \rightarrow x~+~y)$
+
+这里精确地表明$add$是一个函数，它接受一个数字$x$作为参数且返回一个函数，而这个返回的函数依次接受数字$y$为参数且返回结果$x~+~y$。
+
+其次，当定义返回值的本质为函数而不是curring结果的函数时，lambda表达式也非常有用。例如，库函数$const$定义如下，它返回一个总是产生给定值的常量函数：
+
+\begin{tabular}[t]{lll}
+$const$&::&$a \rightarrow b \rightarrow a$\\
+$const~x~\_$&=&$x$\\
+\end{tabular}
+
+但是，更吸引人地定义$const$的方式是通过在类型中使用括号，在定义中使用lambda表达式以显式地指出用函数作为返回结果：
+
+\begin{tabular}[t]{lll}
+$const$&::&$a \rightarrow (b \rightarrow a)$\\
+$const~x~$&=&$\lambda \_ \rightarrow x$\\
+\end{tabular}
+
+最后，lambda表达式可用于避免给仅被引用一次的函数命名。例如，函数$odds$定义如下，它用于返回前$n$个奇数：
+
+\begin{tabular}[t]{lll}
+$odds$&::&$Int \rightarrow [Int]$\\
+$odds~n$&=&$map~f~[0..n-1]$\\
+& &\textbf{where}~$~f~x~=~x~*~2~+~1$\\
+\end{tabular}
+
+（库函数$map$用于将一个函数应用于一个列表中的所用元素。）但是，由于本地定义的函数$f$只被引用一次，$odds$的定义可以使用lambda表达式简化为：
+
+\noindent\hspace*{1cm} $odds~n~=~map~(\lambda x \rightarrow x~*~2~+~1)~[0..n-1]$
+
+\section{段}
+
+(⊕)
 
