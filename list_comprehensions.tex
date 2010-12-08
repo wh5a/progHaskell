@@ -255,7 +255,37 @@ $encode~~n~xs$&$=$&$[shift~~n~x~|~x \leftarrow xs]$\\
 \noindent\hspace*{1cm}$>encode~(-3)~"kdvnhoo~lv~ixq"$\\
 \hspace*{1cm}$"haskell~is~fun"$
 
-\subsection{频率表}
+\subsection{字母频率表}
+在英文里，破解凯撒密码的关键是观察发现某些字母的出现频率比其他的字母要高。通过分析大量的文本，可以获取字母表中每个字母大概的出现概率，如下：
+
+\begin{tabular}[t]{lll}
+  $table$&$~::~$&$[Float]$\\
+  $table$&$~=~$&$[8.2, 1.5, 2.8, 4.3, 12.7, 2.2, 2.0, 6.1, 7.0, 0.2, 0.8, 4.0, 2.4,$\\
+&&$~6.7, 7.5, 1.9, 0.1, 6.0, 6.3, 9.1, 2.8, 1.0, 2.4, 0.2, 2.0, 0.1]$\\
+\end{tabular}
+
+可以看出，字母‘e’出现最频繁，占12.7\%，字母‘q’和‘z’出现频率最小，只有0.1\%。对于单一的字符串，计算字母频率表也很有用。为此，我们首先定义函数计算一个整数关于另一个整数的百分比，函数返回一个浮点数：
+
+\begin{tabular}[t]{lll}
+  $percent$&$~::~$&$Int \rightarrow Int \rightarrow Float$\\
+  $percent~~n~m$&$~=~$&$(fromInt~n~/~fromInt~m)~*~100$\\
+\end{tabular}
+
+（库函数$fromInt::Int \rightarrow Float$将一个整数转换为相应的浮点数）在列表推导式中使用$present$函数，再加上前面一节中的$lowers$和$count$函数，我们可以定义一个函数来计算任意字符串的字母频率表：
+
+
+\begin{tabular}[t]{lll}
+  $freqs$&$~::~$&$String \rightarrow [Float]$\\
+  $freqs~~xs$&$~=~$&$[percent~(count~x~xs)~n~|~x \leftarrow ['a'..'z']]$\\
+  &&$\textbf{where}~n~=~lowers~xs$
+\end{tabular}
+
+例如：
+
+\noindent\hspace*{1cm}$>freqs~''abbcccddddeeeee''$\\
+\hspace*{1cm}$[6.7, 13.3, 20.0, 26.7, 33.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, · · · , 0.0]$\\
+
+即，字母‘a’出现的频率是6.7\%，字母‘b’出现的频率是13.3\%，等等。$freqs$中使用了局部定义$n~=~lowers~xs$，确保在计算参数字符串中小写字母个数时只计算一次，而不至于在计算26个字母的出现频率时都重新计算一遍。
 
 \section{本章备注}
 名词\textit{推导（comprehension）}来自于集合论的“子集推导公理（axiom of comprehension）”\footnote{译注：http://mathworld.wolfram.com/AxiomofSubsets.html}。此公理明确定义了如何通过选择满足给定性质的所有元素来构建一个集合。comprehensions的更形式化的解释参见Haskell Report[11]--？？？
