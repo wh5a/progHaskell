@@ -37,7 +37,7 @@
 %\noindent\hspace*{1cm}$>[x~|~(x,True)\leftarrow ps]$\\
 %\hspace*{1cm}$[1,3]$\\
 
-生成器中的通配符$\_$在丢弃列表中某些特定元素是非常有用。 例如，返回列表中元素对中第一个组成的函数可以定义如下：
+生成器中的通配符$\_$在丢弃列表中某些特定元素时非常有用。 例如，返回列表中元素对中第一个组成的函数可以定义如下：
 
 \begin{tabular}[t]{lll}
   $firsts$&$~::~$&$[(a,b)] \rightarrow [a]$\\
@@ -194,7 +194,68 @@ $length~xs$&$~=~$&$sum[1~|~\_ \leftarrow xs]$\\
 \hspace*{1cm}$4$\\
 
 \section{凯撒密码(The Caesar cipher)}
+本节以一个补充例子作为本章的结尾。考虑这样一个问题：将字符串编码以掩盖其本意，使非目标读者不能理解其本意。一个著名的编码方式是\textit{凯撒密码}, 取名于它的使用者Julius Caesar。为了将一个字符串编码，Caesar仅仅将字符串中的每个字母替换为该字母在字母表后移三位的字母，其中字母表是头尾相接循环的。例如，字符串"haskell is fun"可编码为"kdvnhoo lv ixq"。
 
+Caesar使用了移位系数（shift factor）“3”，更普遍地，移位系数可以为1-25的任意数字，从而产生25中不同的字符串编码方式。例如，移位系数为10时，上面的字符串可编码为"rkcuovv sc pex"。
+
+本节接下来的部分中，我们展示了Haskell中是如何实现凯撒加密算法，以及通过计算字符出现频率，该算法是如何被轻易地“破解”的。
+
+\subsection{编码与解码}
+简单起见，我们只编码字符串中的小写字母，而大写字母和标点符号保持不变。首先我们定义函数$let2int$，它将“a-z”的小写字符转换为数值0至25，以及函数$int2let$，它执行相反的转换。
+
+\begin{tabular}[t]{lll}
+$let2int$&$::$&$Char \rightarrow Int$\\
+$let2int~~c$&$=$&$ord~c~-~ord~'a'$\\
+\end{tabular}
+
+\begin{tabular}[t]{lll}
+$int2let$&$::$&$Int \rightarrow Char$\\
+$int2let~~n$&$=$&$chr~(~ord~'a'~+~n)$\\
+\end{tabular}
+
+（库函数$ord::Char \rightarrow Int$和$chr::Int \rightarrow Char$执行字符与其Unicode的整数表示之间的转换。）例如：
+
+\noindent\hspace*{1cm}$>let2int~'a'$\\
+\hspace*{1cm}$0$
+
+\noindent\hspace*{1cm}$>int2let~0$\\
+\hspace*{1cm}$'a'$
+
+使用上述两个函数，我们可以定义函数$shift$。函数接受两个参数，一个移位系数和一个小写字母，功能实现方式如下：将字母转化为响应的数字加上移位系数，再将其除26得到的余数转换回字母。
+
+\begin{tabular}[t]{llll}
+$shift$&&$::$&$Int \rightarrow Char \rightarrow Char$\\
+$shift~~n~c$&$|~isLower~c$&$=$&$int2let~((let2int~c~+~n)~`mod`~26)$\\
+&$|~otherwise$&$=$&$c$
+\end{tabular}
+
+注意，该函数的参数移位系数即可以是正数也可以是负数，并且只有小写字母被转换。例子如下：
+
+\noindent\hspace*{1cm}$>shift~3~'a'$\\
+\hspace*{1cm}$'d'$\\
+\noindent\hspace*{1cm}$>shift~3~'z'$\\
+\hspace*{1cm}$'c'$\\
+\noindent\hspace*{1cm}$>shift~(-3)~'c'$\\
+\hspace*{1cm}$'z'$\\
+\noindent\hspace*{1cm}$>shift~3~'~'$\\
+\hspace*{1cm}$'~'$
+
+在字符串推导式中使用函数$shift$可以很容易定义一个函数，该函数使用给定的移位系数将一个字符串编码：
+
+\begin{tabular}[t]{lll}
+$encode$&$::$&$Int \rightarrow String \rightarrow String$\\
+$encode~~n~xs$&$=$&$[shift~~n~x~|~x \leftarrow xs]$\\
+\end{tabular}
+
+这里不需要一个专门的解码函数，因为前面的函数可以使用一个负数的移位系数来完成解码，例如：
+
+\noindent\hspace*{1cm}$>encode~3~"haskell~is~fun"$\\
+\hspace*{1cm}$"kdvnhoo~lv~ixq"$
+
+\noindent\hspace*{1cm}$>encode~(-3)~"kdvnhoo~lv~ixq"$\\
+\hspace*{1cm}$"haskell~is~fun"$
+
+\subsection{频率表}
 
 \section{本章备注}
 名词\textit{推导（comprehension）}来自于集合论的“子集推导公理（axiom of comprehension）”\footnote{译注：http://mathworld.wolfram.com/AxiomofSubsets.html}。此公理明确定义了如何通过选择满足给定性质的所有元素来构建一个集合。comprehensions的更形式化的解释参见Haskell Report[11]--？？？
