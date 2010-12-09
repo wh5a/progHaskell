@@ -268,10 +268,10 @@ $encode~~n~xs$&$=$&$[shift~~n~x~|~x \leftarrow xs]$\\
 
 \begin{tabular}[t]{lll}
   $percent$&$~::~$&$Int \rightarrow Int \rightarrow Float$\\
-  $percent~~n~m$&$~=~$&$(fromInt~n~/~fromInt~m)~*~100$\\
+  $percent~~n~m$&$~=~$&$(fromIntegral~n~/~fromIntegral~m)~*~100$\\
 \end{tabular}
 
-（库函数$fromInt::Int \rightarrow Float$将一个整数转换为相应的浮点数）在列表推导式中使用$present$函数，再加上前面一节中的$lowers$和$count$函数，我们可以定义一个函数来计算任意字符串的字母频率表：
+（库函数$fromIntegral::(Integral~a, Num~b) \Rightarrow a \rightarrow b$将一个整型数转换为任意类型的数\footnote{译注：原书第一版使用了fromInt函数，此函数现被fromIntegral取代，在勘误中已修正。}。）在列表推导式中使用$present$函数，再加上前面一节中的$lowers$和$count$函数，我们可以定义一个函数来计算任意字符串的字母频率表：
 
 
 \begin{tabular}[t]{lll}
