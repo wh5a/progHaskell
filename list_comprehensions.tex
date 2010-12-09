@@ -24,7 +24,7 @@
 \noindent\hspace*{1cm}>$[(x,y)~|~x\leftarrow [1..3],~y\leftarrow [x..3]]$\\
 \hspace*{1cm}$[(1,1),(1,2),(1,3),(2,2),(2,3),(3,3)]$\\
 
-与此类似另一个例子是，库函数$concat$，它将列表中的列表连接在一起， 它使用一个生成器依次选择列表中的每个列表$xs$，并使用另一个列表选择$xs$中的每一个元素。\\
+与此类似另一个例子是，库函数$concat$，它将列表中的列表连接在一起， 它使用一个生成器依次选择列表中的每个列表$xs$，并使用另一个生成器选择$xs$中的每一个元素。\\
 
 \begin{tabular}[t]{lll}
   $concat$&$~::~$&$[[x]]\rightarrow [a]$\\
@@ -37,7 +37,7 @@
 %\noindent\hspace*{1cm}$>[x~|~(x,True)\leftarrow ps]$\\
 %\hspace*{1cm}$[1,3]$\\
 
-生成器中的通配符$\_$在丢弃列表中某些特定元素是非常有用。 例如，返回列表中元素对中第一个组成的函数可以定义如下：
+生成器中的通配符$\_$在丢弃列表中某些特定元素时非常有用。 例如，返回列表中元素对中第一个组成的函数可以定义如下：
 
 \begin{tabular}[t]{lll}
   $firsts$&$~::~$&$[(a,b)] \rightarrow [a]$\\
@@ -53,11 +53,11 @@ $length~xs$&$~=~$&$sum[1~|~\_ \leftarrow xs]$\\
 
 \noindent 该定义中，生成器$\_\leftarrow xs$仅仅作为计数器来计算对应数目的1的和。
 \section{守卫}
-列表推导式还可以使用被称为\textit{守卫(guards)}的逻辑表达式来过滤前面生成器生成的值。如果守卫值为\textit{真}，则当前值被保留，否则被丢弃。举例来说，推导式$[x~|~x\leftarrow [1..10], even~x]]$的计算结果为列表[1..10]中所有偶数组成的列表$[2,4,6,8,10]$。与此类似，生成某个正整数的全部因数的列表的库函数$factors$：
+列表推导式还可以使用被称为\textit{守卫(guards)}的逻辑表达式来过滤前面生成器生成的值。如果守卫值为\textit{真}，则当前值被保留，否则被丢弃。举例来说，推导式$[x~|~x\leftarrow [1..10], even~x]$的计算结果为列表[1..10]中所有偶数组成的列表$[2,4,6,8,10]$。与此类似，生成某个正整数的全部因数的列表的库函数$factors$：
 \\
   \begin{tabular}[t]{lll}
     $factors$&$~::~$&$Int \rightarrow [Int]$\\
-    $factors~~n$&$~=~$&$[x~|~x\leftarrow [1..n], n~'mod'~x~==~0]$\\
+    $factors~~n$&$~=~$&$[x~|~x\leftarrow [1..n], n~`mod`~x~==~0]$\\
   \end{tabular}
 \\
 \noindent 例如：
@@ -84,7 +84,7 @@ $length~xs$&$~=~$&$sum[1~|~\_ \leftarrow xs]$\\
 
 注意，使用函数$prime$来判断一个诸如15这样的数是否为素数并不需要它计算出它所有的因数。由于惰性求值，当计算结果中出现不同于数字1和它本身之外的任意因数时，立即就能得到结果$False$，在本例中为因数3。
 
-返回列表推导式，使用函数$factors$，我们可以定义一个函数得到给定上限下的所有素数的列表：
+返回列表推导式，使用函数$prime$，我们可以定义一个函数得到给定上限下的所有素数的列表：
 
 
 \begin{tabular}[t]{lll}
@@ -124,14 +124,14 @@ $length~xs$&$~=~$&$sum[1~|~\_ \leftarrow xs]$\\
 \end{tabular}
 
 \noindent 例如：\\
-\noindent\hspace*{1cm}$>paris~[1,2,3,4]$\\
+\noindent\hspace*{1cm}$>pairs~[1,2,3,4]$\\
 \hspace*{1cm}$[(1,2),(2,3),(3,4)]$
 
 现在我们可以使用函数$pairs$来定义新的函数，判断一个由任意有序类型元素组成的列表是否有序，只需要简单相邻元素组成的元素对保持正确的大小顺序：\\
 
 \begin{tabular}[t]{lll}
   $sorted$&$~::~$&$Ord~a \Rightarrow [a]\rightarrow Bool$\\
-  $sorted~~xs$&$~=~$&$and~[x\leq y~|~(x,y) \leftarrow paris~xs] $\\
+  $sorted~~xs$&$~=~$&$and~[x\leq y~|~(x,y) \leftarrow pairs~xs] $\\
 \end{tabular}
 
 \noindent 例如：
@@ -194,10 +194,101 @@ $length~xs$&$~=~$&$sum[1~|~\_ \leftarrow xs]$\\
 \hspace*{1cm}$4$\\
 
 \section{凯撒密码(The Caesar cipher)}
+本节以一个补充例子作为本章的结尾。考虑这样一个问题：将字符串编码以掩盖其本意，使非目标读者不能理解其本意。一个著名的编码方式是\textit{凯撒密码}, 取名于它的使用者Julius Caesar。为了将一个字符串编码，Caesar仅仅将字符串中的每个字母替换为该字母在字母表后移三位的字母，其中字母表是头尾相接循环的。例如，字符串"haskell is fun"可编码为"kdvnhoo lv ixq"。
 
+Caesar使用了移位系数（shift factor）“3”，更普遍地，移位系数可以为1-25的任意数字，从而产生25中不同的字符串编码方式。例如，移位系数为10时，上面的字符串可编码为"rkcuovv sc pex"。
+
+本节接下来的部分中，我们展示了Haskell中是如何实现凯撒加密算法，以及通过计算字符出现频率，该算法是如何被轻易地“破解”的。
+
+\subsection{编码与解码}
+简单起见，我们只编码字符串中的小写字母，而大写字母和标点符号保持不变。首先我们定义函数$let2int$，它将“a-z”的小写字符转换为数值0至25，以及函数$int2let$，它执行相反的转换。
+
+\begin{tabular}[t]{lll}
+$let2int$&$::$&$Char \rightarrow Int$\\
+$let2int~~c$&$=$&$ord~c~-~ord~'a'$\\
+\end{tabular}
+
+\begin{tabular}[t]{lll}
+$int2let$&$::$&$Int \rightarrow Char$\\
+$int2let~~n$&$=$&$chr~(~ord~'a'~+~n)$\\
+\end{tabular}
+
+（库函数$ord::Char \rightarrow Int$和$chr::Int \rightarrow Char$执行字符与其Unicode的整数表示之间的转换。）例如：
+
+\noindent\hspace*{1cm}$>let2int~'a'$\\
+\hspace*{1cm}$0$
+
+\noindent\hspace*{1cm}$>int2let~0$\\
+\hspace*{1cm}$'a'$
+
+使用上述两个函数，我们可以定义函数$shift$。函数接受两个参数，一个移位系数和一个小写字母，功能实现方式如下：将字母转化为响应的数字加上移位系数，再将其除26得到的余数转换回字母。
+
+\begin{tabular}[t]{llll}
+$shift$&&$::$&$Int \rightarrow Char \rightarrow Char$\\
+$shift~~n~c$&$|~isLower~c$&$=$&$int2let~((let2int~c~+~n)~`mod`~26)$\\
+&$|~otherwise$&$=$&$c$
+\end{tabular}
+
+注意，该函数的参数移位系数即可以是正数也可以是负数，并且只有小写字母被转换。例子如下：
+
+\noindent\hspace*{1cm}$>shift~3~'a'$\\
+\hspace*{1cm}$'d'$\\
+\noindent\hspace*{1cm}$>shift~3~'z'$\\
+\hspace*{1cm}$'c'$\\
+\noindent\hspace*{1cm}$>shift~(-3)~'c'$\\
+\hspace*{1cm}$'z'$\\
+\noindent\hspace*{1cm}$>shift~3~'~'$\\
+\hspace*{1cm}$'~'$
+
+在字符串推导式中使用函数$shift$可以很容易定义一个函数，该函数使用给定的移位系数将一个字符串编码：
+
+\begin{tabular}[t]{lll}
+$encode$&$::$&$Int \rightarrow String \rightarrow String$\\
+$encode~~n~xs$&$=$&$[shift~~n~x~|~x \leftarrow xs]$\\
+\end{tabular}
+
+这里不需要一个专门的解码函数，因为前面的函数可以使用一个负数的移位系数来完成解码，例如：
+
+\noindent\hspace*{1cm}$>encode~3~"haskell~is~fun"$\\
+\hspace*{1cm}$"kdvnhoo~lv~ixq"$
+
+\noindent\hspace*{1cm}$>encode~(-3)~"kdvnhoo~lv~ixq"$\\
+\hspace*{1cm}$"haskell~is~fun"$
+
+\subsection{字母频率表}
+在英文里，破解凯撒密码的关键是观察发现某些字母的出现频率比其他的字母要高。通过分析大量的文本，可以获取字母表中每个字母大概的出现概率，如下：
+
+\begin{tabular}[t]{lll}
+  $table$&$~::~$&$[Float]$\\
+  $table$&$~=~$&$[8.2, 1.5, 2.8, 4.3, 12.7, 2.2, 2.0, 6.1, 7.0, 0.2, 0.8, 4.0, 2.4,$\\
+&&$~6.7, 7.5, 1.9, 0.1, 6.0, 6.3, 9.1, 2.8, 1.0, 2.4, 0.2, 2.0, 0.1]$\\
+\end{tabular}
+
+可以看出，字母‘e’出现最频繁，占12.7\%，字母‘q’和‘z’出现频率最小，只有0.1\%。对于单一的字符串，计算字母频率表也很有用。为此，我们首先定义函数计算一个整数关于另一个整数的百分比，函数返回一个浮点数：
+
+\begin{tabular}[t]{lll}
+  $percent$&$~::~$&$Int \rightarrow Int \rightarrow Float$\\
+  $percent~~n~m$&$~=~$&$(fromInt~n~/~fromInt~m)~*~100$\\
+\end{tabular}
+
+（库函数$fromInt::Int \rightarrow Float$将一个整数转换为相应的浮点数）在列表推导式中使用$present$函数，再加上前面一节中的$lowers$和$count$函数，我们可以定义一个函数来计算任意字符串的字母频率表：
+
+
+\begin{tabular}[t]{lll}
+  $freqs$&$~::~$&$String \rightarrow [Float]$\\
+  $freqs~~xs$&$~=~$&$[percent~(count~x~xs)~n~|~x \leftarrow ['a'..'z']]$\\
+  &&$\textbf{where}~n~=~lowers~xs$
+\end{tabular}
+
+例如：
+
+\noindent\hspace*{1cm}$>freqs~''abbcccddddeeeee''$\\
+\hspace*{1cm}$[6.7, 13.3, 20.0, 26.7, 33.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, · · · , 0.0]$\\
+
+即，字母‘a’出现的频率是6.7\%，字母‘b’出现的频率是13.3\%，等等。$freqs$中使用了局部定义$n~=~lowers~xs$，确保在计算参数字符串中小写字母个数时只计算一次，而不至于在计算26个字母的出现频率时都重新计算一遍。
 
 \section{本章备注}
-名词\textit{推导（comprehension）}来自于集合论的“公理推导（axiom of comprehension）”。集合论中明确定义了如何构建集合，且集合中所有元素满足给定的性质。comprehensions的更形式化的解释参见Haskell Report[11]--？？？
+名词\textit{推导（comprehension）}来自于集合论的“子集推导公理（axiom of comprehension）”\footnote{译注：http://mathworld.wolfram.com/AxiomofSubsets.html}。此公理明确定义了如何通过选择满足给定性质的所有元素来构建一个集合。comprehensions的更形式化的解释参见Haskell Report[11]--？？？
 
 \section{习题}
 
